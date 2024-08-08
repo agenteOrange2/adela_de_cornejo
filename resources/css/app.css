@@ -1,0 +1,38 @@
+@import "ckeditor.css";
+@import 'components.css';
+/*@import 'custom.css';*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+[x-cloak] { display: none !important; }
+
+.collapse {
+    visibility: inherit !important;
+}
+
+/*
+h1, h2, h3, h4, h5, h6 {
+    font-size: revert!important; 
+}*/
+
+.bg-blue-adela {
+    background-color: #0474bc;
+}
+
+.bg-red-adela {
+    background-color: #db1c24;
+}
+
+.bg-yellow-adela {
+    background-color: #fccc04;
+}
+
+.hasImage:hover section {
+    background-color: rgba(5, 5, 5, 0.4);
+}
+.hasImage:hover button:hover {
+    background: rgba(5, 5, 5, 0.45);
+}
+/* resources/css/app.css */

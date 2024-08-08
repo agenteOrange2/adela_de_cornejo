@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Upload Image</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .tab-content {
+                display: none;
+            }
+            .tab-content.active {
+                display: block;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-100 flex items-center justify-center h-screen">
+        <div class="bg-white shadow-lg rounded-lg max-w-4xl p-6">
+            <form
+                action="{{ route('admin.sliders.store') }}"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+                @csrf
+                <x-validation-errors class="my-4" />
+
+                <div class="flex">
+                    <!-- Tabs and Images Section -->
+                    <div class="w-1/2">
+                        <!-- Tabs for Images -->
+                        <div class="mb-6">
+                            <ul class="flex border-b">
+                                <li class="mr-1">
+                                    <a
+                                        class="tab-btn bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold active"
+                                        href="#desktop"
+                                        onclick="openTab(event, 'desktop')"
+                                        >Escritorio</a
+                                    >
+                                </li>
+                                <li class="mr-1">
+                                    <a
+                                        class="tab-btn bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold"
+                                        href="#tablet"
+                                        onclick="openTab(event, 'tablet')"
+                                        >Tableta</a
+                                    >
+                                </li>
+                                <li class="mr-1">
+                                    <a
+                                        class="tab-btn bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold"
+                                        href="#mobile"
+                                        onclick="openTab(event, 'mobile')"
+                                        >Celular</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Desktop Image -->
+                        <div id="desktop" class="tab-content active">
+                            <figure>
+                                <img
+                                    class="aspect-[16/9] object-cover object-center w-full"
+                                    src="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
+                                    alt="Imagen destacada"
+                                    id="imgPreviewDesktop"
+                                />
+                            </figure>
+                            <div class="mt-4">
+                                <label
+                                    class="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+                                >
+                                    <i class="fa-solid fa-camera mr-2"></i>
+                                    Actualizar imagen
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        name="image"
+                                        class="hidden"
+                                        onchange="previewImage(event, '#imgPreviewDesktop')"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Tablet Image -->
+                        <div id="tablet" class="tab-content">
+                            <figure>
+                                <img
+                                    class="aspect-[16/9] object-cover object-center w-full"
+                                    src="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
+                                    alt="Imagen para Tableta"
+                                    id="imgPreviewTablet"
+                                />
+                            </figure>
+                            <div class="mt-4">
+                                <label
+                                    class="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+                                >
+                                    <i class="fa-solid fa-camera mr-2"></i>
+                                    Actualizar imagen
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        name="image_tablet"
+                                        class="hidden"
+                                        onchange="previewImage(event, '#imgPreviewTablet')"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Image -->
+                        <div id="mobile" class="tab-content">
+                            <figure>
+                                <img
+                                    class="aspect-[16/9] object-cover object-center w-full"
+                                    src="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
+                                    alt="Imagen para Celular"
+                                    id="imgPreviewMobile"
+                                />
+                            </figure>
+                            <div class="mt-4">
+                                <label
+                                    class="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+                                >
+                                    <i class="fa-solid fa-camera mr-2"></i>
+                                    Actualizar imagen
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        name="image_mobile"
+                                        class="hidden"
+                                        onchange="previewImage(event, '#imgPreviewMobile')"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Fields Section -->
+                    <div class="w-1/2 pl-6">
+                        <div class="flex flex-wrap -mx-2">
+                            <div class="mb-4 px-2 w-full">
+                                <x-label for="title" class="mb-2"
+                                    >Título del Slider</x-label
+                                >
+                                <x-input
+                                    value="{{ old('title') }}"
+                                    x-model="title"
+                                    class="w-full"
+                                    name="title"
+                                    placeholder="Ingrese el nombre del slider"
+                                ></x-input>
+                            </div>
+
+                            <div class="mb-5 w-full">
+                                <x-label for="paragraph" class="mb-2"
+                                    >Descripcion corta</x-label
+                                >
+                                <textarea
+                                    name="paragraph"
+                                    rows="4"
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Escriba un extracto del slider"
+                                >
+{{ old('paragraph') }}</textarea
+                                >
+                            </div>
+
+                            <div class="mb-4 px-2 w-full">
+                                <x-label for="link" class="mb-2">Link</x-label>
+                                <x-input
+                                    name="link"
+                                    value="{{ old('link') }}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Ingrese el link"
+                                ></x-input>
+                            </div>
+
+                            <div class="my-5 w-full">
+                                <div class="flex justify-end my-10">
+                                    <label
+                                        class="inline-flex items-center mb-5 cursor-pointer"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            name="is_published"
+                                            value="1"
+                                            class="sr-only peer"
+                                        />
+                                        <div
+                                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+                                        ></div>
+                                        <span
+                                            class="ms-3 text-sm font-medium text-gray-900"
+                                            >Publicar</span
+                                        >
+                                    </label>
+                                </div>
+                                <div class="flex justify-end">
+                                    <x-button> Crear Slider </x-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            function openTab(evt, tabName) {
+                var i, tabcontent, tabbtns;
+                tabcontent = document.getElementsByClassName("tab-content");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].classList.remove("active");
+                }
+                tabbtns = document.getElementsByClassName("tab-btn");
+                for (i = 0; i < tabbtns.length; i++) {
+                    tabbtns[i].classList.remove("active");
+                }
+                document.getElementById(tabName).classList.add("active");
+                evt.currentTarget.classList.add("active");
+            }
+
+            function previewImage(event, selector) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var output = document.querySelector(selector);
+                    output.src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
+
+    </body>
+</html>
