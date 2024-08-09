@@ -53,6 +53,7 @@ Route::get('/eventos/category/{id}', [EventController::class, 'category'])->name
 Route::get('/eventos/search', [EventController::class, 'search'])->name('eventos.search');
 Route::post('/eventos/search', [EventController::class, 'ajaxSearch'])->name('eventos.ajaxSearch');
 
+
 /*Route::get('/admision/{nivelEducativo}', [OfertaController::class, 'showAdmission'])
      ->name('admision.show')
      ->where('nivelEducativo', 'preescolar|primaria|secundaria');

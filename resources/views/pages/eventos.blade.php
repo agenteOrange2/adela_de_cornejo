@@ -1,10 +1,8 @@
 @extends('layouts.principal')
 
-
 @section('title', 'Eventos')
 
 @section('content')
-    <!-- Start Page Title Area -->
     <div class="page-title-area item-bg3 jarallax" data-background="{{ asset('build/img/banner/banner-contacto.webp') }}"
         data-jarallax='{"speed": 0.3}'>
         <div class="container">
@@ -17,16 +15,40 @@
             </div>
         </div>
     </div>
+
     <section class="blog-area ptb-100">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-12">
-                    <!-- Botón Quitar Filtros -->
-                    <div id="filter-controls" class="mb-3" style="display: none;">
-                        <button id="clear-filters" class="btn btn-secondary">Quitar filtros <span
-                                class="bx bx-x"></span></button>
-                    </div>
-                    <div class="row" id="eventos-list">
+                    <!-- Sección para mostrar filtros aplicados -->
+                    @if (request('filter'))
+                        <div id="applied-filters" class="mb-3">
+                            <strong>Filtros aplicados:</strong>
+                            <ul class="list-inline">
+                                @if (request('filter.categories.id'))
+                                    <li class="list-inline-item">
+                                        Categoría:
+                                        {{ $categories->firstWhere('id', request('filter.categories.id'))->name }}
+                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar
+                                            filtro</a>
+                                    </li>
+                                @endif
+                                @if (request('filter.title'))
+                                    <li class="list-inline-item">
+                                        Título: "{{ request('filter.title') }}"
+                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar
+                                            filtro</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                        <!-- Botón para quitar todos los filtros -->
+                        <div class="mb-3">
+                            <a href="{{ route('eventos') }}" class="btn btn-secondary">Quitar todos los filtros</a>
+                        </div>
+                    @endif
+
+                    <div id="eventos-list" class="row">
                         @foreach ($eventos as $evento)
                             <div class="col-lg-6 col-md-6">
                                 <div class="single-blog-post mb-30">
@@ -65,25 +87,28 @@
 
                 <div class="col-lg-4 col-md-12">
                     <aside class="widget-area">
+                        <!-- Formulario de búsqueda -->
                         <section class="widget widget_search">
-                            <form id="search-form" class="search-form">
+                            <form class="search-form" action="{{ route('eventos') }}" method="GET">
                                 <label>
                                     <span class="screen-reader-text">Buscar por:</span>
-                                    <input type="search" id="search-input" class="search-field" placeholder="Buscar...">
+                                    <input type="search" name="filter[title]" class="search-field" placeholder="Buscar...">
                                 </label>
                                 <button type="submit"><i class="bx bx-search-alt"></i></button>
                             </form>
                         </section>
 
-
-
-
+                        <!-- Filtro por Categorías -->
                         <section class="widget widget_categories">
                             <h3 class="widget-title">Categorías</h3>
                             <ul>
                                 @foreach ($categories as $category)
-                                    <li><a href="{{ route('eventos.category', $category->id) }}">{{ $category->name }}
-                                            <span class="post-count">({{ $category->events_count }})</span></a></li>
+                                    <li>
+                                        <a href="{{ route('eventos', ['filter[categories.id]' => $category->id]) }}">
+                                            {{ $category->name }} <span
+                                                class="post-count">({{ $category->events_count }})</span>
+                                        </a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </section>
@@ -107,6 +132,7 @@
                                 </article>
                             @endforeach
                         </section>
+
                         <section class="widget widget_contact">
                             <div class="text">
                                 <div class="icon">
@@ -122,81 +148,4 @@
             </div>
         </div>
     </section>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Manejar la búsqueda AJAX
-            $('#search-form').on('submit', function(e) {
-                e.preventDefault();
-                let query = $('#search-input').val();
-                $.ajax({
-                    url: '{{ route('eventos.ajaxSearch') }}',
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        query: query
-                    },
-                    success: function(response) {
-                        let eventos = response.eventos;
-                        let eventosList = $('#eventos-list');
-                        eventosList.empty();
-
-                        if (eventos.length > 0) {
-                            eventos.forEach(function(evento) {
-                                let eventoHtml = `
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="single-blog-post mb-30">
-                                            <div class="post-image">
-                                                <a href="${evento.show_url}" class="d-block">
-                                                    <img src="${evento.image_url}" alt="${evento.title}">
-                                                </a>
-                                                <div class="tag">
-                                                    <a href="#" class="d-block">${evento.type}</a>
-                                                </div>
-                                            </div>
-                                            <div class="post-content">
-                                                <ul class="post-meta">
-                                                    <li class="post-author">
-                                                        <img src="{{ asset('build/img/logo-adela-black.webp') }}" class="d-inline-block rounded-circle mr-2" alt="image">
-                                                        <span class="d-inline-block">Adela de Cornejo</span>
-                                                    </li>
-                                                    <li><a href="#">${new Date(evento.created_at).toLocaleDateString()}</a></li>
-                                                </ul>
-                                                <h3><a href="${evento.show_url}" class="d-inline-block">${evento.title}</a></h3>
-                                                <a href="${evento.show_url}" class="read-more-btn">Continuar Leyendo <i class='bx bx-right-arrow-alt'></i></a>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                eventosList.append(eventoHtml);
-                            });
-
-                            // Mostrar el botón "Quitar filtros"
-                            $('#filter-controls').show();
-                        } else {
-                            eventosList.append('<p>No se encontraron eventos.</p>');
-                        }
-                    }
-                });
-            });
-
-            // Manejar el clic en el botón "Quitar filtros"
-            $('#clear-filters').on('click', function() {
-                $.ajax({
-                    url: '{{ route('eventos') }}',
-                    method: 'GET',
-                    success: function(response) {
-                        let eventosList = $('#eventos-list');
-                        eventosList.empty();
-                        $(response).find('#eventos-list').children().each(function() {
-                            eventosList.append($(this));
-                        });
-
-                        // Ocultar el botón "Quitar filtros"
-                        $('#filter-controls').hide();
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
