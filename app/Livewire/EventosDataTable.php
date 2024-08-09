@@ -24,7 +24,7 @@ class EventosDataTable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setTableRowUrl(function($row){
-                return route('admin.avisos.edit', ['aviso' => $row->slug]);
+                return route('admin.eventos.edit', ['evento' => $row->slug]);
             })
             ->setTableRowUrlTarget(function($row){
                 return '_blank';

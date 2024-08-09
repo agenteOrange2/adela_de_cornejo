@@ -34,10 +34,14 @@
                             <ul>
                                 <li>
                                     <i class='bx bx-folder-open'></i>
-                                    <span>Categoría</span>
+                                    <span>Plantel</span>
+                                    <ul class="d-flex flex-column">
                                     @foreach ($evento->eventCategories as $category)
+                                    <li class="p-0">
                                         <a href="{{ route('eventos.category', $category->id) }}">{{ $category->name }}</a>
+                                    </li>
                                     @endforeach
+                                    </ul>
                                 </li>
                                 <li>
                                     <i class='bx bx-group'></i>
@@ -46,7 +50,7 @@
                                 </li>
                                 <li>
                                     <i class='bx bx-calendar'></i>
-                                    <span>Hora</span>
+                                    <span>Horario</span>
                                     {{ $evento->formatted_start_time }} - {{ $evento->formatted_end_time }}
                                 </li>
                                 <li>
@@ -181,9 +185,13 @@
                                 <li><span>Hora de fin:</span> {{ $evento->formatted_end_time }} -
                                     {{ $evento->formatted_date }}</li>
                                 <li><span>Categoría:</span>
+                                    <ul>
                                     @foreach ($evento->eventCategories as $category)
+                                    <li>
                                         <a href="{{ route('eventos.category', $category->id) }}">{{ $category->name }}</a>
+                                    </li>
                                     @endforeach
+                                    </ul>
                                 </li>
                             </ul>
                         </section>

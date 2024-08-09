@@ -9,12 +9,26 @@ class Plantel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'address', 'phone', 'email', 'description', 'image_path', 'location', 'menu_pdf_id'];
+    protected $fillable = [
+        'name', 
+        'address', 
+        'phone', 
+        'email', 
+        'description', 
+        'image_path', 
+        'location', 
+        'menu_pdf_id'];
+        
     protected $table = 'plantels'; // Asegurarse de que el nombre de la tabla esté correcto
 
     public function menuPdf()
     {
         return $this->belongsTo(Pdf::class, 'menu_pdf_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 
     public function educationLevels()
@@ -50,4 +64,6 @@ class Plantel extends Model
     {
         return $this->belongsToMany(Event::class, 'plantel_event');
     }
+
+    
 }
