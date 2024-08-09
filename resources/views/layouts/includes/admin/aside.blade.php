@@ -11,7 +11,6 @@
             'isActive' => request()->routeIs('admin.dashboard'),
             'icon' => 'fa-solid fa-chart-line',
             'can' => ['Dashboard'],
-            
         ],
         [
             'name' => 'Planteles', // Título de la sección
@@ -224,43 +223,45 @@
     ];
 @endphp
 
+
+<!-- Sidebar -->
 <aside id="logo-sidebar"
-    class="relative  top-0 left-0 z-40 w-64 h-screen pt-5 transition-transform -translate-x-full bg-school-blue border-r border-gray-200 sm:translate-x-0  dark:border-gray-700"
-    :class="{
-        '-translate-x-full': !open,
-        'transform-none': open,
-    }" aria-label="Sidebar">
-    <div class="custom-scrollbar h-full px-3 pb-4 overflow-y-auto ">
+    class="fixed mt-14 top-0 left-0 z-40 w-64 h-screen pt-5 transition-transform transform bg-school-blue border-r border-gray-200 dark:border-gray-700 lg:translate-x-0"
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:-translate-x-full lg:w-64 lg:translate-x-0'"
+    aria-label="Sidebar">
+    <div class="custom-scrollbar h-full px-1 pb-4 overflow-y-auto">
         @foreach ($links as $key => $link)
             @canany($link['can'] ?? [null])
                 <div class="">
                     @if (isset($link['isTitle']) && $link['isTitle'])
-                        <div class="p-2 text-base font-bold text-gray-300 border-b border-gray-400 pb-2 mb-2">
+                        <div class="p-2 text-sm  font-bold text-gray-300 border-b border-gray-400 pb-2 mb-2">
                             <span class="ml-3 text-sm text-gray-200 dark:text-white">{{ $link['name'] }}</span>
                         </div>
                     @elseif (isset($link['sublinks']))
                         <a href="{{ $link['url'] }}"
-                            class="menu-link flex items-center p-2 text-base font-normal text-blue-900 rounded-lg text-gray-200 dark:text-white hover:bg-blue-700 dark:hover:bg-blue-700 mb-3 {{ data_get($link, 'isActive') ? 'bg-blue-700' : '' }}"
-                            id="menu-link-{{ $key }}" data-submenu-id="{{ $key }}"> <!-- Cambio aquí -->
+                            class="menu-link flex items-center p-2 text-sm  rounded-lg text-gray-200 dark:text-white hover:bg-blue-700 dark:hover:bg-blue-700 mb-3 {{ data_get($link, 'isActive') ? 'bg-blue-700' : '' }}"
+                            id="menu-link-{{ $key }}" data-submenu-id="{{ $key }}">
                             <i class="{{ $link['icon'] }}"></i>
                             <span class="ml-3">{{ $link['name'] }}</span>
-                            <span class="ml-auto dropdown-indicator"><svg class="w-3 h-3" fill="none" viewBox="0 0 10 6">
+                            <span class="ml-auto dropdown-indicator">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 10 6">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2" d="m1 1 4 4 4-4" />
-                                </svg></span>
+                                </svg>
+                            </span>
                         </a>
                         <div class="ml-4 overflow-hidden transition-all duration-500 max-h-0"
                             id="submenu-{{ $key }}">
                             @foreach ($link['sublinks'] as $sublink)
                                 <a href="{{ $sublink['url'] }}"
-                                    class="mb-2 block p-2 text-sm font-normal text-blue-900 rounded-lg text-gray-200 dark:text-white dark:hover:bg-blue-700 {{ data_get($sublink, 'isActive') ? 'bg-blue-700' : '' }}">
+                                    class="mb-2 block p-2 text-sm font-normal rounded-lg text-gray-200 dark:text-white dark:hover:bg-blue-700 {{ data_get($sublink, 'isActive') ? 'bg-blue-700' : '' }}">
                                     <i class="{{ $sublink['icon'] }}"></i> {{ $sublink['name'] }}
                                 </a>
                             @endforeach
                         </div>
                     @else
                         <a href="{{ $link['url'] }}"
-                            class="flex items-center p-2 text-base font-normal text-blue-900 rounded-lg text-gray-200 dark:text-white hover:bg-blue-700 dark:hover:bg-blue-700 {{ data_get($link, 'isActive') ? 'bg-blue-700' : '' }}">
+                            class="flex items-center p-2 text-sm font-normal  rounded-lg text-gray-200 dark:text-white hover:bg-blue-700 dark:hover:bg-blue-700 {{ data_get($link, 'isActive') ? 'bg-blue-700' : '' }}">
                             <i class="{{ $link['icon'] }}"></i>
                             <span class="ml-3">{{ $link['name'] }}</span>
                         </a>
