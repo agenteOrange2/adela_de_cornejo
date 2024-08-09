@@ -17,9 +17,9 @@
     </a>     
     </x-slot>
 
-    <livewire:menu-cafeteria-data-table />
+    {{-- <livewire:menu-cafeteria-data-table /> --}}
 
-    {{-- <div class="flex justify-between heading py-5">
+    <div class="flex justify-between heading py-5">
         <h1 class="text-2xl font-extrabold text-school-blue flex items-center">              
             <i class="fa-solid fa-utensils mr-2"></i>
             Menú Escolar
@@ -126,9 +126,9 @@
                 @endforelse
             </tbody>
         </table>
-    </div> --}}
+    </div>
 
-    
+
 
     @push('js')
     <script>
