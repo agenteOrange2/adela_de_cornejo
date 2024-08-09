@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
+use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
 
@@ -116,4 +118,31 @@ class EventosDataTable extends DataTableComponent
     //     // Despachar un evento para notificar que el reordenamiento ha sido guardado
     //     $this->dispatch('reorderSaved');
     // }
+
+    public function filters(): array
+    {
+        return [
+            SelectFilter::make('Publicado')
+            ->options([
+                '' => 'Todos',
+                '1' => 'Publicado',
+                '0' => 'No Publicado',
+            ])
+            ->filter(function($query, $value){
+                if($value != ''){
+                    $query->where('is_published', $value);                
+                }
+            }),
+
+            DateFilter::make('Desde')
+                ->filter(function($query, $value){
+                    $query->whereDate('posts.created_at', '>=', $value);
+                }),
+
+            DateFilter::make('Hasta')
+                ->filter(function($query, $value){
+                    $query->whereDate('posts.created_at', '<=', $value);
+                })
+        ];
+    }
 }

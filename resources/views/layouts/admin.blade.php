@@ -35,7 +35,9 @@
 
 <body class="font-sans antialiased sm:overflow-auto" :class="{ 'overflow-hidden': open }" x-data="{ open: false }">
 
+
     @include('layouts.includes.admin.nav')
+
 
     @include('layouts.includes.admin.aside')
 

@@ -10,7 +10,7 @@
 
     <x-slot name="action">
         <a href="{{ route('admin.eventos.create') }}"
-            class="text-white bg-school-red hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-school-red dark:hover:bg-blue-700 dark:focus:ring-blue-700 dark:border-blue-700">Crear
+            class="text-white bg-school-red hover:bg-blue-700  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-school-red dark:hover:bg-blue-700  dark:border-blue-700">Crear
             Evento
             <i class="fa-regular fa-calendar-check ml-2"></i>
         </a>        
