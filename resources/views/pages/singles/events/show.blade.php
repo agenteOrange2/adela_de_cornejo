@@ -36,10 +36,10 @@
                                     <i class='bx bx-folder-open'></i>
                                     <span>Plantel</span>
                                     <ul class="d-flex flex-column">
-                                    @foreach ($evento->eventCategories as $category)
-                                    <li class="p-0">
-                                        <a href="{{ route('eventos.category', $category->id) }}">{{ $category->name }}</a>
-                                    </li>
+                                    @foreach ($evento->planteles as $plantel)
+                                        <li class="p-0">
+                                            <a href="{{ route('eventos.plantel', $plantel->id) }}">{{ $plantel->name }}</a>
+                                        </li>
                                     @endforeach
                                     </ul>
                                 </li>
@@ -186,10 +186,10 @@
                                     {{ $evento->formatted_date }}</li>
                                 <li><span>Categoría:</span>
                                     <ul>
-                                    @foreach ($evento->eventCategories as $category)
-                                    <li>
-                                        <a href="{{ route('eventos.category', $category->id) }}">{{ $category->name }}</a>
-                                    </li>
+                                        @foreach ($evento->eventCategories as $category)
+                                        <li>
+                                            <a href="{{ route('eventos.category', $category->id) }}">{{ $category->name }}</a>
+                                        </li>
                                     @endforeach
                                     </ul>
                                 </li>

@@ -33,9 +33,41 @@ class EventController extends Controller
         $bannerImage = $evento->banner ? $evento->banner->path : null;
         $prevEvento = Event::where('id', '<', $evento->id)->orderBy('id', 'desc')->first();
         $nextEvento = Event::where('id', '>', $evento->id)->orderBy('id', 'asc')->first();
-        $videos = $evento->videos; 
+        $videos = $evento->videos;
         $galleryImages = $evento->images;
 
         return view('pages.singles.events.show', compact('evento', 'prevEvento', 'nextEvento', 'bannerImage', 'videos', 'galleryImages'));
+    }
+
+    public function category($id)
+    {
+        $eventos = QueryBuilder::for(Event::class)
+            ->allowedFilters([AllowedFilter::exact('eventCategories.id')])
+            ->whereHas('eventCategories', function ($query) use ($id) {
+                $query->where('event_category_id', $id);
+            })
+            ->where('is_published', true)
+            ->paginate(10);
+
+        $categories = EventCategory::withCount('events')->get();
+        $latestEventos = Event::where('is_published', true)->latest('id')->take(5)->get();
+
+        return view('pages.eventos', compact('eventos', 'categories', 'latestEventos'));
+    }
+
+    public function plantel($id)
+    {
+        $eventos = QueryBuilder::for(Event::class)
+            ->allowedFilters([AllowedFilter::exact('planteles.id')])
+            ->whereHas('planteles', function ($query) use ($id) {
+                $query->where('plantel_id', $id);
+            })
+            ->where('is_published', true)
+            ->paginate(10);
+
+        $categories = EventCategory::withCount('events')->get();
+        $latestEventos = Event::where('is_published', true)->latest('id')->take(5)->get();
+
+        return view('pages.eventos', compact('eventos', 'categories', 'latestEventos'));
     }
 }
