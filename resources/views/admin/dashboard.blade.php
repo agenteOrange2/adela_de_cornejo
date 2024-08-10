@@ -106,64 +106,72 @@
 
 
 
-    <!-- Reutilizar 
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Lead By Countries</h2>
-            <div class="mb-4">
-                <img src="world-map.png" alt="World Map" class="w-full">
-            </div>
-            <div class="space-y-2">
-                <div class="flex justify-between text-gray-600">
-                    <span>United States of America</span>
-                    <span>37.61%</span>
-                </div>
-                <div class="flex justify-between text-gray-600">
-                    <span>Brazil</span>
-                    <span>16.79%</span>
-                </div>
-                <div class="flex justify-between text-gray-600">
-                    <span>India</span>
-                    <span>12.42%</span>
-                </div>
-                <div class="flex justify-between text-gray-600">
-                    <span>China</span>
-                    <span>9.85%</span>
-                </div>
-                <div class="flex justify-between text-gray-600">
-                    <span>Algeria</span>
-                    <span>7.68%</span>
-                </div>
-                <div class="flex justify-between text-gray-600">
-                    <span>Indonesia</span>
-                    <span>5.11%</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-4">
+        <div>
+            <div class="box pull-up">
+                <div class="box-body">
+                    <div class="flex justify-between items-center">
+                        <div class="bs-5 ps-10 border-primary">
+                            <p class="text-fade mb-10">Customers</p>	
+                            <h2 class="my-0 fw-700 text-3xl">4,562</h2>					
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-users bg-primary-light me-0 fs-24 rounded-3"></i>
+                        </div>
+                    </div>
+                    <p class="text-success mb-0 mt-10"><i class="fa-solid fa-arrow-up"></i> +8.5% since last week</p>
                 </div>
             </div>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Email Sent</h2>
-            <div class="flex justify-center items-center">
-                <div class="w-48 h-48">
-                    <svg class="w-full h-full" viewBox="0 0 36 36">
-                        <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 1 1 0 31.831a15.9155 15.9155 0 1 1 0-31.831" fill="none" stroke="#e6e6e6" stroke-width="4"></path>
-                        <path class="circle" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="#4c51bf" stroke-width="4" stroke-dasharray="73, 100" stroke-linecap="round"></path>
-                    </svg>
+        <div>
+            <div class="box pull-up">
+                <div class="box-body">
+                    <div class="flex justify-between items-center">
+                        <div class="bs-5 ps-10 border-info">
+                            <p class="text-fade mb-10">Revenue</p>	
+                            <h2 class="my-0 fw-700 text-3xl">$5,125</h2>					
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-hand-holding-dollar bg-info-light me-0 fs-24 rounded-3"></i>
+                        </div>
+                    </div>
+                    <p class="text-danger mb-0 mt-10"><i class="fa-solid fa-arrow-down"></i> -0.10% since last week</p>
                 </div>
             </div>
-            <div class="text-center mt-4">
-                <p class="text-2xl font-semibold text-gray-800">73%</p>
-                <p class="text-gray-600">Opened</p>
-                <p class="text-sm text-gray-500">Performance</p>
-                <p class="text-lg font-semibold text-gray-800">Average</p>
+        </div>
+        <div>
+            <div class="box pull-up">
+                <div class="box-body">
+                    <div class="flex justify-between items-center">
+                        <div class="bs-5 ps-10 border-warning">
+                            <p class="text-fade mb-10">Invoices</p>	
+                            <h2 class="my-0 fw-700 text-3xl">2,145</h2>					
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-file-invoice bg-warning-light me-0 fs-24 rounded-3"></i>
+                        </div>
+                    </div>
+                    <p class="text-success mb-0 mt-10"><i class="fa-solid fa-arrow-up"></i> +10.5% since last week</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="box pull-up">
+                <div class="box-body">
+                    <div class="flex justify-between items-center">
+                        <div class="bs-5 ps-10 border-danger">
+                            <p class="text-fade mb-10">Profit</p>	
+                            <h2 class="my-0 fw-700 text-3xl">70%</h2>					
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-sack-dollar bg-danger-light me-0 fs-24 rounded-3"></i>
+                        </div>
+                    </div>
+                    <p class="text-danger mb-0 mt-10"><i class="fa-solid fa-arrow-down"></i> -0.5% since last week</p>
+                </div>
             </div>
         </div>
     </div>
-    
-    <div class="flex justify-end">
-        <button class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg">View All Leads</button>
-    </div>
-    -->
 </div>
 
 </x-admin-layout>

@@ -32,6 +32,8 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'plantel_id',
+        'education_level_id',
     ];
 
     /**
@@ -78,6 +80,16 @@ class User extends Authenticatable
     public function events()
     {
         return $this->hasMany(Event::class);
+    }
+
+    public function plantel()
+    {
+        return $this->belongsTo(Plantel::class);
+    }
+
+    public function educationLevel()
+    {
+        return $this->belongsTo(EducationLevel::class);
     }
     
 }

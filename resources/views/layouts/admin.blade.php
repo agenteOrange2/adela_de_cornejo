@@ -33,13 +33,15 @@
     @stack('css')
 </head>
 
-<body class="font-sans antialiased sm:overflow-auto" :class="{ 'overflow-hidden': open }" x-data="{ open: false }">
+<body x-data="{ sidebarOpen: window.innerWidth >= 1024 }" class="font-sans antialiased sm:overflow-auto">
 
     @include('layouts.includes.admin.nav')
 
     @include('layouts.includes.admin.aside')
 
-    <div class="p-4 sm:ml-64">
+    <!-- Main Content -->
+    <div class="transition-all duration-300 p-4"
+        :class="{'ml-0': !sidebarOpen || window.innerWidth < 1024, 'lg:ml-64': sidebarOpen && window.innerWidth >= 1024}">
         <div class="mt-14 -mb-10 flex flex-col md:flex-row justify-between items-center">
             <div class="w-full md:w-auto mb-4 md:mb-0">
                 @include('layouts.includes.admin.breadcrumb')
@@ -56,9 +58,9 @@
         </div>
     </div>
 
-    <div x-show="open" x-on:click="open = false" style="display: none"
-        class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30 sm:hidden"></div>
-
+    <div x-show="sidebarOpen && window.innerWidth < 1024" x-on:click="sidebarOpen = false"
+        class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30 lg:hidden"></div>
+    
     @stack('modals')
 
     @livewireScripts

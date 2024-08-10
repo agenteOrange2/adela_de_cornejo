@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Plantel;
+use Illuminate\Http\Request;
+use App\Models\EducationLevel;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Permission\Models\Role;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -26,7 +28,9 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
+        $plantels = Plantel::all();
+        $educationLevels = EducationLevel::all();
+        return view('admin.users.create', compact('roles', 'plantels', 'educationLevels'));
     }
 
     /**
@@ -42,9 +46,11 @@ class UserController extends Controller
             'image' => 'nullable|image',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,id',
+            'plantel_id' => 'nullable|exists:plantels,id',
+            'education_level_id' => 'nullable|exists:education_levels,id',
         ]);
 
-        $data = $request->only('name', 'email', 'phone');
+        $data = $request->only('name', 'email', 'phone', 'plantel_id', 'education_level_id');
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -80,7 +86,9 @@ class UserController extends Controller
     {
 
         $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $plantels = Plantel::all();
+        $educationLevels = EducationLevel::all();
+        return view('admin.users.edit', compact('user', 'roles', 'plantels', 'educationLevels'));
     }
 
     /**
@@ -96,11 +104,15 @@ class UserController extends Controller
             'image' => 'nullable|image',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,id',
+            'plantel_id' => 'nullable|exists:plantels,id',
+            'education_level_id' => 'nullable|exists:education_levels,id',
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
+        $user->plantel_id = $request->plantel_id;
+        $user->education_level_id = $request->education_level_id;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

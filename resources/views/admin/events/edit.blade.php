@@ -33,7 +33,7 @@
             <div class="max-w-full mx-auto bg-gray-800 rounded-lg shadow overflow-hidden">
                 <div class="relative">
                     <figure>
-                        <img src="{{ asset('storage/' . $evento->banner->path) }}" alt="Banner"
+                        <img src="{{ $evento->banner ? asset('storage/' . $evento->banner->path) : 'ruta/a/imagen/predeterminada.jpg' }}" alt="Banner"
                             class="w-full h-48 object-cover" id="imgPreviewBanner">
                     </figure>
                     <div class="absolute top-8 right-8">

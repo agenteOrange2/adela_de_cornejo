@@ -14,7 +14,7 @@
 
     <x-slot name="action">
         <a href="{{ route('admin.eventos.index') }}"
-            class="text-white bg-school-blue hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-school-blue dark:hover:bg-blue-700 dark:focus:ring-blue-700">Volver</a>
+            class="text-white bg-school-blue hover:bg-blue-700  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-school-blue">Volver</a>
     </x-slot>
 
     <div class="flex justify-between heading py-5">
@@ -164,7 +164,7 @@
                             <div id="video-links-container">
                             </div>
                             <button type="button" id="add-video-btn"
-                                class="mt-2 text-white bg-school-blue hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                class="mt-2 text-white bg-school-blue hover:bg-blue-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                                 Agregar Enlace
                             </button>
                         </div>
@@ -209,7 +209,7 @@
 
                     <div class="mb-4 px-2 w-full">
                         <label for="date"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Fecha del
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700">Fecha del
                             Evento</label>
                         <input type="date" name="date" value="{{ old('date') }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
@@ -217,7 +217,7 @@
                     </div>
                     <div class="mb-4 px-2 w-full">
                         <label for="start_time"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Hora de
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700">Hora de
                             Inicio</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
@@ -229,12 +229,12 @@
                                 </svg>
                             </div>
                             <input type="time" name="start_time" value="{{ old('start_time') }}"
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " />
                         </div>
                     </div>
                     <div class="mb-4 px-2 w-full">
                         <label for="end_time"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Hora de Fin</label>
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700">Hora Final</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
                                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -245,7 +245,7 @@
                                 </svg>
                             </div>
                             <input type="time" name="end_time" value="{{ old('end_time') }}"
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " />
                         </div>
                     </div>
                     <div class="mb-4 px-2 w-full">
@@ -349,7 +349,7 @@
                     <label class="inline-flex items-center mb-5 cursor-pointer">
                         <input type="checkbox" name="is_published" value="1" class="sr-only peer">
                         <div
-                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                         </div>
                         <span class="ms-3 text-sm font-medium text-gray-900">Publicar</span>
                     </label>

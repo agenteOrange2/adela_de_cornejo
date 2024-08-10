@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('education_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Ejemplo: Preescolar, Primaria, Secundaria
-            //$table->foreignId('plantel_id')->constrained('plantels')->onDelete('cascade');            
+            $table->string('name'); // Ejemplo: Preescolar, Primaria, Secundaria        
             $table->timestamps();
         });
     }
