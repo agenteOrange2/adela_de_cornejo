@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 
 class Event extends Model
 {
@@ -76,6 +77,23 @@ class Event extends Model
                 }
             }
         );
+    }
+
+    public function scopeWhereDateBetween(Builder $query, $dates)
+    {
+        if (isset($dates[0]) && isset($dates[1])) {
+            return $query->whereBetween('date', [$dates[0], $dates[1]]);
+        }
+
+        if (isset($dates[0])) {
+            return $query->where('date', '>=', $dates[0]);
+        }
+
+        if (isset($dates[1])) {
+            return $query->where('date', '<=', $dates[1]);
+        }
+
+        return $query;
     }
 
     // Accessor para formatear la fecha en español

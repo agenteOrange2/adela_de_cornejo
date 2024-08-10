@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-mx">
 
 <head>
     <meta charset="UTF-8">
@@ -15,13 +15,21 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Adela de Cornejo">
 
-    <!-- Meta Tags for Twitter Card -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@yield('meta_description', 'Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez')">
+    <meta name="keywords" content="@yield('meta_keywords', 'Formando alumnos de excelencia ')">
+    <meta property="og:title" content="@yield('title') - Adela de Cornejo">
+    <meta property="og:description" content="@yield('meta_description', 'Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez')">
+    <meta property="og:image" content="@yield('meta_image', asset('build/img/logo-adela-black.webp'))">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('title') | Adela de Cornejo">
-    <meta name="twitter:description" content="Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez">
-    <meta name="twitter:image" content="@yield('twitter:image', asset('https://i.postimg.cc/prsHzgwn/adeladecornejo-predeterminado.webp'))">
-    <meta name="twitter:site" content="@yourTwitterHandle">
-    <meta name="twitter:creator" content="@yourTwitterHandle">
+    <meta name="twitter:title" content="@yield('title') - Adela de Cornejo">
+    <meta name="twitter:description" content="@yield('meta_description', 'Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez')">
+    <meta name="twitter:image" content="@yield('meta_image', asset('build/img/logo-adela-black.webp'))">
+
+
 
     <title>@yield('title') | Adela de Cornejo</title>
     <!-- General CSS -->

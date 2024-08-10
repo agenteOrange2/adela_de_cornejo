@@ -231,6 +231,9 @@ img {
 .bg-e6fbff {
   background-color: #e6fbff;
 }
+.container{
+  max-width: 1600px!important;
+}
 
 
 .h1,
@@ -11733,7 +11736,7 @@ Blog Details CSS
   margin-bottom: 0;
 }
 
-.blog-details-desc .article-footer {
+.event-details-desc .event-footer {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11744,7 +11747,7 @@ Blog Details CSS
   margin-top: 30px;
 }
 
-.blog-details-desc .article-footer .article-tags {
+.event-details-desc .event-footer .event-tags {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 50%;
   flex: 0 0 50%;
@@ -11752,7 +11755,7 @@ Blog Details CSS
   color: #727695;
 }
 
-.blog-details-desc .article-footer .article-tags span {
+.event-details-desc .event-footer .event-tags span {
   display: inline-block;
   color: #252525;
   margin-right: 3px;
@@ -11761,35 +11764,35 @@ Blog Details CSS
   font-size: 20px;
 }
 
-.blog-details-desc .article-footer .article-tags a {
+.event-details-desc .event-footer .event-tags a {
   display: inline-block;
   color: #727695;
   font-weight: 500;
 }
 
-.blog-details-desc .article-footer .article-tags a:hover {
+.event-details-desc .event-footer .event-tags a:hover {
   color: #d42323;
 }
 
-.blog-details-desc .article-footer .article-share {
+.event-details-desc .event-footer .event-share {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 50%;
   flex: 0 0 50%;
   max-width: 50%;
 }
 
-.blog-details-desc .article-footer .article-share .social {
+.event-details-desc .event-footer .article-share .social {
   padding-left: 0;
   list-style-type: none;
   text-align: right;
   margin-bottom: 0;
 }
 
-.blog-details-desc .article-footer .article-share .social li {
+.event-details-desc .event-footer .event-share .social li {
   display: inline-block;
 }
 
-.blog-details-desc .article-footer .article-share .social li span {
+.event-details-desc .event-footer .event-share .social li span {
   display: inline-block;
   margin-right: 3px;
   font-weight: 500;
@@ -11798,7 +11801,7 @@ Blog Details CSS
   top: -2px;
 }
 
-.blog-details-desc .article-footer .article-share .social li a {
+.event-details-desc .event-footer .event-share .social li a {
   display: block;
   width: 32px;
   height: 32px;
@@ -11812,8 +11815,8 @@ Blog Details CSS
   margin-left: 2px;
 }
 
-.blog-details-desc .article-footer .article-share .social li a:hover,
-.blog-details-desc .article-footer .article-share .social li a:focus {
+.event-details-desc .event-footer .event-share .social li a:hover,
+.event-details-desc .event-footer .event-share .social li a:focus {
   color: #d42323;
   background-color: transparent;
 }
@@ -13231,6 +13234,9 @@ Events Details CSS
   padding-left: 0;
   margin-bottom: 0;
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .events-details-header .events-meta ul li {
@@ -15565,6 +15571,8 @@ Contact CSS
   box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
   background: #ffffff;
   padding: 30px 60px;
+  height: 300px;
+  align-content: center;
 }
 
 .contact-info-box .icon {

@@ -19,34 +19,123 @@
     <section class="blog-area ptb-100">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-md-12">
-                    <!-- Sección para mostrar filtros aplicados -->
-                    @if (request('filter'))
-                        <div id="applied-filters" class="mb-3">
-                            <strong>Filtros aplicados:</strong>
-                            <ul class="list-inline">
-                                @if (request('filter.categories.id'))
-                                    <li class="list-inline-item">
-                                        Categoría:
-                                        {{ $categories->firstWhere('id', request('filter.categories.id'))->name }}
-                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar
-                                            filtro</a>
-                                    </li>
-                                @endif
-                                @if (request('filter.title'))
-                                    <li class="list-inline-item">
-                                        Título: "{{ request('filter.title') }}"
-                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar
-                                            filtro</a>
-                                    </li>
-                                @endif
-                            </ul>
+                <div class="col-lg-8 col-md-12">                    
+                    
+                    <div class="container mt-4">
+                        <div class="row">
+                            <!-- Contenedor de Filtros -->
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Sort
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                                            <a class="dropdown-item" href="{{ route('eventos', ['sort' => 'popular']) }}">Most Popular</a>
+                                            <a class="dropdown-item" href="{{ route('eventos', ['sort' => 'rating']) }}">Best Rating</a>
+                                            <a class="dropdown-item" href="{{ route('eventos', ['sort' => 'newest']) }}">Newest</a>
+                                        </div>
+                                    </div>
+                                    <button id="clear-all-filters" class="btn btn-link text-secondary">Clear all</button>
+                                </div>
+                    
+                                <!-- Filtros -->
+                                <div class="contenedor_filtros p-3 border rounded">
+                                    <form id="filters-form" method="GET" action="{{ route('eventos') }}">
+                                        <div class="row">
+                                            <!-- Filtro por Fecha -->
+                                            <div class="col-md-3 mb-3">
+                                                <label for="dateRange">Fecha de Publicación</label>
+                                                <input type="date" id="dateRangeStart" name="filter[start_date]" class="form-control" placeholder="Inicio">
+                                                <input type="date" id="dateRangeEnd" name="filter[end_date]" class="form-control mt-2" placeholder="Fin">
+                                            </div>
+                                            
+                                            <!-- Filtro por Plantel -->
+                                            <div class="col-md-3 mb-3">
+                                                <label for="plantelFilter">Plantel</label>
+                                                <select id="plantelFilter" name="filter[plantel_id]" class="form-control">
+                                                    <option value="">Seleccionar Plantel</option>
+                                                    @foreach ($planteles as $plantel)
+                                                        <option value="{{ $plantel->id }}">{{ $plantel->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                    
+                                            <!-- Filtro por Categoría -->
+                                            <div class="col-md-3 mb-3">
+                                                <label for="categoryFilter">Categoría</label>
+                                                <select id="categoryFilter" name="filter[categories.id]" class="form-control">
+                                                    <option value="">Seleccionar Categoría</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                    
+                                            <!-- Filtro por Título -->
+                                            <div class="col-md-3 mb-3">
+                                                <label for="titleFilter">Título</label>
+                                                <input type="text" id="titleFilter" name="filter[title]" class="form-control" placeholder="Buscar por título">
+                                            </div>
+                                        </div>
+                    
+                                        <!-- Botón Aplicar Filtros -->
+                                        <div class="row">
+                                            <div class="col-md-12 text-right">
+                                                <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <!-- Botón para quitar todos los filtros -->
-                        <div class="mb-3">
-                            <a href="{{ route('eventos') }}" class="btn btn-secondary">Quitar todos los filtros</a>
+                    
+                        <!-- Sección para mostrar filtros aplicados -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="box-quitar-filtros">
+                                    @if (request('filter'))
+                                        <div id="applied-filters" class="mb-3">
+                                            <strong>Filtros aplicados:</strong>
+                                            <ul class="list-inline">
+                                                @if (request('filter.categories.id'))
+                                                    <li class="list-inline-item">
+                                                        Categoría:
+                                                        {{ $categories->firstWhere('id', request('filter.categories.id'))->name }}
+                                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar filtro</a>
+                                                    </li>
+                                                @endif
+                                                @if (request('filter.title'))
+                                                    <li class="list-inline-item">
+                                                        Título: "{{ request('filter.title') }}"
+                                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar filtro</a>
+                                                    </li>
+                                                @endif
+                                                @if (request('filter.plantel_id'))
+                                                    <li class="list-inline-item">
+                                                        Plantel:
+                                                        {{ $planteles->firstWhere('id', request('filter.plantel_id'))->name }}
+                                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar filtro</a>
+                                                    </li>
+                                                @endif
+                                                @if (request('filter.start_date') && request('filter.end_date'))
+                                                    <li class="list-inline-item">
+                                                        Fecha: {{ request('filter.start_date') }} - {{ request('filter.end_date') }}
+                                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar filtro</a>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                        <!-- Botón para quitar todos los filtros -->
+                                        <div class="mb-3">
+                                            <a href="{{ route('eventos') }}" class="btn btn-secondary">Quitar todos los filtros</a>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                    @endif
+                    </div>
+                    
 
                     <div id="eventos-list" class="row">
                         @foreach ($eventos as $evento)

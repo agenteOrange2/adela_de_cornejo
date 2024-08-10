@@ -3,7 +3,7 @@
         <div class="top-header top-header-adela">
             <div class="container-fluid">
                 <div class="row align-items-center">
-                    <div class="col-6 col-lg-3 col-md-3 col-sm-6 text-center d-none d-md-block">
+                    <div class="col-6 col-lg-3 col-md-3 col-sm-6 text-center d-none d-lg-block">
                         <ul class="top-header-contact-info ">
                             <li class="phone">
                                 Campus Triunfo:&nbsp; <br>
@@ -11,7 +11,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-6 col-lg-3 col-md-3 col-sm-6 text-center d-none d-md-block">
+                    <div class="col-6 col-lg-3 col-md-3 col-sm-6 text-center d-none d-lg-block">
                         <ul class="top-header-contact-info ">
                             <li class="phone">
                                 Campus IV Siglos:&nbsp; <br>
@@ -20,7 +20,7 @@
                         </ul>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 social-block align-items-center">
+                    <div class="col-lg-6 col-md-12 social-block align-items-center">
                         <div class="top-header-social">
                             <span>Siguenos:</span>
                             <a href="https://www.facebook.com/adeladecornejo" target="_blank"><i
