@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Builder;
 
 class Event extends Model
 {
@@ -81,20 +82,26 @@ class Event extends Model
 
     public function scopeWhereDateBetween(Builder $query, $dates)
     {
-        if (isset($dates[0]) && isset($dates[1])) {
-            return $query->whereBetween('date', [$dates[0], $dates[1]]);
+        $startDate = $dates[0] ?? null;
+        $endDate = $dates[1] ?? null;
+    
+        Log::info('Ejecutando whereDateBetween con: ' . $startDate . ' to ' . $endDate);
+    
+        if ($startDate && $endDate) {
+            return $query->whereBetween('published_at', [$startDate, $endDate]);
         }
-
-        if (isset($dates[0])) {
-            return $query->where('date', '>=', $dates[0]);
+    
+        if ($startDate) {
+            return $query->where('published_at', '>=', $startDate);
         }
-
-        if (isset($dates[1])) {
-            return $query->where('date', '<=', $dates[1]);
+    
+        if ($endDate) {
+            return $query->where('published_at', '<=', $endDate);
         }
-
+    
         return $query;
     }
+    
 
     // Accessor para formatear la fecha en español
     public function getFormattedDateAttribute()

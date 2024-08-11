@@ -71,7 +71,7 @@
     @include('layouts.templates.footer')
 
     <!-- JS -->
-    @yield('js')
+    @stack('js')
 
     <!-- Scripts -->
     <script src="{{ asset('build/assets/js/jquery.min.js') }}"></script>

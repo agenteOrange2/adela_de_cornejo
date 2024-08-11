@@ -131,12 +131,7 @@
                 <a href="/" class="d-inline-block"><img src="/build/img/logo-adela-white.png"
                         alt="image"></a>
             </div>
-            <p><i class='bx bx-copyright'></i>
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> <a href="/" target="_blank">Instituto Adela de Cornejo</a> Desarrollado
-                por <a href="https://kuiraweb.com/" target="_blank">Kuiraweb</a> | Todos los derechos reservados.
-            </p>
+            <p><i class='bx bx-copyright'></i> {{ date('Y') }} <a href="/" target="_blank">Instituto Adela de Cornejo</a> Desarrollado por <a href="https://kuiraweb.com/" target="_blank">Kuiraweb</a> | Todos los derechos reservados.</p>
         </div>
     </div>
 </footer>
