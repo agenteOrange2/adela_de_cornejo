@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->foreignId('plantel_id')->nullable()->constrained('plantels')->onDelete('set null');
             $table->foreignId('education_level_id')->nullable()->constrained('education_levels')->onDelete('set null');
+            $table->foreignId('grade_id')->nullable()->constrained('grades')->onDelete('set null');
             $table->timestamps();
         });
     }

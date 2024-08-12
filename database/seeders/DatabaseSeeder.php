@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             PlantelSeeder::class, // Si tienes un seeder para 'Plantels'
-            EducationLevelSeeder::class,            
+            EducationLevelSeeder::class,    
+            GradeSeeder::class,        
             PostCategorySeeder::class,
             PostSeeder::class,
             EventCategorySeeder::class,

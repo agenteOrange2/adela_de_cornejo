@@ -203,7 +203,7 @@
                             @endforeach
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="pagination-area text-center">
-                                    {{ $eventos->links($paginatorView ?? null) }}
+                                    {{ $eventos->links('vendor.pagination.bootstrap-5-frontend') }}                                    
                                 </div>
                             </div>
                         @else
