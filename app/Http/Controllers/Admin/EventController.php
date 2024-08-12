@@ -13,18 +13,12 @@ use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $eventos = Event::latest('id')->paginate(5);
         return view('admin.events.index', compact('eventos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $categories = EventCategory::all();
@@ -32,9 +26,7 @@ class EventController extends Controller
         return view('admin.events.create', compact('categories', 'planteles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
 
@@ -154,13 +146,6 @@ class EventController extends Controller
         return redirect()->route('admin.eventos.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Event $evento)
     {
 
@@ -172,13 +157,6 @@ class EventController extends Controller
         //dd($evento->date, $evento->start_time, $evento->end_time);
         return view('admin.events.edit', compact('evento', 'categories', 'videos', 'planteles', 'selectedPlanteles'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    /*Funcional */
-    /*
-*/
 
     public function update(Request $request, Event $evento)
     {
@@ -305,9 +283,7 @@ class EventController extends Controller
 
         return redirect()->route('admin.eventos.index');
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+
 
     public function destroyImage(Event $evento, Image $image)
     {

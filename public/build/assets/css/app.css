@@ -231,6 +231,9 @@ img {
 .bg-e6fbff {
   background-color: #e6fbff;
 }
+.container{
+  max-width: 1600px!important;
+}
 
 
 .h1,
@@ -392,7 +395,9 @@ h6:last-child {
 }
 
 .default-btn:hover,
-.default-btn:focus {
+.default-btn:focus,
+.btn-filtering:hover,
+.btn-filtering:focus {
   background-color: #0474bc;
   color: #ffffff;
   border-color: #0474bc;
@@ -11733,7 +11738,7 @@ Blog Details CSS
   margin-bottom: 0;
 }
 
-.blog-details-desc .article-footer {
+.event-details-desc .event-footer {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11744,7 +11749,7 @@ Blog Details CSS
   margin-top: 30px;
 }
 
-.blog-details-desc .article-footer .article-tags {
+.event-details-desc .event-footer .event-tags {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 50%;
   flex: 0 0 50%;
@@ -11752,7 +11757,7 @@ Blog Details CSS
   color: #727695;
 }
 
-.blog-details-desc .article-footer .article-tags span {
+.event-details-desc .event-footer .event-tags span {
   display: inline-block;
   color: #252525;
   margin-right: 3px;
@@ -11761,35 +11766,35 @@ Blog Details CSS
   font-size: 20px;
 }
 
-.blog-details-desc .article-footer .article-tags a {
+.event-details-desc .event-footer .event-tags a {
   display: inline-block;
   color: #727695;
   font-weight: 500;
 }
 
-.blog-details-desc .article-footer .article-tags a:hover {
+.event-details-desc .event-footer .event-tags a:hover {
   color: #d42323;
 }
 
-.blog-details-desc .article-footer .article-share {
+.event-details-desc .event-footer .event-share {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 50%;
   flex: 0 0 50%;
   max-width: 50%;
 }
 
-.blog-details-desc .article-footer .article-share .social {
+.event-details-desc .event-footer .article-share .social {
   padding-left: 0;
   list-style-type: none;
   text-align: right;
   margin-bottom: 0;
 }
 
-.blog-details-desc .article-footer .article-share .social li {
+.event-details-desc .event-footer .event-share .social li {
   display: inline-block;
 }
 
-.blog-details-desc .article-footer .article-share .social li span {
+.event-details-desc .event-footer .event-share .social li span {
   display: inline-block;
   margin-right: 3px;
   font-weight: 500;
@@ -11798,7 +11803,7 @@ Blog Details CSS
   top: -2px;
 }
 
-.blog-details-desc .article-footer .article-share .social li a {
+.event-details-desc .event-footer .event-share .social li a {
   display: block;
   width: 32px;
   height: 32px;
@@ -11812,8 +11817,8 @@ Blog Details CSS
   margin-left: 2px;
 }
 
-.blog-details-desc .article-footer .article-share .social li a:hover,
-.blog-details-desc .article-footer .article-share .social li a:focus {
+.event-details-desc .event-footer .event-share .social li a:hover,
+.event-details-desc .event-footer .event-share .social li a:focus {
   color: #d42323;
   background-color: transparent;
 }
@@ -13016,6 +13021,20 @@ Events CSS
   border-radius: 5px;
 }
 
+.btn-filtering {
+  -webkit-transition: 0.5s;
+  transition: 0.5s;  
+  padding: 15px 15px;  
+  background-color: #d42323;
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.btn-filtering:hover{
+
+}
+
 .single-events-box .events-box .events-image {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 25%;
@@ -13190,6 +13209,68 @@ Events CSS
 /*================================================
 Events Details CSS
 =================================================*/
+.contenedor_filtros .form-group .nice-select {
+  background-color: #ffffff;
+  border-radius: 3px;
+  height: 48px;
+  border: solid 1px #e6e9fc;
+  line-height: 48px;
+  color: #252525;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.contenedor_filtros .form-group .nice-select span {
+  font-size: 15px;
+  color: #252525;
+  display: block;
+}
+
+.contenedor_filtros .form-group .nice-select .list {
+  border: solid 1px #e6e9fc;
+  background-color: #ffffff;
+  border-radius: 0;
+  -webkit-box-shadow: unset;
+  box-shadow: unset;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.contenedor_filtros .form-group .nice-select .list .option {
+  font-size: 14px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.contenedor_filtros .form-group .nice-select .list .option:hover,
+.contenedor_filtros .form-group .nice-select .list .option.focus,
+.contenedor_filtros
+  .form-group
+  .nice-select
+  .list
+  .option.selected.focus {
+  background-color: transparent;
+  color: #d42323;
+}
+
+.contenedor_filtros
+  .form-group
+  .nice-select
+  .list
+  .option.selected {
+  font-weight: 400;
+}
+
+.contenedor_filtros .form-group .nice-select::after {
+  right: 15px;
+}
 .events-details-header {
   margin-bottom: 25px;
 }
@@ -13231,6 +13312,9 @@ Events Details CSS
   padding-left: 0;
   margin-bottom: 0;
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .events-details-header .events-meta ul li {
@@ -15565,6 +15649,8 @@ Contact CSS
   box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
   background: #ffffff;
   padding: 30px 60px;
+  height: 300px;
+  align-content: center;
 }
 
 .contact-info-box .icon {

@@ -2,11 +2,15 @@
 
 
 @section('title', $evento->title)
+@section('title', $evento->title)
+@section('meta_description', $evento->excerpt)
+@section('meta_image', asset('storage/' . $evento->image_path))
 
 
 @section('content')
 
-    <div class="page-title-area item-bg3 jarallax" data-background="{{ $bannerImage ? asset('storage/' . $bannerImage) : asset('build/img/banner/banner-contacto.webp') }}"
+    <div class="page-title-area item-bg3 jarallax"
+        data-background="{{ $bannerImage ? asset('storage/' . $bannerImage) : asset('build/img/banner/banner-contacto.webp') }}"
         data-jarallax='{"speed": 0.3}'>
         <div class="container">
             <div class="page-title-content">
@@ -36,11 +40,12 @@
                                     <i class='bx bx-folder-open'></i>
                                     <span>Plantel</span>
                                     <ul class="d-flex flex-column">
-                                    @foreach ($evento->planteles as $plantel)
-                                        <li class="p-0">
-                                            <a href="{{ route('eventos.plantel', $plantel->id) }}">{{ $plantel->name }}</a>
-                                        </li>
-                                    @endforeach
+                                        @foreach ($evento->planteles as $plantel)
+                                            <li class="p-0">
+                                                <a
+                                                    href="{{ route('eventos.plantel', $plantel->id) }}">{{ $plantel->name }}</a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                                 <li>
@@ -68,19 +73,23 @@
                         <div class="products-details-image">
                             <ul class="slickslide">
                                 <li>
-                                    <a href="{{ asset('storage/' . $evento->image_path) }}" data-fancybox="gallery" data-caption="{{ $evento->title }}">
-                                        <img src="{{ asset('storage/' . $evento->image_path) }}" alt="{{ $evento->title }}">
+                                    <a href="{{ asset('storage/' . $evento->image_path) }}" data-fancybox="gallery"
+                                        data-caption="{{ $evento->title }}">
+                                        <img src="{{ asset('storage/' . $evento->image_path) }}"
+                                            alt="{{ $evento->title }}">
                                     </a>
                                 </li>
                                 @foreach ($galleryImages as $image)
                                     <li>
-                                        <a href="{{ asset('storage/' . $image->path) }}" data-fancybox="gallery" data-caption="{{ basename($image->path) }}">
-                                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ basename($image->path) }}">
+                                        <a href="{{ asset('storage/' . $image->path) }}" data-fancybox="gallery"
+                                            data-caption="{{ basename($image->path) }}">
+                                            <img src="{{ asset('storage/' . $image->path) }}"
+                                                alt="{{ basename($image->path) }}">
                                         </a>
                                     </li>
                                 @endforeach
                             </ul>
-                    
+
                             <div class="slick-thumbs">
                                 <ul>
                                     <li><img src="{{ asset('storage/' . $evento->image_path) }}" alt="image"></li>
@@ -95,10 +104,37 @@
                             <p>{!! $evento->description !!}
                             </p>
                         </div>
+                        <div class="event-details-desc">
+                            <div class="event-footer">
+                                <div class="event-tags">
+                                    <span><i class="bx bx-purchase-tag"></i></span>
+                                @foreach ($evento->eventCategories as $category)                                    
+                                        <a
+                                            href="{{ route('eventos.category', $category->id) }}">{{ $category->name }},
+                                        </a>                                    
+                                @endforeach                                    
+                                </div>
+
+                                <div class="event-share text-end">
+                                    <ul class="social">
+                                        <li><span>Compartir:</span></li>
+                                        <li> <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('eventos.show', $evento)) }}"
+                                            target="_blank"><i
+                                                    class="bx bxl-facebook"></i></a></li>
+                                        <li> <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('eventos.show', $evento)) }}&text={{ urlencode($evento->title) }}"
+                                            target="_blank"><i
+                                                    class="bx bxl-twitter"></i></a></li>
+                                        <li><a href="https://api.whatsapp.com/send?text={{ urlencode($evento->title . ' ' . route('eventos.show', $evento)) }}"
+                                            target="_blank"><i
+                                                    class="bx bxl-whatsapp"></i></a></li>                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="contenido-videos mt-5 text-md-center modal-play">
                             <div class="row">
                                 @foreach ($videos as $video)
-
                                     <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
                                         <a href="{{ $video->url }}"
                                             class="video-btn popup-youtube modal-video-adela video-a">
@@ -187,10 +223,11 @@
                                 <li><span>Categoría:</span>
                                     <ul>
                                         @foreach ($evento->eventCategories as $category)
-                                        <li>
-                                            <a href="{{ route('eventos.category', $category->id) }}">{{ $category->name }}</a>
-                                        </li>
-                                    @endforeach
+                                            <li>
+                                                <a
+                                                    href="{{ route('eventos.category', $category->id) }}">{{ $category->name }}</a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                             </ul>

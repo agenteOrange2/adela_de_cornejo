@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class Post extends Model
 {
@@ -55,9 +57,32 @@ class Post extends Model
         );
     }
     
+    
     public function getFormattedCreatedAtAttribute()
     {
         return Carbon::parse($this->created_at)->isoFormat('D MMMM, YYYY');
+    }
+
+    public function scopeWhereDateBetween(Builder $query, $dates)
+    {
+        $startDate = $dates[0] ?? null;
+        $endDate = $dates[1] ?? null;
+    
+        Log::info('Ejecutando whereDateBetween con: ' . $startDate . ' to ' . $endDate);
+    
+        if ($startDate && $endDate) {
+            return $query->whereBetween('published_at', [$startDate, $endDate]);
+        }
+    
+        if ($startDate) {
+            return $query->where('published_at', '>=', $startDate);
+        }
+    
+        if ($endDate) {
+            return $query->where('published_at', '<=', $endDate);
+        }
+    
+        return $query;
     }
 
     //Relacion uno a muchos inversa
