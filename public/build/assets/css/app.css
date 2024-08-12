@@ -395,7 +395,9 @@ h6:last-child {
 }
 
 .default-btn:hover,
-.default-btn:focus {
+.default-btn:focus,
+.btn-filtering:hover,
+.btn-filtering:focus {
   background-color: #0474bc;
   color: #ffffff;
   border-color: #0474bc;
@@ -13019,6 +13021,20 @@ Events CSS
   border-radius: 5px;
 }
 
+.btn-filtering {
+  -webkit-transition: 0.5s;
+  transition: 0.5s;  
+  padding: 15px 15px;  
+  background-color: #d42323;
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.btn-filtering:hover{
+
+}
+
 .single-events-box .events-box .events-image {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 25%;
@@ -13193,6 +13209,68 @@ Events CSS
 /*================================================
 Events Details CSS
 =================================================*/
+.contenedor_filtros .form-group .nice-select {
+  background-color: #ffffff;
+  border-radius: 3px;
+  height: 48px;
+  border: solid 1px #e6e9fc;
+  line-height: 48px;
+  color: #252525;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.contenedor_filtros .form-group .nice-select span {
+  font-size: 15px;
+  color: #252525;
+  display: block;
+}
+
+.contenedor_filtros .form-group .nice-select .list {
+  border: solid 1px #e6e9fc;
+  background-color: #ffffff;
+  border-radius: 0;
+  -webkit-box-shadow: unset;
+  box-shadow: unset;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.contenedor_filtros .form-group .nice-select .list .option {
+  font-size: 14px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.contenedor_filtros .form-group .nice-select .list .option:hover,
+.contenedor_filtros .form-group .nice-select .list .option.focus,
+.contenedor_filtros
+  .form-group
+  .nice-select
+  .list
+  .option.selected.focus {
+  background-color: transparent;
+  color: #d42323;
+}
+
+.contenedor_filtros
+  .form-group
+  .nice-select
+  .list
+  .option.selected {
+  font-weight: 400;
+}
+
+.contenedor_filtros .form-group .nice-select::after {
+  right: 15px;
+}
 .events-details-header {
   margin-bottom: 25px;
 }

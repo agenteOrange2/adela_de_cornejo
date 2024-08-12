@@ -20,51 +20,63 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-12">
-                    <div class="container mt-4">
+                    <div class="container mt-4 mb-4 px-0">
                         <div class="row">
                             <div class="col-12">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <div class="box-filter-l">
-                                        <button id="filterToggle" class="btn btn-primary">Filtrar</button>
-                                    </div>
+                                        <button id="filterToggle" class="btn btn-filtering d-flex align-items-center">
+                                            Filtrar
+                                            <i class='bx bx-filter-alt ms-2' ></i></i>
+                                        </button>
+                                    </div>                                    
                                     <div class="box-filter-r">
                                         <!-- Sección para mostrar filtros aplicados -->
                                         <div class="row mt-3">
                                             <div class="col-12">
                                                 <div class="box-quitar-filtros">
                                                     @if (request('filter'))
+                                                    <div class="mb-3">
+                                                        <a href="{{ route('eventos') }}"
+                                                            class="btn btn-filtering d-flex align-items-center">Quitar todos los filtros
+                                                            <i class='bx bx-window-close ms-2' ></i>
+                                                        </a>
+                                                    </div>
                                                         <div id="applied-filters" class="mb-3">
                                                             <strong>Filtros aplicados:</strong>
                                                             <ul class="list-inline">
                                                                 @if (request('filter.eventCategories.id'))
                                                                     <li class="list-inline-item">
-                                                                        Categoría ID: {{ request('filter.eventCategories.id') }}
-                                                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar</a>
+                                                                        Categoría ID:
+                                                                        {{ request('filter.eventCategories.id') }}
+                                                                        <a href="{{ route('eventos') }}"
+                                                                            class="btn btn-danger btn-sm ml-2">Quitar</a>
                                                                     </li>
                                                                 @endif
                                                                 @if (request('filter.title'))
                                                                     <li class="list-inline-item">
                                                                         Título: "{{ request('filter.title') }}"
-                                                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar</a>
+                                                                        <a href="{{ route('eventos') }}"
+                                                                            class="btn btn-danger btn-sm ml-2">Quitar</a>
                                                                     </li>
                                                                 @endif
                                                                 @if (request('filter.planteles.id'))
                                                                     <li class="list-inline-item">
                                                                         Plantel ID: {{ request('filter.planteles.id') }}
-                                                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar</a>
+                                                                        <a href="{{ route('eventos') }}"
+                                                                            class="btn btn-danger btn-sm ml-2">Quitar</a>
                                                                     </li>
                                                                 @endif
                                                                 @if (request('filter.date_between.0') && request('filter.date_between.1'))
                                                                     <li class="list-inline-item">
-                                                                        Fecha: {{ request('filter.date_between.0') }} - {{ request('filter.date_between.1') }}
-                                                                        <a href="{{ route('eventos') }}" class="btn btn-danger btn-sm ml-2">Quitar</a>
+                                                                        Fecha: {{ request('filter.date_between.0') }} -
+                                                                        {{ request('filter.date_between.1') }}
+                                                                        <a href="{{ route('eventos') }}"
+                                                                            class="btn btn-danger btn-sm ml-2">Quitar</a>
                                                                     </li>
                                                                 @endif
                                                             </ul>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <a href="{{ route('eventos') }}" class="btn btn-secondary">Quitar todos los filtros</a>
-                                                        </div>
+                                                        </div>                                                        
                                                     @endif
                                                 </div>
                                             </div>
@@ -77,42 +89,56 @@
                                     style="display: none; opacity: 0; transition: opacity 0.5s ease;">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5>Filtros</h5>
-                                        <button id="close-filters" class="btn btn-link text-secondary">&times;</button>
+                                        <button id="close-filters" class="btn btn-filtering d-flex align-items-center  btn-link">Cerrar<i class='bx bxs-message-alt-x ms-2' ></i></button>
                                     </div>
                                     <form id="filters-form" method="GET" action="{{ route('eventos') }}">
                                         <div class="row">
                                             <!-- Filtro por Fecha de Publicación -->
                                             <div class="col-md-4 mb-3">
                                                 <label for="dateRange">Fecha de Publicación</label>
-                                                <input type="date" id="dateRangeStart" name="filter[date_between][]"
-                                                    class="form-control" placeholder="Inicio"
-                                                    value="{{ request('filter.date_between.0') }}">
-                                                <input type="date" id="dateRangeEnd" name="filter[date_between][]"
-                                                    class="form-control mt-2" placeholder="Fin"
-                                                    value="{{ request('filter.date_between.1') }}">
+                                                <div class="form-group">
+                                                    <input type="date" id="dateRangeStart" name="filter[date_between][]"
+                                                        class="form-control" placeholder="Inicio"
+                                                        value="{{ request('filter.date_between.0') }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="date" id="dateRangeEnd" name="filter[date_between][]"
+                                                        class="form-control mt-2" placeholder="Fin"
+                                                        value="{{ request('filter.date_between.1') }}">
+                                                </div>
                                             </div>
 
                                             <!-- Filtro por Plantel -->
                                             <div class="col-md-4 mb-3">
-                                                <label for="plantelFilter">Plantel</label>
-                                                <select id="plantelFilter" name="filter[planteles.id]" class="form-control">
-                                                    <option value="">Seleccionar Plantel</option>
-                                                    @foreach ($planteles as $plantel)
-                                                        <option value="{{ $plantel->id }}">{{ $plantel->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <div class="form-group">
+                                                    <label for="plantelFilter">Plantel</label>
+                                                    <div class="select-box">
+                                                        <select id="plantelFilter" name="filter[planteles.id]"
+                                                            class="form-control">
+                                                            <option value="">Seleccionar Plantel</option>
+                                                            @foreach ($planteles as $plantel)
+                                                                <option value="{{ $plantel->id }}">{{ $plantel->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <!-- Filtro por Categoría -->
                                             <div class="col-md-4 mb-3">
-                                                <label for="categoryFilter">Categoría</label>
-                                                <select id="categoryFilter" name="filter[eventCategories.id]"
-                                                    class="form-control">
-                                                    <option value="">Seleccionar Categoría</option>
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <div class="form-group">
+                                                    <label for="categoryFilter">Categoría</label>
+                                                    <select id="categoryFilter" name="filter[eventCategories.id]"
+                                                        class="form-control">
+                                                        <option value="">Seleccionar Categoría</option>
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}">{{ $category->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
                                             </div>
 
                                             <!-- Filtro por Título -->
@@ -126,8 +152,10 @@
 
                                         <!-- Botón Aplicar Filtros -->
                                         <div class="row">
-                                            <div class="col-md-12 text-right">
-                                                <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                                            <div class="col-md-12 text-right">                                                
+                                                <button type="submit" class="btn btn-filtering d-flex align-items-center">
+                                                    Aplicar Filtros <i class='bx bx-search-alt ms-2'></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </form>
@@ -254,7 +282,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
 
-                // Mostrar/Ocultar filtros al hacer clic en el botón "Filtrar"
+                // Verificar existencia del botón de filtrado
                 const filterToggle = document.getElementById('filterToggle');
                 const filterContainer = document.getElementById('filter-container');
                 const closeFilters = document.getElementById('close-filters');
@@ -262,46 +290,56 @@
                 const filterWarning = document.getElementById('filter-warning');
                 const clearAllFilters = document.getElementById('clear-all-filters');
 
-                filterToggle.addEventListener('click', function() {
-                    filterContainer.style.display = 'block';
-                    setTimeout(function() {
-                        filterContainer.style.opacity = '1';
-                    }, 10);
-                });
+                if (filterToggle) {
+                    filterToggle.addEventListener('click', function() {
+                        filterContainer.style.display = 'block';
+                        setTimeout(function() {
+                            filterContainer.style.opacity = '1';
+                        }, 10);
+                    });
+                }
 
-                // Ocultar filtros al hacer clic en el botón "Cerrar"
-                closeFilters.addEventListener('click', function() {
-                    filterContainer.style.opacity = '0';
-                    setTimeout(function() {
-                        filterContainer.style.display = 'none';
-                    }, 500);
-                });
+                if (closeFilters) {
+                    closeFilters.addEventListener('click', function() {
+                        filterContainer.style.opacity = '0';
+                        setTimeout(function() {
+                            filterContainer.style.display = 'none';
+                        }, 500);
+                    });
+                }
 
-                // Validación para verificar que al menos un filtro esté seleccionado
-                filterForm.addEventListener('submit', function(event) {
-                    const dateRangeStart = document.getElementById('dateRangeStart').value;
-                    const dateRangeEnd = document.getElementById('dateRangeEnd').value;
-                    const plantelFilter = document.getElementById('plantelFilter').value;
-                    const categoryFilter = document.getElementById('categoryFilter').value;
-                    const titleFilter = document.getElementById('titleFilter').value;
+                if (filterForm) {
+                    filterForm.addEventListener('submit', function(event) {
+                        const dateRangeStart = document.getElementById('dateRangeStart').value;
+                        const dateRangeEnd = document.getElementById('dateRangeEnd').value;
+                        const plantelFilter = document.getElementById('plantelFilter').value;
+                        const categoryFilter = document.getElementById('categoryFilter').value;
+                        const titleFilter = document.getElementById('titleFilter').value;
 
-                    if (!dateRangeStart && !dateRangeEnd && !plantelFilter && !categoryFilter && !titleFilter) {
-                        event.preventDefault(); // Detener el envío del formulario
-                        filterWarning.style.display = 'block'; // Mostrar advertencia
-                    } else {
-                        filterWarning.style.display = 'none'; // Ocultar advertencia
-                    }
-                });
+                        if (!dateRangeStart && !dateRangeEnd && !plantelFilter && !categoryFilter && !
+                            titleFilter) {
+                            event.preventDefault(); // Detener el envío del formulario
+                            if (filterWarning) {
+                                filterWarning.style.display = 'block'; // Mostrar advertencia
+                            }
+                        } else {
+                            if (filterWarning) {
+                                filterWarning.style.display = 'none'; // Ocultar advertencia
+                            }
+                        }
+                    });
+                }
 
-                // Limpiar todos los filtros
-                clearAllFilters.addEventListener('click', function() {
-                    document.getElementById('dateRangeStart').value = '';
-                    document.getElementById('dateRangeEnd').value = '';
-                    document.getElementById('plantelFilter').value = '';
-                    document.getElementById('categoryFilter').value = '';
-                    document.getElementById('titleFilter').value = '';
-                    filterForm.submit();
-                });
+                if (clearAllFilters) {
+                    clearAllFilters.addEventListener('click', function() {
+                        document.getElementById('dateRangeStart').value = '';
+                        document.getElementById('dateRangeEnd').value = '';
+                        document.getElementById('plantelFilter').value = '';
+                        document.getElementById('categoryFilter').value = '';
+                        document.getElementById('titleFilter').value = '';
+                        filterForm.submit();
+                    });
+                }
             });
         </script>
     @endpush
