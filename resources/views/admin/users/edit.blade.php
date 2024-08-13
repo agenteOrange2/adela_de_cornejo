@@ -104,13 +104,28 @@
                                 </div>
                             
                                 <div class="w-full">
-                                    <label class="block mb-2 text-sm font-semibold text-gray-900 ">Nivel Educativo</label>
-                                    <select name="education_level_id"
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nivel Educativo</label>
+                                    <select name="education_level_id" id="education-level-select"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="" disabled>Seleccione un nivel educativo</option>
-                                        @foreach($educationLevels as $level)
-                                            <option value="{{ $level->id }}" {{ old('education_level_id', $user->education_level_id) == $level->id ? 'selected' : '' }}>
+                                        <option value="" disabled selected>Seleccione un nivel educativo</option>
+                                        @foreach ($educationLevels as $level)
+                                            <option value="{{ $level->id }}"
+                                                {{ $user->education_level_id == $level->id ? 'selected' : '' }}>
                                                 {{ $level->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                
+                                <div class="w-full">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grado</label>
+                                    <select name="grade_id" id="grade-select"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="" disabled selected>Seleccione un grado</option>
+                                        @foreach ($grades as $grade)
+                                            <option value="{{ $grade->id }}" data-level="{{ $grade->education_level_id }}"
+                                                {{ $user->grade_id == $grade->id ? 'selected' : '' }}>
+                                                {{ $grade->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -168,6 +183,24 @@
 
             }
             /*Imagen Preview*/
+
+
+            document.addEventListener('DOMContentLoaded', function () {
+            const educationLevelSelect = document.getElementById('education-level-select');
+            const gradeSelect = document.getElementById('grade-select');
+
+            educationLevelSelect.addEventListener('change', function () {
+                const selectedLevelId = this.value;
+
+                // Mostrar solo los grados que pertenecen al nivel seleccionado
+                Array.from(gradeSelect.options).forEach(option => {
+                    option.style.display = option.getAttribute('data-level') === selectedLevelId ? 'block' : 'none';
+                });
+
+                // Reiniciar la selección del grado
+                gradeSelect.value = '';
+            });
+        });
         </script>
     @endpush
 

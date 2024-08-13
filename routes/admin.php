@@ -55,7 +55,7 @@ Route::resource('calendarios', CalendarController::class)->middleware('can:Ofert
 /* ****************************** */
 /* **** CRUD SERVICIOS ***** */
 /* ****************************** */
-Route::resource('menu-cafeteria', CafeteriaMenuController::class)->middleware('can:Servicios')->parameters(['menu-cafeteria' => 'menu_cafeteria']);
+Route::resource('menu-cafeteria', CafeteriaMenuController::class)->except('create','edit')->middleware('can:Servicios')->parameters(['menu-cafeteria' => 'menu_cafeteria']);
 /* ****************************** */
 /* ** CRUD CATEGORÍAS EVENTOS  **/
 /* ****************************** */

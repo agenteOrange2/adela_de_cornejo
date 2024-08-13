@@ -34,6 +34,7 @@ class User extends Authenticatable
         'phone',
         'plantel_id',
         'education_level_id',
+        'grade_id',
     ];
 
     /**
@@ -73,7 +74,8 @@ class User extends Authenticatable
     }
 
     //Relacion uno a muchos con post
-    public function posts(){
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 
@@ -91,5 +93,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(EducationLevel::class);
     }
-    
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class);
+    }
 }

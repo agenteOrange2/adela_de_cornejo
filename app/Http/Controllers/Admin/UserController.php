@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Grade;
 use App\Models\Plantel;
 use Illuminate\Http\Request;
 use App\Models\EducationLevel;
@@ -30,7 +31,8 @@ class UserController extends Controller
         $roles = Role::all();
         $plantels = Plantel::all();
         $educationLevels = EducationLevel::all();
-        return view('admin.users.create', compact('roles', 'plantels', 'educationLevels'));
+        $grades = Grade::all();
+        return view('admin.users.create', compact('roles', 'plantels', 'educationLevels','grades'));
     }
 
     /**
@@ -48,9 +50,15 @@ class UserController extends Controller
             'roles.*' => 'exists:roles,id',
             'plantel_id' => 'nullable|exists:plantels,id',
             'education_level_id' => 'nullable|exists:education_levels,id',
+            'grade_id' => 'required|exists:grades,id',
         ]);
 
-        $data = $request->only('name', 'email', 'phone', 'plantel_id', 'education_level_id');
+        if (!$request->has('grade_id')) {
+            return back()->withErrors(['grade_id' => 'El grado no fue seleccionado correctamente.']);
+        }
+    
+
+        $data = $request->only('name', 'email', 'phone', 'plantel_id', 'education_level_id', 'grade_id');
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -59,7 +67,7 @@ class UserController extends Controller
             $imagePath = $request->file('image')->store('profile-photos', 'public');
             $data['profile_photo_path'] = $imagePath;
         }
-
+        
         $user = User::create($data);
 
         if ($request->filled('roles')) {
@@ -88,7 +96,8 @@ class UserController extends Controller
         $roles = Role::all();
         $plantels = Plantel::all();
         $educationLevels = EducationLevel::all();
-        return view('admin.users.edit', compact('user', 'roles', 'plantels', 'educationLevels'));
+        $grades = Grade::all();
+        return view('admin.users.edit', compact('user', 'roles', 'plantels', 'educationLevels', 'grades'));
     }
 
     /**
@@ -106,6 +115,7 @@ class UserController extends Controller
             'roles.*' => 'exists:roles,id',
             'plantel_id' => 'nullable|exists:plantels,id',
             'education_level_id' => 'nullable|exists:education_levels,id',
+            'grade_id' => 'required|exists:grades,id',
         ]);
 
         $user->name = $request->name;
@@ -113,6 +123,7 @@ class UserController extends Controller
         $user->phone = $request->phone;
         $user->plantel_id = $request->plantel_id;
         $user->education_level_id = $request->education_level_id;
+        $user->grade_id = $request->grade_id;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
@@ -126,11 +137,10 @@ class UserController extends Controller
             $user->profile_photo_path = $imagePath;
         }
 
+        //dd($request->all());
         $user->save();
 
-        if ($request->filled('roles')) {
-            $user->roles()->sync($request->roles);
-        }
+        $user->roles()->sync($request->input('roles', []));
 
         Session()->flash('swal', [
             'icon' => 'success',
