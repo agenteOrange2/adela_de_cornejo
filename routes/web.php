@@ -44,8 +44,10 @@ Route::get('/oferta-academica', function () {
     return view('pages.oferta-academica');    
 })->name('oferta-academica');
 
+Route::middleware(['check.plantel.auth'])->group(function () {
 Route::get('/avisos', [AvisoController::class,'index'])->name('avisos');
 Route::get('/avisos/{aviso}', [AvisoController::class, 'show'])->name('avisos.show');
+});
 
 Route::get('/eventos', [EventController::class, 'index'])->name('eventos');
 Route::get('/eventos/{evento}', [EventController::class, 'show'])->name('eventos.show');

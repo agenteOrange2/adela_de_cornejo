@@ -14,6 +14,7 @@ class AvisoController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user(); // Obtener el usuario autenticado
         $filters = $request->input('filter', []);
         $sortDirection = $request->input('sort_direction', 'desc'); // Dirección por defecto (descendente)
     
@@ -26,6 +27,7 @@ class AvisoController extends Controller
             $endDate = null;
         }
     
+        // Modificar la consulta para filtrar por plantel del usuario autenticado
         $avisos = QueryBuilder::for(Post::class)
             ->allowedFilters([
                 AllowedFilter::exact('categories.id'),
@@ -33,20 +35,18 @@ class AvisoController extends Controller
                 AllowedFilter::scope('date_between', 'whereDateBetween'),
                 'title',
             ])
-            ->where(function ($query) use ($startDate, $endDate) {
-                if ($startDate && $endDate) {
-                    $query->whereBetween('published_at', [$startDate, $endDate]);
-                }
-            })
             ->where('is_published', true)
-            ->orderBy('id', 'desc') // Siempre ordenar por fecha de publicación, pero solo de los 5 primeros registros
-            ->paginate(5);
+            ->when($user->plantel_id, function($query) use ($user) {
+                // Filtrar los avisos que pertenecen al plantel del usuario
+                $query->whereHas('planteles', function ($query) use ($user) {
+                    $query->where('plantel_id', $user->plantel_id);
+                });
+            })
+            ->orderBy('id', $sortDirection == 'asc' ? 'asc' : 'desc')
+            ->paginate(10);
     
         $categories = PostCategory::withCount('posts')->get();
         $planteles = Plantel::all();
-    
-        // Ordenar solo los 5 registros recuperados según el campo ID
-        $avisos = $avisos->sortBy($sortDirection == 'asc' ? 'id' : 'id', SORT_REGULAR, $sortDirection == 'desc');
     
         return view('pages.avisos', compact('avisos', 'categories', 'planteles', 'sortDirection'));
     }

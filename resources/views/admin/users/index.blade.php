@@ -1,5 +1,4 @@
 <x-admin-layout title="Usuarios" :breadcrumb="[
-    
     [
         'name' => 'Inicio',
         'url' => route('admin.dashboard'),
@@ -9,18 +8,18 @@
     ],
 ]">
 
-<x-slot name="action">
-    <a href="{{ route('admin.users.create') }}"
+    <x-slot name="action">
+        <a href="{{ route('admin.users.create') }}"
             class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Crear
             Usuario</a>
-</x-slot>
+    </x-slot>
 
     <div class="heading py-5">
 
         <h1 class="text-2xl font-extrabold text-gray-800">Lista de Usuarios</h1>
-        
+
     </div>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    {{-- <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <div
             class="flex items-center justify-end flex-column p-5 flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
             <label for="table-search" class="sr-only">Search</label>
@@ -112,29 +111,10 @@
 
     <div class="mt-5">
         {{ $users->links() }}
-    </div>
+    </div> --}}
 
 
-    @push('js')
-        <script>
-            function deleteUser(userId) {
-                Swal.fire({
-                    title: "¿Estás seguro?",
-                    text: "¡No podrás revertir esto!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Sí, eliminar!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const form = document.getElementById('delete-user-form-' + userId);
-                        if (form) {
-                            form.submit(); // Envía el formulario de eliminación específico
-                        }
-                    }
-                });
-            }
-        </script>
-    @endpush
+    <livewire:user-table />
+
+
 </x-admin-layout>

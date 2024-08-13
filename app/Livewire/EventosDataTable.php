@@ -2,9 +2,8 @@
 
 namespace App\Livewire;
 
-
 use App\Models\Event;
-use Illuminate\Support\Facades\Log;
+use App\Models\Plantel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -69,22 +68,14 @@ class EventosDataTable extends DataTableComponent
                 ->sortable()
                 ->format(fn($value) => $value->format('d/m/Y'))
                 ->collapseOnTablet(),
-            ButtonGroupColumn::make('Action')
-                ->buttons([
-                    LinkColumn::make('Action')
-                    ->title(fn() => 'Ver')
-                    ->location(fn($row) => route('eventos.show', ['evento' => $row->slug]))
-                    ->attributes(fn() => [
-                        'class' => 'btn-edit btn-red'
-                    ]),
-                    LinkColumn::make('Action')
-                    ->title(fn() => 'Editar')
-                    ->location(fn($row) => route('admin.eventos.edit', ['evento' => $row->slug]))
-                    ->attributes(fn() => [
-                        'class' => 'btn-edit btn-blue'
+                Column::make('Acciones')
+                ->label(
+                    fn ($row, Column $column) => view('components.actionsdatatables.action-tables-eventos')->with([
+                        'evento' => $row,
                     ])
-                ])     
-                ->unclickable(),           
+                )
+                ->html()
+                ->unclickable(), // No permite clics ni ordenación en esta columna           
 
         ];
     }
@@ -105,19 +96,6 @@ class EventosDataTable extends DataTableComponent
         }
     }
 
-    // public function reorder(array $items): void
-    // {
-    //     Log::info('Reordering items', $items);
-
-    //     foreach ($items as $item) {
-    //         Post::find($item[$this->getPrimaryKey()])->update([
-    //             'sort' => (int)$item[$this->getDefaultReorderColumn()]
-    //         ]);
-    //     }
-
-    //     // Despachar un evento para notificar que el reordenamiento ha sido guardado
-    //     $this->dispatch('reorderSaved');
-    // }
 
     public function filters(): array
     {
@@ -131,6 +109,17 @@ class EventosDataTable extends DataTableComponent
             ->filter(function($query, $value){
                 if($value != ''){
                     $query->where('is_published', $value);                
+                }
+            }),
+            SelectFilter::make('Plantel')
+            ->options(
+                Plantel::pluck('name', 'id')->prepend('Todos', '')->toArray()
+            )
+            ->filter(function($query, $value){
+                if($value != ''){
+                    $query->whereHas('planteles', function($query) use ($value) {
+                        $query->where('plantel_id', $value);
+                    });
                 }
             }),
 

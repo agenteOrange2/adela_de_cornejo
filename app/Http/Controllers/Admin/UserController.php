@@ -32,14 +32,14 @@ class UserController extends Controller
         $plantels = Plantel::all();
         $educationLevels = EducationLevel::all();
         $grades = Grade::all();
-        return view('admin.users.create', compact('roles', 'plantels', 'educationLevels','grades'));
+        return view('admin.users.create', compact('roles', 'plantels', 'educationLevels', 'grades'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request, User $user)
-    {    
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -56,7 +56,7 @@ class UserController extends Controller
         if (!$request->has('grade_id')) {
             return back()->withErrors(['grade_id' => 'El grado no fue seleccionado correctamente.']);
         }
-    
+
 
         $data = $request->only('name', 'email', 'phone', 'plantel_id', 'education_level_id', 'grade_id');
         if ($request->filled('password')) {
@@ -67,7 +67,7 @@ class UserController extends Controller
             $imagePath = $request->file('image')->store('profile-photos', 'public');
             $data['profile_photo_path'] = $imagePath;
         }
-        
+
         $user = User::create($data);
 
         if ($request->filled('roles')) {
@@ -161,12 +161,41 @@ class UserController extends Controller
             Storage::disk('public')->delete($user->profile_photo_path);
         }
 
+        // Si el usuario tiene el rol de alumno, permite la eliminación
+        if ($user->hasRole('alumno')) {
+            // Actualiza los posts asociados para establecer el user_id en null
+            $user->posts()->update(['user_id' => null]);
+
+            // Elimina el usuario
+            $user->delete();
+
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Usuario Eliminado!',
+                'text' => 'El usuario y sus posts asociados han sido eliminados correctamente.',
+            ]);
+
+            return redirect()->route('admin.users.index');
+        }
+
+        // Verifica si hay posts asociados
+        if ($user->posts()->exists()) {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Error!',
+                'text' => 'El usuario no se puede eliminar porque tiene posts asociados.',
+            ]);
+
+            return redirect()->route('admin.users.index');
+        }
+
+        // Elimina el usuario si no hay posts asociados
         $user->delete();
 
-        Session()->flash('swal', [
+        session()->flash('swal', [
             'icon' => 'success',
             'title' => '¡Usuario Eliminado!',
-            'text' => 'Se ha eliminado el usuario con éxito.',
+            'text' => 'El usuario ha sido eliminado correctamente.',
         ]);
 
         return redirect()->route('admin.users.index');

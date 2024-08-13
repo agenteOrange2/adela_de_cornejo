@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\Log;
+use App\Models\Plantel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -68,22 +68,14 @@ class AvisosDataTable extends DataTableComponent
                 ->sortable()
                 ->format(fn($value) => $value->format('d/m/Y'))
                 ->collapseOnTablet(),
-            ButtonGroupColumn::make('Action')
-                ->buttons([
-                    LinkColumn::make('Action')
-                    ->title(fn() => 'Ver')
-                    ->location(fn($row) => route('avisos.show', ['aviso' => $row->slug]))
-                    ->attributes(fn() => [
-                        'class' => 'btn-edit btn-red'
-                    ]),
-                    LinkColumn::make('Action')
-                    ->title(fn() => 'Editar')
-                    ->location(fn($row) => route('admin.avisos.edit', ['aviso' => $row->slug]))
-                    ->attributes(fn() => [
-                        'class' => 'btn-edit btn-blue'
+                Column::make('Acciones')
+                ->label(
+                    fn ($row, Column $column) => view('components.actionsdatatables.action-tables-avisos')->with([
+                        'aviso' => $row,
                     ])
-                ])     
-                ->unclickable(),           
+                )
+                ->html()
+                ->unclickable(), // No permite clics ni ordenación en esta columna         
 
         ];
     }
@@ -104,19 +96,19 @@ class AvisosDataTable extends DataTableComponent
         }
     }
 
-    // public function reorder(array $items): void
-    // {
-    //     Log::info('Reordering items', $items);
+     /*public function reorder(array $items): void
+     {
+         Log::info('Reordering items', $items);
 
-    //     foreach ($items as $item) {
-    //         Post::find($item[$this->getPrimaryKey()])->update([
-    //             'sort' => (int)$item[$this->getDefaultReorderColumn()]
-    //         ]);
-    //     }
+         foreach ($items as $item) {
+             Post::find($item[$this->getPrimaryKey()])->update([
+                 'sort' => (int)$item[$this->getDefaultReorderColumn()]
+             ]);
+         }
 
-    //     // Despachar un evento para notificar que el reordenamiento ha sido guardado
-    //     $this->dispatch('reorderSaved');
-    // }
+         // Despachar un evento para notificar que el reordenamiento ha sido guardado
+         $this->dispatch('reorderSaved');
+     }*/
 
     public function filters(): array
     {
@@ -130,6 +122,17 @@ class AvisosDataTable extends DataTableComponent
             ->filter(function($query, $value){
                 if($value != ''){
                     $query->where('is_published', $value);                
+                }
+            }),
+            SelectFilter::make('Plantel')
+            ->options(
+                Plantel::pluck('name', 'id')->prepend('Todos', '')->toArray()
+            )
+            ->filter(function($query, $value){
+                if($value != ''){
+                    $query->whereHas('planteles', function($query) use ($value) {
+                        $query->where('plantel_id', $value);
+                    });
                 }
             }),
 
