@@ -11,6 +11,7 @@ class Pdf extends Model
 
     protected $fillable = ['name', 'file_path', 'pdfable_id', 'pdfable_type'];
 
+    
     public function pdfable()
     {
         return $this->morphTo();
@@ -29,13 +30,14 @@ class Pdf extends Model
 
     public function educationLevels()
     {
-        return $this->belongsToMany(EducationLevel::class, 'education_level_pdf');
+        return $this->belongsToMany(EducationLevel::class, 'education_level_pdf')
+            ->withPivot('plantel_id', 'school_cycle_id', 'start_month', 'end_month');
     }
 
     public function planteles()
     {
         return $this->belongsToMany(Plantel::class, 'education_level_pdf')
-            ->withPivot('education_level_id', 'school_cycle_id', 'month');
+            ->withPivot('education_level_id', 'school_cycle_id', 'start_month', 'end_month',);
     }
 
     public function schoolCycle()
