@@ -54,17 +54,6 @@
                     </div>
                 </div>
 
-                <!-- Seleccionar Ciclo Escolar -->
-                <div>
-                    <label for="school_cycle_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600">Ciclo
-                        Escolar</label>
-                    <select name="school_cycle_id" id="school_cycle_id" x-model="schoolCycle"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                        @foreach ($schoolCycles as $cycle)
-                            <option value="{{ $cycle->id }}">{{ $cycle->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
 
                 <!-- Seleccionar Mes -->
                 <div>

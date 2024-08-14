@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Pdf;
 use App\Models\Plantel;
 use App\Models\SchoolCycle;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\EducationLevel;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,96 +19,79 @@ class CalendarController extends Controller
      */
     public function index(Request $request)
     {
-        $level = $request->query('level');
-        $search = $request->query('search');
-
-        $pdfs = Pdf::with(['planteles', 'educationLevels'])
-            ->whereHas('educationLevels', function ($query) use ($level) {
-                if ($level && $level !== 'all') {
-                    $query->where('name', $level);
-                }
-            })
-            ->when($search, function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%");
-            })
-            ->latest('id')
-            ->paginate();
-
-        $educationLevels = EducationLevel::all();
-
-        return view('admin.calendarios.index', compact('pdfs', 'educationLevels', 'level'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
+        $plantelId = $request->query('plantel_id', null);
+        $month = $request->query('month', null);
+        $levelId = $request->query('education_level_id', null); // Asegúrate de capturar este valor
+    
+        $pdfs = Pdf::whereHas('educationLevels', function ($query) use ($levelId, $plantelId, $month) {
+            if ($levelId) {
+                $query->where('education_level_id', $levelId);
+            }
+            if ($plantelId) {
+                $query->where('plantel_id', $plantelId);
+            }
+            if ($month) {
+                $query->where('month', $month);
+            }
+        })->get();
+    
         $planteles = Plantel::all();
         $educationLevels = EducationLevel::all();
-        $schoolCycles = SchoolCycle::all(); // Asumiendo que tienes un modelo SchoolCycle
         $months = [
-            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+            5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+            9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
         ];
-        return view('admin.calendarios.create', compact('planteles', 'educationLevels', 'schoolCycles', 'months'));
+    
+        return view('admin.calendarios.index', compact('pdfs', 'planteles', 'educationLevels', 'months', 'plantelId', 'month', 'levelId'));
     }
+    
 
     /**
      * Store a newly created resource in storage.
-     **/
-
+     */
     public function store(Request $request)
     {
+
+        //  dd($request->all());
         $request->validate([
-            'file_path' => 'required|file|mimes:pdf',
+            'pdf' => 'required|file|mimes:pdf|max:10000',
             'education_level_id' => 'required|exists:education_levels,id',
-            'school_cycle_id' => 'required|exists:school_cycles,id',
             'plantel_ids' => 'required|array',
             'plantel_ids.*' => 'exists:plantels,id',
+            'month' => 'required|integer|min:1|max:12',
         ]);
-
-        $file = $request->file('file_path');
-        $filename = $file->getClientOriginalName(); // Respetar el nombre original del archivo
-
-        // Procesar cada plantel seleccionado
+    
+        $file = $request->file('pdf');
+        $filename = $file->getClientOriginalName();
+    
         foreach ($request->input('plantel_ids') as $plantelId) {
             $plantel = Plantel::find($plantelId);
             if ($plantel) {
-                $folderName = 'calendarios/' . Str::slug($plantel->name); // Carpeta por nombre de plantel
-                $path = $file->storeAs($folderName, $filename, 'public'); // Guardar archivo en carpeta específica
-
-                // Crear registro en la tabla pdfs
+                $folderName = 'calendarios/' . Str::slug($plantel->name);
+                $path = $file->storeAs($folderName, $filename, 'public');
+    
                 $pdf = new Pdf();
                 $pdf->name = $filename;
                 $pdf->file_path = $path;
-                $pdf->pdfable_id = $request->input('education_level_id'); // ID del nivel educativo
-                $pdf->pdfable_type = EducationLevel::class; // O usa 'App\Models\EducationLevel' dependiendo de tu espacio de nombres
+                $pdf->pdfable_id = $request->input('education_level_id');
+                $pdf->pdfable_type = EducationLevel::class;
                 $pdf->save();
-                // Log para confirmar que el path se está guardando
-                Log::info("Archivo guardado, ruta: " . $pdf->file_path);
-
-                // Asociar PDF con el nivel educativo y plantel en la tabla pivot
+    
+                // Guardar la asociación en la tabla pivot
                 $pdf->educationLevels()->attach($request->input('education_level_id'), [
                     'plantel_id' => $plantelId,
-                    'school_cycle_id' => $request->input('school_cycle_id'),
-                    'month' => $request->input('month') // Añadir el ciclo escolar
+                    'month' => $request->input('month')
                 ]);
+    
+                // Log para confirmar que el PDF se asoció correctamente
+                Log::info("PDF asociado correctamente: " . json_encode($pdf->educationLevels));
             }
         }
-
-
-        Session()->flash('swal', [
-            'icon' => 'success',
-            'title' => '¡PDF Subido con exito!',
-            'text' => 'Se ha creado la categoría con éxito.',
-        ]);
-        return redirect()->route('admin.calendarios.index');
+    
+        return redirect()->route('admin.calendarios.index')->with('success', 'PDF subido correctamente.');
     }
-
-    // CalendarController.php
-
-
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -123,69 +105,24 @@ class CalendarController extends Controller
 
         $planteles = Plantel::all();
         $educationLevels = EducationLevel::all();
-        $schoolCycles = SchoolCycle::all();
         $months = [
-            '1' => 'Enero', '2' => 'Febrero', '3' => 'Marzo', '4' => 'Abril',
-            '5' => 'Mayo', '6' => 'Junio', '7' => 'Julio', '8' => 'Agosto',
-            '9' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre'
+            1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+            5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+            9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
         ];
 
-        return view('admin.calendarios.edit', compact('pdf', 'planteles', 'educationLevels', 'schoolCycles', 'months', 'selectedMonth'));
+        return view('admin.calendarios.edit', compact('pdf', 'planteles', 'educationLevels', 'months', 'selectedMonth'));
     }
-
 
     /**
      * Update the specified resource in storage.
      */
-    /*
-     public function update(Request $request, Pdf $pdf)
-     {
-         $request->validate([
-             'file_path' => 'nullable|file|mimes:pdf|max:10000',
-             'education_level_id' => 'required|exists:education_levels,id',
-             'plantel_ids' => 'required|array',
-             'plantel_ids.*' => 'exists:plantels,id',
-         ]);
-
-         // Obtenemos el primer ID de plantel y luego el plantel mismo
-         $firstPlantelId = $request->input('plantel_ids')[0];
-         $plantel = Plantel::find($firstPlantelId);
-
-         if ($request->hasFile('file_path')) {
-             if ($pdf->file_path && Storage::disk('public')->exists($pdf->file_path)) {
-                 Storage::disk('public')->delete($pdf->file_path);
-             }
-
-             $file = $request->file('file_path');
-             $filename = time() . '-' . $file->getClientOriginalName();
-             $folderName = 'calendarios/' . Str::slug($plantel->name); // Usamos el nombre del plantel para la carpeta
-             $path = $file->storeAs($folderName, $filename, 'public');
-             $pdf->file_path = $path;
-             $pdf->name = $filename; // Asegúrate de que tu tabla `pdfs` tiene una columna `name`
-         }
-
-         $pdf->pdfable_id = $request->input('education_level_id');
-         $pdf->pdfable_type = 'App\Models\EducationLevel';
-         $pdf->save();
-
-         // Sincronización de la relación con planteles y niveles educativos
-         $syncData = [];
-         foreach ($request->input('plantel_ids') as $plantelId) {
-             $syncData[$plantelId] = ['education_level_id' => $request->input('education_level_id')];
-         }
-         $pdf->planteles()->sync($syncData); // Asegúrate de que el modelo Pdf tiene definida la relación `planteles`
-
-         return redirect()->route('admin.calendarios.index')->with('success', 'PDF actualizado correctamente.');
-     }
-
-*/
     public function update(Request $request, $calendario)
     {
         $pdf = Pdf::findOrFail($calendario);
         $request->validate([
             'file_path' => 'nullable|file|mimes:pdf|max:10000',
             'education_level_id' => 'required|exists:education_levels,id',
-            'school_cycle_id' => 'required|exists:school_cycles,id',
             'plantel_ids' => 'required|array',
             'plantel_ids.*' => 'exists:plantels,id',
             'month' => 'required|integer|min:1|max:12',
@@ -212,47 +149,28 @@ class CalendarController extends Controller
         foreach ($request->input('plantel_ids') as $plantelId) {
             $syncData[$plantelId] = [
                 'education_level_id' => $request->input('education_level_id'),
-                'school_cycle_id' => $request->input('school_cycle_id'),
                 'month' => $request->input('month')
             ];
         }
-        $pdf->planteles()->sync($syncData);
+        $pdf->educationLevels()->sync($syncData);
 
         return redirect()->route('admin.calendarios.index')->with('success', 'PDF actualizado correctamente.');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
-
     public function destroy($id)
     {
-        Log::info("Intentando eliminar el PDF con ID: " . $id);
+        $pdf = Pdf::findOrFail($id);
 
-        $pdf = Pdf::find($id);
-
-        if (!$pdf) {
-            Log::error("PDF con ID: $id no encontrado.");
-            return redirect()->route('admin.calendarios.index')->with('error', 'PDF no encontrado.');
+        if (Storage::disk('public')->exists($pdf->file_path)) {
+            Storage::disk('public')->delete($pdf->file_path);
         }
 
-        try {
-            // Eliminar primero las asociaciones en la tabla pivote
-            $pdf->educationLevels()->detach(); // Si estás usando relaciones many-to-many
+        $pdf->educationLevels()->detach();
+        $pdf->delete();
 
-            // Si existe un archivo asociado, intenta eliminarlo del storage
-            if ($pdf->file_path && Storage::disk('public')->exists($pdf->file_path)) {
-                Storage::disk('public')->delete($pdf->file_path);
-            }
-
-            // Elimina el PDF de la base de datos
-            $pdf->delete();
-
-            return redirect()->route('admin.calendarios.index')->with('success', 'PDF eliminado correctamente.');
-        } catch (\Exception $e) {
-            Log::error("Error al eliminar el PDF: " . $e->getMessage());
-            return back()->with('error', 'Error al eliminar el PDF.');
-        }
+        return redirect()->route('admin.calendarios.index')->with('success', 'PDF eliminado correctamente.');
     }
 }

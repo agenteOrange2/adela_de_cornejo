@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('education_level_pdf', function (Blueprint $table) {
-            $table->foreignId('education_level_id')->constrained();
-            $table->foreignId('pdf_id')->constrained('pdfs');
-            $table->foreignId('plantel_id')->constrained('plantels');
-            $table->foreignId('school_cycle_id')->constrained('school_cycles')->onDelete('cascade');            
-            $table->unsignedTinyInteger('month')->nullable();
+            $table->foreignId('education_level_id')->constrained(); // Relación con el nivel educativo
+            $table->foreignId('pdf_id')->constrained('pdfs'); // Relación con el PDF
+            $table->foreignId('plantel_id')->constrained('plantels'); // Relación con el plantel
+            $table->unsignedTinyInteger('month'); // Mes al que corresponde el PDF
             $table->timestamps();
-        
-            $table->unique(['education_level_id', 'pdf_id', 'plantel_id'], 'unique_level_pdf_plantel');
+    
+            $table->unique(['education_level_id', 'pdf_id', 'plantel_id', 'month'], 'unique_level_pdf_plantel_month');
         });
     }
 
