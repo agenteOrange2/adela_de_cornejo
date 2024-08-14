@@ -9,14 +9,10 @@ use App\Http\Controllers\Controller;
 
 class SchoolCycleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        
-        $schoolCycles = SchoolCycle::all(); // Asegúrate de tener este modelo
-        $planteles = Plantel::all(); // Modelo para los planteles
+        $schoolCycles = SchoolCycle::all();
+        $planteles = Plantel::all();
         $months = [
             1 => 'Enero',
             2 => 'Febrero',
@@ -30,27 +26,20 @@ class SchoolCycleController extends Controller
             10 => 'Octubre',
             11 => 'Noviembre',
             12 => 'Diciembre'
-        ]; // Lista de meses
+        ];
     
-        return view('admin.calendarios.index', compact('schoolCycles', 'planteles', 'months'));
+        // Obtener el plantel_id desde la solicitud, o usar un valor por defecto (por ejemplo, null)
+        $plantelId = $request->input('plantel', null);
+    
+        return view('admin.cicloescolar.index', compact('schoolCycles', 'planteles', 'months'));
     }
+    
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.calendarios.cicloescolar.create');
+        return view('admin.cicloescolar.create');
     }
 
-
-    public function show(SchoolCycle $ciclo_escolar)
-    {
-        return view('admin.ciclo-escolar.show', compact('ciclo_escolar'));
-    }
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -65,19 +54,18 @@ class SchoolCycleController extends Controller
         $cycle->end_date = $request->input('end_date');
         $cycle->save();
 
-
         Session()->flash('swal', [
             'icon' => 'success',
             'title' => '¡Creado con éxito!',
             'text' => 'El ciclo escolar ha sido creado correctamente.',
         ]);
 
-        return redirect()->route('admin.ciclo-escolar.index');
+        return redirect()->route('admin.calendarios.cicloescolar.index');
     }
 
     public function edit(SchoolCycle $ciclo_escolar)
     {
-        return view('admin.calendarios.cicloescolar.edit', compact('ciclo_escolar'));
+        return view('admin.cicloescolar.edit', compact('ciclo_escolar'));
     }
 
     public function update(Request $request, SchoolCycle $ciclo_escolar)
@@ -95,9 +83,8 @@ class SchoolCycleController extends Controller
             'title' => '¡Actualizado con éxito!',
             'text' => 'El ciclo escolar se ha actualizado correctamente.',
         ]);
-        return redirect()->route('admin.ciclo-escolar.index')->with('success', 'Ciclo escolar actualizado con éxito.');
+        return redirect()->route('admin.cicloescolar.index')->with('success', 'Ciclo escolar actualizado con éxito.');
     }
-
 
     public function destroy(SchoolCycle $ciclo_escolar)
     {
@@ -106,8 +93,8 @@ class SchoolCycleController extends Controller
         Session()->flash('swal', [
             'icon' => 'success',
             'title' => '¡Ciclo Borrado!',
-            'text' => 'Se elimino el ciclo escolar con éxito.',
+            'text' => 'Se eliminó el ciclo escolar con éxito.',
         ]);
-        return redirect()->route('admin.ciclo-escolar.index', $ciclo_escolar);
+        return redirect()->route('admin.cicloescolar.index');
     }
 }

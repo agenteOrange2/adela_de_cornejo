@@ -1,177 +1,100 @@
-<x-admin-layout title="Nuevo Archivo" :breadcrumb="[
-    [
-        'name' => 'Inicio',
-        'url' => route('admin.dashboard'),
-    ],
-    [
-        'name' => 'Calendario Escolar',
-        'url' => route('admin.calendarios.index'),
-    ],
-    [
-        'name' => 'Nuevo Archivo',
-    ],
-]">
-
-    <x-slot name="action">
-        <a href="{{ route('admin.calendarios.index') }}"
-            class="text-white bg-school-blue hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-school-blue dark:hover:bg-blue-700 dark:focus:ring-blue-700">Volver</a>
-    </x-slot>
-    @push('css')
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.css" rel="stylesheet">
-    @endpush
-
-    <div class="flex justify-between heading py-5">
-        <h1 class="text-2xl font-extrabold text-school-blue flex items-center">
-            <i class="fas fa-upload mr-2"></i>
-            Nuevo archivo
-        </h1>        
-    </div>
-
-    <form action="{{ route('admin.calendarios.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        <x-validation-errors class="mb-4" />
-
-        <!-- Dropzone Container for File Upload -->
-        <div class="mb-4">
-            <div class="dropzone" id="file-upload"></div>
-            <input type="hidden" name="file_path">
+{{-- resources/views/admin/calendarios/create-modal.blade.php --}}
+<div x-show="openCreate" x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+    <div @click.away="closeCreateModal()" class="relative w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900">
+                Agregar nuevo PDF
+            </h3>
+            <button @click="closeCreateModal()"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-gray-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
 
-        <div class="flex flex-wrap -mx-3 my-4">
-            <!-- Education Level Selector -->
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label for="education_level_id" class="block mb-2 text-sm font-medium text-gray-900">Nivel
-                    Educativo:</label>
-                <select name="education_level_id"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        <!-- Modal body -->
+        <form action="{{ route('admin.calendarios.store') }}" method="POST" enctype="multipart/form-data"
+            class="space-y-4">
+            @csrf
+
+            <!-- Drag and Drop para el archivo PDF -->
+            <div x-data="{ isDragging: false, fileName: '', fileSize: '', file: null }" @dragover.prevent="isDragging = true"
+                @dragleave.prevent="isDragging = false"
+                @drop.prevent="isDragging = false; handleFileDrop($event)">
+                <label for="file_path"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600">Subir PDF</label>
+                <div class="relative flex items-center justify-center w-full p-4 border-2 border-dashed rounded-lg"
+                    :class="isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'">
+                    <input x-ref="fileInputCreate" type="file" name="file_path" id="file_path"
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        @change="handleFileInput($event)">
+                    <p class="text-gray-500">Arrastra el archivo aquí o haz clic para seleccionar</p>
+                </div>
+            </div>
+
+            <!-- Preview del archivo PDF -->
+            <div x-show="fileName" class="mt-4 p-4 bg-gray-100 rounded-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-900" x-text="fileName"></p>
+                        <p class="text-xs text-gray-500" x-text="fileSize"></p>
+                    </div>
+                    <button type="button" @click="removeFile()" class="text-red-600 hover:text-red-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seleccionar Nivel Educativo -->
+            <div>
+                <label for="education_level_id"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600">Nivel Educativo</label>
+                <select name="education_level_id" id="education_level_id"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     required>
                     @foreach ($educationLevels as $level)
                         <option value="{{ $level->id }}">{{ $level->name }}</option>
                     @endforeach
                 </select>
-
-                <div class="flex flex-wrap my-5">
-                    <!-- Selector de Ciclo Escolar -->
-                    <div class="w-full md:w-1/2  mb-6 md:mb-0">
-                        <label for="school_cycle_id" class="block mb-2 text-sm font-medium text-gray-900">Ciclo
-                            Escolar:</label>
-                        <select name="school_cycle_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required>
-                            @foreach ($schoolCycles as $cycle)
-                                <option value="{{ $cycle->id }}">{{ $cycle->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Selector de Mes -->
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="month" class="block mb-2 text-sm font-medium text-gray-900">Mes:</label>
-                        <select name="month"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required>
-                            @foreach ($months as $index => $month)
-                                <option value="{{ $index + 1 }}">{{ $month }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
             </div>
 
-            <!-- Planteles Selector -->
-            <div class="w-full md:w-1/2 px-3">
-                <h3 class="mb-2 font-semibold text-gray-900">Planteles</h3>
-                <ul
-                    class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    @foreach ($planteles as $plantel)
-                        <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="plantel-checkbox-{{ $plantel->id }}" type="checkbox"
-                                    value="{{ $plantel->id }}" name="plantel_ids[]"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="plantel-checkbox-{{ $plantel->id }}"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $plantel->name }}</label>
-                            </div>
-                        </li>
+            <!-- Seleccionar Mes -->
+            <div>
+                <label for="month"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600">Mes</label>
+                <select name="month" id="month"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    @foreach ($months as $num => $name)
+                        <option value="{{ $num }}">{{ $name }}</option>
                     @endforeach
-                </ul>
+                </select>
             </div>
-        </div>
 
-        <!-- Submit Button -->
-        <div class="flex justify-end">
-            <x-button id="submit-button">
-                Subir Archivo
-            </x-button>
-        </div>
-    </form>
+            <!-- Seleccionar Plantel -->
+            <div>
+                <label for="plantel_id"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plantel</label>
+                <select name="plantel_id" id="plantel_id"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    @foreach ($planteles as $plantel)
+                        <option value="{{ $plantel->id }}">{{ $plantel->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-
-    @push('js')
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
-
-
-        <script>
-            Dropzone.autoDiscover = false; // Evitar auto-inicialización
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var myDropzone = new Dropzone('#file-upload', {
-                    url: "{{ route('admin.calendarios.store') }}",
-                    autoProcessQueue: false,
-                    uploadMultiple: false,
-                    paramName: "file_path", // El nombre del campo que contiene el archivo
-                    maxFiles: 1,
-                    maxFilesize: 2, // MB
-                    acceptedFiles: 'application/pdf',
-                    addRemoveLinks: true,
-                    init: function() {
-                        var submitButton = document.getElementById("submit-button");
-                        var csrfToken = document.querySelector('input[name="_token"]')
-                            .value; // Asegurar que el token CSRF está disponible
-                        submitButton.addEventListener("click", function(e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            if (this.getQueuedFiles().length > 0) {
-                                this.processQueue(); // Procesa la cola si hay archivos en cola
-                            } else {
-                                alert("Por favor, añade un archivo antes de enviar.");
-                            }
-                        }.bind(this));
-
-                        this.on("sending", function(file, xhr, formData) {
-                            // Añadir el token CSRF y otros campos del formulario
-                            formData.append("_token", csrfToken);
-                            var formElements = document.querySelectorAll('form input, form select');
-                            formElements.forEach(function(input) {
-                                if (input.name && input.type !== 'submit' && input.type !==
-                                    'file') {
-                                    if (input.type === 'checkbox') {
-                                        if (input
-                                            .checked
-                                            ) { // Solo añadir si el checkbox está marcado
-                                            formData.append(input.name, input.value);
-                                        }
-                                    } else {
-                                        formData.append(input.name, input.value);
-                                    }
-                                }
-                            });
-                        });
-
-                        this.on("success", function(file, response) {
-                            console.log("Success:", response);
-                            window.location.href =
-                                "{{ route('admin.calendarios.index') }}"; // Redirigir después del éxito
-                        });
-
-                        this.on("error", function(file, response) {
-                            console.error("Error:", response);
-                        });
-                    }
-                });
-            });
-        </script>
-    @endpush
-</x-admin-layout>
+            <!-- Botón para guardar -->
+            <button type="submit"
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Guardar PDF
+            </button>
+        </form>
+    </div>
+</div>
