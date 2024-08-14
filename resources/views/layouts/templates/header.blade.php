@@ -174,13 +174,12 @@
                                                 class="nav-link {{ request()->is('eventos*') ? 'active' : '' }}">Eventos
                                             </a>
                                         </li>
-                                        @auth
                                         <li class="nav-item">
                                             <a href="{{ route('avisos') }}"
                                                 class="nav-link {{ request()->is('avisos*') ? 'active' : '' }}">Avisos
                                             </a>
                                         </li>
-                                        @endauth
+
                                     </ul>
                                 </li>
                                 <li class="nav-item"><a href="/contacto"

@@ -10,10 +10,13 @@ class SchoolCycle extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'start_date', 'end_date'];
+    protected $fillable = ['name', 'start_date', 'end_date', 'is_current'];
 
     // Asegúrate de que las fechas sean tratadas como instancias de Carbon
-    protected $dates = ['start_date', 'end_date'];
+    protected $casts = [
+        'start_date' => 'datetime:Y-m-d',
+        'end_date' => 'datetime:Y-m-d',
+    ];
     
     public function getStartDateFormattedAttribute()
     {
@@ -29,5 +32,11 @@ class SchoolCycle extends Model
     public function pdfs()
     {
         return $this->belongsToMany(Pdf::class, 'education_level_pdf');
+    }
+
+    public static function setCurrentCycle($id)
+    {
+        self::where('is_current', true)->update(['is_current' => false]);
+        self::where('id', $id)->update(['is_current' => true]);
     }
 }

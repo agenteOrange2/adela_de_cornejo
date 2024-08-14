@@ -52,8 +52,8 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-
-        //  dd($request->all());
+        Log::info('Datos recibidos en el store:', $request->all());
+    
         $request->validate([
             'pdf' => 'required|file|mimes:pdf|max:10000',
             'education_level_id' => 'required|exists:education_levels,id',
@@ -64,28 +64,29 @@ class CalendarController extends Controller
     
         $file = $request->file('pdf');
         $filename = $file->getClientOriginalName();
+        Log::info('Nombre del archivo PDF recibido: ' . $filename);
     
         foreach ($request->input('plantel_ids') as $plantelId) {
             $plantel = Plantel::find($plantelId);
             if ($plantel) {
                 $folderName = 'calendarios/' . Str::slug($plantel->name);
                 $path = $file->storeAs($folderName, $filename, 'public');
+                Log::info('Archivo guardado en: ' . $path);
     
-                $pdf = new Pdf();
-                $pdf->name = $filename;
-                $pdf->file_path = $path;
-                $pdf->pdfable_id = $request->input('education_level_id');
-                $pdf->pdfable_type = EducationLevel::class;
+                $pdf = new Pdf([
+                    'name' => $filename,
+                    'file_path' => $path,
+                    'pdfable_id' => $request->input('education_level_id'),
+                    'pdfable_type' => EducationLevel::class,
+                ]);
                 $pdf->save();
     
-                // Guardar la asociación en la tabla pivot
                 $pdf->educationLevels()->attach($request->input('education_level_id'), [
                     'plantel_id' => $plantelId,
                     'month' => $request->input('month')
                 ]);
     
-                // Log para confirmar que el PDF se asoció correctamente
-                Log::info("PDF asociado correctamente: " . json_encode($pdf->educationLevels));
+                Log::info('PDF asociado a nivel educativo y plantel');
             }
         }
     
