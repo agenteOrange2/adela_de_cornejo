@@ -18,6 +18,19 @@
     </a>
 </x-slot>
 
+<div x-data="modalHandler()">
+    <!-- Incluir el modal de creación -->
+    @include('admin.calendarios.create-modal')
+
+    <!-- Incluir el modal de edición -->
+    @include('admin.calendarios.edit-modal')
+
+    <!-- Contenido de la página aquí -->
+    <div class="p-6 overflow-scroll">
+        <!-- Tabla, filtros o cualquier contenido que quieras mostrar -->
+    </div>
+</div>
+
 <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
     <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white rounded-none bg-clip-border">
         <div class="flex items-center justify-between gap-8 mb-8">
@@ -188,6 +201,60 @@
                         }
                     }
                 });
+            }
+
+            function modalHandler() {
+                return {
+                    openCreate: false,
+                    openEdit: false,
+                    pdfId: null,
+                    fileName: '',
+                    fileSize: '',
+                    schoolCycle: '',
+                    month: '',
+                    planteles: [],
+                    file: null,
+
+                    handleFileInput(event) {
+                        const file = event.target.files[0];
+                        this.file = file;
+                        this.fileName = file.name;
+                        this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
+                    },
+                    handleFileDrop(event) {
+                        const file = event.dataTransfer.files[0];
+                        this.file = file;
+                        this.fileName = file.name;
+                        this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
+                        this.$refs.fileInputEdit.files = event.dataTransfer.files;
+                    },
+                    removeFile() {
+                        this.file = null;
+                        this.fileName = '';
+                        this.fileSize = '';
+                        this.$refs.fileInput.value = null;
+                    },
+
+                    openCreateModal() {
+                        this.openCreate = true;
+                    },
+                    closeCreateModal() {
+                        this.openCreate = false;
+                    },
+
+                    openEditModal(pdfData) {
+                        this.pdfId = pdfData.id;
+                        this.fileName = pdfData.name;
+                        this.schoolCycle = pdfData.school_cycle_id || '';
+                        this.month = pdfData.month || '';
+                        this.planteles = pdfData.planteles || [];
+                        this.file = null;
+                        this.openEdit = true;
+                    },
+                    closeEditModal() {
+                        this.openEdit = false;
+                    }
+                };
             }
         </script>
     @endpush

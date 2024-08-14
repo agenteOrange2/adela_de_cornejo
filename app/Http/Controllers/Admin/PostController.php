@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Plantel;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -100,6 +101,12 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
+    public function show(Post $aviso)
+    {
+        return view('pages.singles.avisos.show', compact('aviso'));
+    }	
+
     public function edit(Post $aviso)
     {
         $categories = PostCategory::all();
@@ -214,26 +221,33 @@ class PostController extends Controller
 
     public function destroy(Post $aviso)
     {
+        Log::info("Intentando eliminar el aviso con ID: " . $aviso->id);
+    
         // Eliminar imagen si existe
         if ($aviso->image_path) {
+            Log::info("Eliminando imagen: " . $aviso->image_path);
             Storage::disk('public')->delete($aviso->image_path);
         }
-
+    
         // Eliminar PDFs asociados
         foreach ($aviso->pdfs as $pdf) {
+            Log::info("Eliminando PDF: " . $pdf->file_path);
             Storage::disk('public')->delete($pdf->file_path);
             $pdf->delete();
         }
-
+    
         // Eliminar la aviso
         $aviso->delete();
-
+    
+        Log::info("Aviso eliminado: " . $aviso->id);
+    
         session()->flash('swal', [
             'icon' => 'success',
-            'title' => '¡aviso Eliminada!',
-            'text' => 'Se elimino la aviso con éxito.',
+            'title' => '¡Aviso Eliminado!',
+            'text' => 'Se eliminó el aviso con éxito.',
         ]);
-
+    
         return redirect()->route('admin.avisos.index');
     }
+    
 }

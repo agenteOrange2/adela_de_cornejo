@@ -3,7 +3,7 @@
     <button @click="openCreateModal()"
         class="flex select-none items-center gap-3 rounded-lg bg-gray-900 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         type="button">
-        Agregar PDF
+        Agregar Calendario
         <i class="fa-regular fa-file-pdf"></i>
     </button>
 
@@ -14,7 +14,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-900">
-                    Agregar nuevo PDF
+                    Agregar nuevo Calendario
                 </h3>
                 <button @click="closeCreateModal()"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-gray-600">
@@ -27,7 +27,7 @@
             </div>
 
             <!-- Modal body -->
-            <form action="{{ route('admin.menu-cafeteria.store') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('admin.calendarios.store') }}" method="POST" enctype="multipart/form-data"
                 class="space-y-4">
                 @csrf
 
@@ -36,7 +36,7 @@
                     @dragleave.prevent="isDragging = false"
                     @drop.prevent="isDragging = false; handleFileDrop($event)">
                     <label for="pdf"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600">Subir PDF</label>
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600">Subir Calendario</label>
                     <div class="relative flex items-center justify-center w-full p-4 border-2 border-dashed rounded-lg"
                         :class="isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'">
                         <input x-ref="fileInputCreate" type="file" name="pdf" id="pdf"
@@ -101,8 +101,9 @@
                 <!-- Botón para guardar -->
                 <button type="submit"
                     class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Guardar PDF
+                    Guardar Calendario
                 </button>
             </form>
         </div>
     </div>
+</div>

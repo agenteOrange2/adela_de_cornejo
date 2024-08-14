@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Plantel;
 use App\Models\SchoolCycle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,8 +15,24 @@ class SchoolCycleController extends Controller
     public function index()
     {
         
-        $ciclos = SchoolCycle::latest('id')->paginate();
-        return view('admin.calendarios.cicloescolar.index', compact('ciclos'));
+        $schoolCycles = SchoolCycle::all(); // Asegúrate de tener este modelo
+        $planteles = Plantel::all(); // Modelo para los planteles
+        $months = [
+            1 => 'Enero',
+            2 => 'Febrero',
+            3 => 'Marzo',
+            4 => 'Abril',
+            5 => 'Mayo',
+            6 => 'Junio',
+            7 => 'Julio',
+            8 => 'Agosto',
+            9 => 'Septiembre',
+            10 => 'Octubre',
+            11 => 'Noviembre',
+            12 => 'Diciembre'
+        ]; // Lista de meses
+    
+        return view('admin.calendarios.index', compact('schoolCycles', 'planteles', 'months'));
     }
 
     /**

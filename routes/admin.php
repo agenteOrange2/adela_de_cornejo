@@ -81,6 +81,7 @@ Route::resource('avisos', PostController::class);
 
 Route::delete('/avisos/pdf/{pdf}', [PostController::class, 'destroyPdf'])->middleware('can:Eventos y Avisos')->name('avisos.destroy.pdf');
 
+
 /* ****************************** */
 /* **** SLIDERS ***** */
 /* ****************************** */

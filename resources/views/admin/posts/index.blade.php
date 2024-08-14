@@ -21,8 +21,7 @@
 
     <x-validation-errors class="my-4" />
 
-    <div class="mb-4">        
-        {{-- <livewire:generic-data-table :modelClass="'App\\Models\\Post'" :columnsConfig="['id', 'title', 'excerpt', 'slug', 'published_at', 'user.name', 'is_published', 'created_at', 'updated_at']" /> --}}
+    <div class="mb-4">               
         <livewire:avisos-data-table  />
     </div>
 

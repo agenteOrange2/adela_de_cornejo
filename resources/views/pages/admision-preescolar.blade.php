@@ -61,7 +61,7 @@
     </section>
     <!-- End Experience Area -->
 
-    <section class="pt-10 header tabs-admision">
+    {{-- <section class="pt-10 header tabs-admision">
         <div class="container-fluid pt-4 p-column">
             <div class="col-lg-12 col-md-12">
                 <div class="tab products-details-tab">
@@ -89,7 +89,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     {{-- Sección nueva Admsión --}}
     <section class="ptb-15 header tabs-admision">
@@ -99,19 +99,35 @@
                     <div class="row tabs_admisiones">
                         <div class="col-lg-3 col-md-12">
                             <ul class="tabs">
-                                <li><a href="#">
+                                <li>
+                                    <a href="#">
                                         <div class="dot"></div> Metodologías del aprendizaje
-                                    </a></li>
+                                    </a>
+                                </li>
 
-                                <li><a href="#">
+                                <li>
+                                    <a href="#">
                                         <div class="dot"></div> Valores y Virtudes
-                                    </a></li>
+                                    </a>
+                                </li>
 
-                                <li><a href="#">
+                                <li>
+                                    <a href="#">
                                         <div class="dot"></div> Inglés como segundo idioma
-                                    </a></li>
-                                <li><a href="#">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
                                         <div class="dot"></div> Ambientes de aprendizaje
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" data-plantel-id="1" class="plantel-link">
+                                        <div class="dot"></div> Calendario Triunfo
+                                    </a>
+                                </li>
+                                <li><a href="#" data-plantel-id="2" class="plantel-link">
+                                        <div class="dot"></div> Calendario Iv Siglos
                                     </a></li>
                             </ul>
                         </div>
@@ -240,6 +256,16 @@
                                         </p>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-9 col-md-12">
+                                    <div class="tab-content" id="pdf-container">
+                                        <!-- Aquí se cargarán los PDFs -->
+                                    </div>
+                                    <div id="loader" class="d-none flex justify-center items-center my-4">
+                                        <span class="loader"></span>
+                                        <p>Cargando...</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -255,7 +281,6 @@
             const pdfContainer = document.getElementById('pdf-container');
             const loader = document.getElementById('loader');
 
-            // Obtener el ID del nivel educativo desde la variable de Blade
             const levelId = @json($levelId);
 
             plantelLinks.forEach(link => {
@@ -265,11 +290,11 @@
 
                     try {
                         loader.classList.remove('d-none');
-                        pdfContainer.innerHTML = ''; // Clear existing PDFs
+                        pdfContainer.innerHTML = '';
 
                         const response = await fetch(
                             `/get-pdfs-by-plantel-and-level?plantel_id=${plantelId}&level_id=${levelId}`
-                        );
+                            );
                         const data = await response.json();
 
                         const carousel = document.createElement('div');
@@ -293,7 +318,6 @@
                             carousel.appendChild(pdfElement);
                         });
 
-                        // Reinitialize Owl Carousel
                         $(document).ready(function() {
                             $('.courses-categories-slides').owlCarousel({
                                 loop: false,
@@ -318,7 +342,6 @@
                         pdfContainer.innerHTML =
                             '<p>Error al cargar los PDFs. Inténtalo de nuevo más tarde.</p>';
                     } finally {
-                        // Hide loader after content is loaded or in case of an error
                         loader.classList.add('d-none');
                     }
                 });

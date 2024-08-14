@@ -5,7 +5,7 @@
     ],
     [
         'name' => 'Menu Escolar',
-        'url' => route('admin.menu-cafeteria.index'),
+        'url' => route('admin.calendarios.index'),
     ],
     [
         'name' => 'Editar Archivo',

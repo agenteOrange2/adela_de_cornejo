@@ -65,10 +65,10 @@
                     <div class="raque-responsive-menu">
                         <div class="logo">
                             <a href="/">
-                                <img src="/build/img/logo-adela-black.png" class="black-logo" alt="Adela de cornejo logo negro"
-                                    width="35%">
-                                <img src="/build/img/logo-adela-white.png" class="white-logo" alt="Adela de cornejo logo blanco"
-                                    width="35%">
+                                <img src="/build/img/logo-adela-black.png" class="black-logo"
+                                    alt="Adela de cornejo logo negro" width="35%">
+                                <img src="/build/img/logo-adela-white.png" class="white-logo"
+                                    alt="Adela de cornejo logo blanco" width="35%">
                             </a>
                         </div>
                     </div>
@@ -79,8 +79,10 @@
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
                         <a class="navbar-brand" href="/">
-                            <img src="/build/img/logo-adela-black.png" class="black-logo" alt="Adela de cornejo logo negro" width="120px">
-                            <img src="/build/img/logo-adela-white.png" class="white-logo" alt="Adela de cornejo logo blanco" width="120px">
+                            <img src="/build/img/logo-adela-black.png" class="black-logo"
+                                alt="Adela de cornejo logo negro" width="120px">
+                            <img src="/build/img/logo-adela-white.png" class="white-logo"
+                                alt="Adela de cornejo logo blanco" width="120px">
                         </a>
 
                         <div class="collapse navbar-collapse mean-menu">
@@ -161,16 +163,24 @@
                                     </ul>
                                 </li>
 
-                                <li class="nav-item"><a href="#"
+                                <li class="nav-item">
+                                    <a href="#"
                                         class="nav-link {{ request()->is('eventos*') || request()->is('avisos*') ? 'active' : '' }}">Eventos
-                                        y Avisos <i class='bx bx-chevron-down'></i></a>
+                                        y Avisos <i class='bx bx-chevron-down'></i>
+                                    </a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="{{ route('eventos') }}"
-                                                class="nav-link {{ request()->is('eventos*') ? 'active' : '' }}">Eventos</a>
+                                        <li class="nav-item">
+                                            <a href="{{ route('eventos') }}"
+                                                class="nav-link {{ request()->is('eventos*') ? 'active' : '' }}">Eventos
+                                            </a>
                                         </li>
-                                        <li class="nav-item"><a href="{{ route('avisos') }}"
-                                                class="nav-link {{ request()->is('avisos*') ? 'active' : '' }}">Avisos</a>
+                                        @auth
+                                        <li class="nav-item">
+                                            <a href="{{ route('avisos') }}"
+                                                class="nav-link {{ request()->is('avisos*') ? 'active' : '' }}">Avisos
+                                            </a>
                                         </li>
+                                        @endauth
                                     </ul>
                                 </li>
                                 <li class="nav-item"><a href="/contacto"
@@ -190,10 +200,10 @@
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
                         <a class="navbar-brand" href="/">
-                            <img src="/build/img/logo-adela-black.png" class="black-logo" alt="Adela de cornejo logo negro"
-                                width="120px">
-                            <img src="/build/img/logo-adela-white.png" class="white-logo" alt="Adela de cornejo logo blanco"
-                                width="120px">
+                            <img src="/build/img/logo-adela-black.png" class="black-logo"
+                                alt="Adela de cornejo logo negro" width="120px">
+                            <img src="/build/img/logo-adela-white.png" class="white-logo"
+                                alt="Adela de cornejo logo blanco" width="120px">
                         </a>
 
                         <div class="collapse navbar-collapse">

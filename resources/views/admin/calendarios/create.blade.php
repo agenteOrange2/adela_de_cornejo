@@ -4,8 +4,8 @@
         'url' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Menu Escolar',
-        'url' => route('admin.menu-cafeteria.index'),
+        'name' => 'Calendario Escolar',
+        'url' => route('admin.calendarios.index'),
     ],
     [
         'name' => 'Nuevo Archivo',

@@ -108,21 +108,6 @@
                             </div>
                         </div>
             
-                        <!-- Filtro por Plantel -->
-                        <div class="col-md-4 mb-3">
-                            <div class="form-group">
-                                <label for="plantelFilter">Plantel</label>
-                                <div class="select-box">
-                                    <select id="plantelFilter" name="filter[planteles.id]" class="form-control">
-                                        <option value="">Seleccionar Plantel</option>
-                                        @foreach ($planteles as $plantel)
-                                            <option value="{{ $plantel->id }}">{{ $plantel->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-            
                         <!-- Filtro por Categoría -->
                         <div class="col-md-4 mb-3">
                             <div class="form-group">

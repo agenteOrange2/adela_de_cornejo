@@ -1,46 +1,7 @@
 <x-admin-layout title="Menu Escolar" :breadcrumb="[['name' => 'Inicio', 'url' => route('admin.dashboard')], ['name' => 'Menu Escolar']]">
 
-    <div x-data="{
-        openCreate: false,
-        openEdit: false,
-        pdfIdEdit: null,
-        fileNameEdit: '',
-        fileSizeEdit: '',
-        schoolCycleEdit: '',
-        monthEdit: '',
-        plantelesEdit: [],
-        fileEdit: null,
-        handleFileInputEdit(event) {
-            const file = event.target.files[0];
-            this.fileEdit = file;
-            this.fileNameEdit = file.name;
-            this.fileSizeEdit = (file.size / 1024).toFixed(2) + ' KB';
-        },
-        handleFileDropEdit(event) {
-            const file = event.dataTransfer.files[0];
-            this.fileEdit = file;
-            this.fileNameEdit = file.name;
-            this.fileSizeEdit = (file.size / 1024).toFixed(2) + ' KB';
-            this.$refs.fileInputEdit.files = event.dataTransfer.files;
-        },
-        removeFileEdit() {
-            this.fileEdit = null;
-            this.fileNameEdit = '';
-            this.fileSizeEdit = '';
-            this.$refs.fileInputEdit.value = null;
-        },
-        openModalEdit(pdfData) {
-            this.pdfIdEdit = pdfData.id;
-            this.fileNameEdit = pdfData.name;
-            this.fileSizeEdit = '';
-            this.schoolCycleEdit = pdfData.school_cycle_id || '';
-            this.monthEdit = pdfData.month || '';
-            this.plantelesEdit = pdfData.planteles || [];
-            this.fileEdit = null;
-            this.openEdit = true;
-        }
-    }">
-
+    <!-- Contenedor principal -->
+    <div x-data="modalHandler()">
         <!-- Incluir el modal de creación -->
         @include('admin.services.cafeteriamenu.create-modal')
 
@@ -56,8 +17,9 @@
 
             <div class="space-x-4 flex">
                 <select onchange="location = this.value;"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="{{ route('admin.menu-cafeteria.index') }}">Todos los Planteles</option>
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {{-- <option value="{{ route('admin.menu-cafeteria.index') }}">Todos los Planteles</option> --}}
+                    <option value="">Seleccionar Plantel</option>
                     @foreach ($planteles as $plantel)
                         <option value="{{ route('admin.menu-cafeteria.index', ['plantel' => $plantel->id]) }}"
                             {{ $plantelId == $plantel->id ? 'selected' : '' }}>{{ $plantel->name }}</option>
@@ -65,6 +27,7 @@
                 </select>
                 <select onchange="location = this.value;"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="">Seleccionar Mes</option>
                     @foreach ($months as $num => $name)
                         <option
                             value="{{ route('admin.menu-cafeteria.index', ['plantel' => $plantelId, 'month' => $num]) }}"
@@ -124,20 +87,17 @@
 
                             <td class="p-4 border-b border-blue-gray-50">
                                 <div class="flex gap-2">
-
-                                    <button
-                                    onclick="openModalEdit({
+                                    <button @click="openEditModal({
                                         id: {{ $pdf->id }},
                                         name: '{{ $pdf->name }}',
                                         school_cycle_id: {{ $pdf->school_cycle_id ?? 'null' }},
                                         month: {{ $pdf->month ?? 'null' }},
                                         planteles: [{{ $pdf->plantelesForMenu->pluck('id')->implode(',') }}]
                                     })"
-                                    class="text-blue-600 hover:text-blue-800">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-                                
-                                
+                                        class="text-blue-600 hover:text-blue-800">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
+
                                     <button onclick="deletePdf({{ $pdf->id }})">
                                         <i class="fa-regular fa-trash-can"></i>
                                     </button>
@@ -158,7 +118,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 
     @push('js')
@@ -184,43 +143,60 @@
                 });
             }
 
-            function openModalEdit(pdfData) {
-        console.log('Edit button clicked with data:', pdfData);
+            function modalHandler() {
+                return {
+                    openCreate: false,
+                    openEdit: false,
+                    pdfId: null,
+                    fileName: '',
+                    fileSize: '',
+                    schoolCycle: '',
+                    month: '',
+                    planteles: [],
+                    file: null,
 
-        // Encuentra el elemento que contiene el modal de edición
-        const modalElement = document.querySelector('[x-data][x-show="openEdit"]');
+                    handleFileInput(event) {
+                        const file = event.target.files[0];
+                        this.file = file;
+                        this.fileName = file.name;
+                        this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
+                    },
+                    handleFileDrop(event) {
+                        const file = event.dataTransfer.files[0];
+                        this.file = file;
+                        this.fileName = file.name;
+                        this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
+                        this.$refs.fileInputEdit.files = event.dataTransfer.files;
+                    },
+                    removeFile() {
+                        this.file = null;
+                        this.fileName = '';
+                        this.fileSize = '';
+                        this.$refs.fileInput.value = null;
+                    },
 
-        if (!modalElement) {
-            console.error('No se pudo encontrar el modal de edición.');
-            return;
-        }
+                    openCreateModal() {
+                        this.openCreate = true;
+                    },
+                    closeCreateModal() {
+                        this.openCreate = false;
+                    },
 
-        // Accede a Alpine.js desde el componente específico
-        const alpineScope = Alpine.$data(modalElement);
-
-        if (!alpineScope) {
-            console.error('No se pudo acceder a los datos de Alpine.js.');
-            return;
-        }
-
-        alpineScope.pdfIdEdit = pdfData.id;
-        alpineScope.fileNameEdit = pdfData.name;
-        alpineScope.schoolCycleEdit = pdfData.school_cycle_id || '';
-        alpineScope.monthEdit = pdfData.month || '';
-        alpineScope.plantelesEdit = pdfData.planteles || [];
-        alpineScope.fileEdit = null; // Resetea el input de archivo al abrir el modal
-        alpineScope.openEdit = true;
-
-        console.log('Modal state updated:', {
-            openEdit: alpineScope.openEdit,
-            pdfIdEdit: alpineScope.pdfIdEdit,
-            fileNameEdit: alpineScope.fileNameEdit,
-            schoolCycleEdit: alpineScope.schoolCycleEdit,
-            monthEdit: alpineScope.monthEdit,
-            plantelesEdit: alpineScope.plantelesEdit,
-            fileEdit: alpineScope.fileEdit,
-        });  // Log para verificar el estado del modal
-    }
+                    openEditModal(pdfData) {
+                        this.pdfId = pdfData.id;
+                        this.fileName = pdfData.name;
+                        this.schoolCycle = pdfData.school_cycle_id || '';
+                        this.month = pdfData.month || '';
+                        this.planteles = pdfData.planteles || [];
+                        this.file = null;
+                        this.openEdit = true;
+                    },
+                    closeEditModal() {
+                        this.openEdit = false;
+                    }
+                };
+            }
         </script>
     @endpush
+
 </x-admin-layout>
