@@ -39,16 +39,17 @@ class CalendarController extends Controller
 
     public function index(Request $request)
     {
-        $plantelId = $request->query('plantel_id', null);        
-        $levelId = $request->query('education_level_id', null); // Asegúrate de capturar este valor
+        $plantelId = $request->query('plantel_id', null);
+        $levelId = $request->query('education_level_id', null);
 
+        // No necesitamos $month, ya que usamos $start_month y $end_month
         $pdfs = Pdf::whereHas('educationLevels', function ($query) use ($levelId, $plantelId) {
             if ($levelId) {
                 $query->where('education_level_id', $levelId);
             }
             if ($plantelId) {
                 $query->where('plantel_id', $plantelId);
-            }            
+            }
         })->get();
 
         $schoolCycle = SchoolCycle::where('is_current', 1)->first();
@@ -56,8 +57,10 @@ class CalendarController extends Controller
         $educationLevels = EducationLevel::all();
         $months = $this->getMonths();
 
-        return view('admin.calendarios.index', compact('pdfs', 'planteles', 'educationLevels', 'schoolCycle', 'months', 'plantelId', 'month', 'levelId'));
+        // Ya no pasamos 'month', pero sí pasamos 'start_month' y 'end_month' si los necesitas en la vista.
+        return view('admin.calendarios.index', compact('pdfs', 'planteles', 'educationLevels', 'schoolCycle', 'months', 'plantelId', 'levelId'));
     }
+
 
 
     /**
@@ -65,8 +68,6 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info('Datos recibidos en el store:', $request->all());
-    
         $request->validate([
             'pdf' => 'required|file|mimes:pdf|max:10000',
             'education_level_id' => 'required|exists:education_levels,id',
@@ -76,33 +77,24 @@ class CalendarController extends Controller
             'end_month' => 'required|integer|min:1|max:12|gte:start_month',
             'school_cycle_id' => 'required|exists:school_cycles,id',
         ]);
-    
-        // Obtener el archivo PDF
+
+        // Guardar el archivo PDF
         $file = $request->file('pdf');
         $filename = $file->getClientOriginalName();
-        Log::info('Nombre del archivo PDF recibido: ' . $filename);
-    
-        // Guardar el archivo en el almacenamiento público
         $folderName = 'calendarios/' . Str::slug($request->input('school_cycle_id'));
         $path = $file->storeAs($folderName, $filename, 'public');
-        Log::info('Archivo guardado en: ' . $path);
-    
+
         // Crear el registro del PDF en la base de datos
-        $pdf = new Pdf([
+        $pdf = Pdf::create([
             'name' => $filename,
             'file_path' => $path,
             'pdfable_id' => $request->input('education_level_id'),
             'pdfable_type' => EducationLevel::class,
         ]);
-        $pdf->save();
-    
-        Log::info('PDF guardado en la base de datos con ID: ' . $pdf->id);
-    
+
         // Asociar el PDF con los planteles, ciclo escolar, y meses
         foreach ($request->input('plantel_ids') as $plantelId) {
-            DB::table('education_level_pdf')->insert([
-                'education_level_id' => $request->input('education_level_id'),
-                'pdf_id' => $pdf->id,
+            $pdf->educationLevels()->attach($request->input('education_level_id'), [
                 'plantel_id' => $plantelId,
                 'school_cycle_id' => $request->input('school_cycle_id'),
                 'start_month' => $request->input('start_month'),
@@ -110,27 +102,33 @@ class CalendarController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-    
-            Log::info("Asociación creada para plantel ID: $plantelId con PDF ID: " . $pdf->id);
         }
-    
-        return redirect()->route('admin.calendarios.index')->with('success', 'PDF subido correctamente.');
+
+        Session()->flash('swal', [
+            'icon' => 'success',
+            'title' => '¡Calendario!',
+            'text' => 'El Calendario se creó con éxito.'
+        ]);
+
+        return redirect()->route('admin.calendarios.index');
     }
-    
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $calendario)
     {
+        //dd($request->all());
+
         $pdf = Pdf::findOrFail($calendario);
         $request->validate([
             'pdf' => 'nullable|file|mimes:pdf|max:10000',
             'education_level_id' => 'required|exists:education_levels,id',
             'plantel_ids' => 'required|array',
             'plantel_ids.*' => 'exists:plantels,id',
-            'month' => 'required|integer|min:1|max:12',
+            'start_month' => 'required|integer|min:1|max:12',
+            'end_month' => 'required|integer|min:1|max:12|gte:start_month',
             'school_cycle_id' => 'required|exists:school_cycles,id',
-
         ]);
 
         if ($request->hasFile('pdf')) {
@@ -153,12 +151,14 @@ class CalendarController extends Controller
         $syncData = [];
         foreach ($request->input('plantel_ids') as $plantelId) {
             $syncData[$plantelId] = [
-                'education_level_id' => $request->input('education_level_id'),
                 'school_cycle_id' => $request->input('school_cycle_id'),
-                'month' => $request->input('month')
+                'start_month' => $request->input('start_month'),
+                'end_month' => $request->input('end_month'),
             ];
         }
-        $pdf->educationLevels()->sync($syncData);
+        dd($syncData);
+        Log::info('syncData:', $syncData);
+        $pdf->planteles()->sync($syncData);
 
         return redirect()->route('admin.calendarios.index')->with('success', 'PDF actualizado correctamente.');
     }

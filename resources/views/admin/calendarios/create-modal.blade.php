@@ -70,6 +70,15 @@
                         <option value="{{ $schoolCycle->id }}">{{ $schoolCycle->name }}</option>
                     </select>
                 </div>
+                <div>
+                    <label for="education_level_id" class="block mb-2 text-sm font-medium text-gray-900">Nivel Educativo</label>
+                    <select name="education_level_id" id="education_level_id" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        @foreach ($educationLevels as $level)
+                            <option value="{{ $level->id }}">{{ $level->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <!-- Selección de Meses Consecutivos -->
                 <div class="mt-4">
