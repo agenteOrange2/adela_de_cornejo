@@ -25,8 +25,8 @@
             <!-- Drag and Drop para el archivo PDF -->
             <div x-data="{ isDragging: false }" @dragover.prevent="isDragging = true" @dragleave.prevent="isDragging = false"
                 @drop.prevent="isDragging = false; handleFileDrop($event)">
-                <label for="pdf" class="block mb-2 text-sm font-medium text-gray-900">Subir
-                    nuevo PDF (opcional)</label>
+                <label for="pdf" class="block mb-2 text-sm font-medium text-gray-900">Subir nuevo PDF
+                    (opcional)</label>
                 <div class="relative flex items-center justify-center w-full p-4 border-2 border-dashed rounded-lg"
                     :class="isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'">
                     <input x-ref="fileInputEdit" type="file" name="pdf" id="pdf"
@@ -59,9 +59,7 @@
                     class="block mb-2 text-sm font-medium text-gray-900">Ciclo Escolar</label>
                 <select name="school_cycle_id" id="school_cycle_id" x-model="schoolCycle"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    @foreach ($schoolCycles as $cycle)
-                        <option value="{{ $cycle->id }}">{{ $cycle->name }}</option>
-                    @endforeach
+                    <option value="{{ $schoolCycle->id }}">{{ $schoolCycle->name }}</option>
                 </select>
             </div>
 
@@ -79,19 +77,28 @@
 
             <!-- Selección de Mes -->
             <div class="mt-4">
-                <label for="month" class="block mb-2 text-sm font-medium text-gray-900">Mes</label>
-                <select name="month" id="month" x-model="month" class="form-select">
-                    <option value="">Seleccione el mes</option>
+                <label for="start_month" class="block mb-2 text-sm font-medium text-gray-900">Mes de Inicio</label>
+                <select name="start_month" id="start_month" x-model="startMonth"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="">Seleccione el mes de inicio</option>
+                    @foreach ($months as $num => $name)
+                        <option value="{{ $num }}">{{ $name }}</option>
+                    @endforeach
+                </select>
+
+                <label for="end_month" class="block mt-4 mb-2 text-sm font-medium text-gray-900">Mes de Fin</label>
+                <select name="end_month" id="end_month" :disabled="!startMonth" x-model="endMonth"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="">Seleccione el mes final</option>
                     @foreach ($months as $num => $name)
                         <option value="{{ $num }}">{{ $name }}</option>
                     @endforeach
                 </select>
             </div>
-
+            
             <!-- Seleccionar Plantel -->
             <div>
-                <label for="plantel_ids"
-                    class="block mb-2 text-sm font-medium text-gray-900">Plantel</label>
+                <label for="plantel_ids" class="block mb-2 text-sm font-medium text-gray-900">Plantel</label>
                 <select name="plantel_ids[]" id="plantel_ids" x-model="planteles" multiple
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     @foreach ($planteles as $plantel)

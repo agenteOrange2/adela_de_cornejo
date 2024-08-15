@@ -6,7 +6,7 @@
         @include('admin.calendarios.create-modal')
 
         <!-- Incluir el modal de edición -->
-        {{-- @include('admin.calendarios.edit-modal') --}}
+        @include('admin.calendarios.edit-modal')
 
         <!-- Filtros -->
         <div class="flex justify-between heading py-5">
@@ -19,17 +19,14 @@
                 <!-- Filtro por Nivel Educativo -->
                 <select onchange="location = this.value;"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
-
                     <option value="">Seleccionar Nivel Educativo</option>
-
                     @foreach ($educationLevels as $level)
                         <option
-                            value="{{ route('admin.calendarios.index', ['education_level_id' => $level->id, 'plantel_id' => $plantelId, 'month' => $month]) }}"
+                            value="{{ route('admin.calendarios.index', ['education_level_id' => $level->id, 'plantel_id' => $plantelId]) }}"
                             {{ $levelId == $level->id ? 'selected' : '' }}>
                             {{ $level->name }}
                         </option>
                     @endforeach
-
                 </select>
 
                 <!-- Filtro por Plantel -->
@@ -38,24 +35,12 @@
                     <option value="">Seleccionar Plantel</option>
                     @foreach ($planteles as $plantel)
                         <option
-                            value="{{ route('admin.calendarios.index', ['education_level_id' => $levelId, 'plantel_id' => $plantel->id, 'month' => $month]) }}"
+                            value="{{ route('admin.calendarios.index', ['education_level_id' => $levelId, 'plantel_id' => $plantel->id]) }}"
                             {{ $plantelId == $plantel->id ? 'selected' : '' }}>
                             {{ $plantel->name }}</option>
                     @endforeach
                 </select>
 
-                <!-- Filtro por Mes -->
-                {{-- <select onchange="location = this.value;"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full">
-                    <option value="">Seleccionar Mes</option>
-                    @foreach ($months as $num => $name)
-                        <option
-                            value="{{ route('admin.calendarios.index', ['education_level_id' => $levelId, 'plantel_id' => $plantelId, 'month' => $num]) }}"
-                            {{ $month == $num ? 'selected' : '' }}>
-                            {{ $name }}
-                        </option>
-                    @endforeach
-                </select> --}}
             </div>
         </div>
 
@@ -106,7 +91,7 @@
                                     <span>{{ $months[$plantel->pivot->end_month] ?? 'Mes desconocido' }}</span>
                                 @endforeach
                             </td>
-                            
+
 
                             <td class="p-4 border-b border-blue-gray-50">
                                 <p
@@ -121,9 +106,9 @@
                                         @click="openEditModal({
                                         id: {{ $pdf->id }},
                                         name: '{{ $pdf->name }}',
-                                        school_cycle_id: {{ $pdf->educationLevels->first()->id ?? 'null' }},
-                                        plantel_id: {{ $pdf->planteles->first()->id ?? 'null' }},
-                                        month: {{ $pdf->planteles->first()->pivot->month ?? 'null' }}
+                                        school_cycle_id: {{ $pdf->school_cycle_id ?? 'null' }},
+                                        month: {{ $pdf->month ?? 'null' }},
+                                        planteles: [{{ $pdf->plantelesForMenu->pluck('id')->implode(',') }}]
                                     })"
                                         class="text-blue-600 hover:text-blue-800">
                                         <i class="fa-regular fa-pen-to-square"></i>
@@ -152,92 +137,89 @@
     </div>
 
     @push('js')
-    <script>
-        function deletePdf(pdfId) {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const form = document.getElementById('formDelete-' + pdfId);
-                    if (form) {
-                        form.submit();
-                    } else {
-                        console.error("No se encontró el formulario para PDF ID:", pdfId);
+        <script>
+            function deletePdf(pdfId) {
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡No podrás revertir esto!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const form = document.getElementById('formDelete-' + pdfId);
+                        if (form) {
+                            form.submit();
+                        } else {
+                            console.error("No se encontró el formulario para PDF ID:", pdfId);
+                        }
                     }
-                }
-            });
+                });
+            }
+
+function modalHandler() {
+    return {
+        openCreate: false,
+        openEdit: false,
+        pdfId: null,
+        fileName: '',
+        fileSize: '',
+        schoolCycle: '',
+        startMonth: '',
+        endMonth: '',
+        educationLevel: '',
+        planteles: [],
+        months: @json($months),
+        file: null,
+
+        handleFileInput(event) {
+            const file = event.target.files[0];
+            this.file = file;
+            this.fileName = file.name;
+            this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
+        },
+        handleFileDrop(event) {
+            const file = event.dataTransfer.files[0];
+            this.file = file;
+            this.fileName = file.name;
+            this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
+            this.$refs.fileInputEdit.files = event.dataTransfer.files;
+        },
+        removeFile() {
+            this.file = null;
+            this.fileName = '';
+            this.fileSize = '';
+            this.$refs.fileInput.value = null;
+        },
+
+        openCreateModal() {
+            this.openCreate = true;
+        },
+        closeCreateModal() {
+            this.openCreate = false;
+        },
+
+        openEditModal(pdfData) {
+            this.pdfId = pdfData.id;
+            this.fileName = pdfData.name;
+            this.schoolCycle = pdfData.school_cycle_id || '';
+            this.startMonth = pdfData.start_month || '';
+            this.endMonth = pdfData.end_month || '';
+            this.educationLevel = pdfData.education_level_id || '';
+            this.planteles = pdfData.planteles ? pdfData.planteles.map(p => p.id) : []; 
+            this.file = null;
+            this.openEdit = true;
+        },
+        closeEditModal() {
+            this.openEdit = false;
         }
-    
-        function modalHandler() {
-            return {
-                openCreate: false,
-                openEdit: false,
-                pdfId: null,
-                fileName: '',
-                fileSize: '',
-                schoolCycle: '',
-                startMonth: '',
-                endMonth: '',
-                educationLevel: '', // Agregamos esta línea
-                planteles: [],
-                months: @json($months),
-                file: null,
-    
-                handleFileInput(event) {
-                    const file = event.target.files[0];
-                    this.file = file;
-                    this.fileName = file.name;
-                    this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
-                },
-                handleFileDrop(event) {
-                    const file = event.dataTransfer.files[0];
-                    this.file = file;
-                    this.fileName = file.name;
-                    this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
-                    this.$refs.fileInputEdit.files = event.dataTransfer.files;
-                },
-                removeFile() {
-                    this.file = null;
-                    this.fileName = '';
-                    this.fileSize = '';
-                    this.$refs.fileInput.value = null;
-                },
-    
-                openCreateModal() {
-                    this.openCreate = true;
-                },
-                closeCreateModal() {
-                    this.openCreate = false;
-                },
-    
-                openEditModal(pdfData) {
-                    this.pdfId = pdfData.id;
-                    this.fileName = pdfData.name;
-                    this.schoolCycle = pdfData.school_cycle_id || '';
-                    this.startMonth = pdfData.start_month || '';
-                    this.endMonth = pdfData.end_month || '';
-                    this.educationLevel = pdfData.education_level_id || ''; // Asignar valor en openEditModal
-                    this.planteles = pdfData.planteles || [];
-                    this.file = null;
-                    this.openEdit = true;
-                },
-                closeEditModal() {
-                    this.openEdit = false;
-                },
-                getAvailableEndMonths() {
-                    if (!this.startMonth) return [];
-                    return Object.entries(this.months).filter(([num, name]) => num > this.startMonth);
-                }
-            };
-        }
-    </script>
+    };
+}
+
+        </script>
     @endpush
-    
+
 
 </x-admin-layout>
