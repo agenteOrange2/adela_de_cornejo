@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');  // Por ejemplo, "2024 - 2025"
             $table->date('start_date');  // Fecha de inicio
             $table->date('end_date');    // Fecha de fin
+            $table->boolean('is_current')->default(false);
             $table->timestamps();
         });
     }

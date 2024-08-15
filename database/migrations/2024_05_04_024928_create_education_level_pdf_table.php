@@ -15,10 +15,13 @@ return new class extends Migration
             $table->foreignId('education_level_id')->constrained(); // Relación con el nivel educativo
             $table->foreignId('pdf_id')->constrained('pdfs'); // Relación con el PDF
             $table->foreignId('plantel_id')->constrained('plantels'); // Relación con el plantel
-            $table->unsignedTinyInteger('month'); // Mes al que corresponde el PDF
+            $table->foreignId('school_cycle_id')->constrained('school_cycles');
+            $table->unsignedTinyInteger('start_month'); // Mes de inicio
+            $table->unsignedTinyInteger('end_month'); // Mes de fin
             $table->timestamps();
-    
-            $table->unique(['education_level_id', 'pdf_id', 'plantel_id', 'month'], 'unique_level_pdf_plantel_month');
+
+            // Unique con start_month y end_month
+            $table->unique(['education_level_id', 'pdf_id', 'plantel_id', 'school_cycle_id', 'start_month', 'end_month'], 'unique_level_pdf_plantel_month');
         });
     }
 

@@ -9,92 +9,81 @@ use App\Http\Controllers\Controller;
 
 class SchoolCycleController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $schoolCycles = SchoolCycle::all();
-        $planteles = Plantel::all();
-        $months = [
-            1 => 'Enero',
-            2 => 'Febrero',
-            3 => 'Marzo',
-            4 => 'Abril',
-            5 => 'Mayo',
-            6 => 'Junio',
-            7 => 'Julio',
-            8 => 'Agosto',
-            9 => 'Septiembre',
-            10 => 'Octubre',
-            11 => 'Noviembre',
-            12 => 'Diciembre'
-        ];
-    
-        // Obtener el plantel_id desde la solicitud, o usar un valor por defecto (por ejemplo, null)
-        $plantelId = $request->input('plantel', null);
-    
-        return view('admin.cicloescolar.index', compact('schoolCycles', 'planteles', 'months'));
-    }
-    
-
-    public function create()
-    {
-        return view('admin.cicloescolar.create');
+        $schoolCycles = SchoolCycle::all()->map(function ($cycle) {
+            $cycle->formatted_start_date = $cycle->start_date ? $cycle->start_date->format('d/m/Y') : null;
+            $cycle->formatted_end_date = $cycle->end_date ? $cycle->end_date->format('d/m/Y') : null;
+            return $cycle;
+        });
+        return view('admin.cicloescolar.index', compact('schoolCycles'));
     }
 
     public function store(Request $request)
     {
+  //      dd($request->all());
+
         $request->validate([
             'name' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
+            'is_current' => 'sometimes|boolean',
         ]);
 
-        $cycle = new SchoolCycle;
-        $cycle->name = $request->input('name');
-        $cycle->start_date = $request->input('start_date');
-        $cycle->end_date = $request->input('end_date');
-        $cycle->save();
+        // Si el ciclo escolar actual se selecciona, asegúrate de desmarcar todos los demás
+        if ($request->has('is_current') && $request->input('is_current') == 1) {
+            SchoolCycle::where('is_current', 1)->update(['is_current' => 0]);
+        }
 
+        SchoolCycle::create([
+            'name' => $request->input('name'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),            
+            'is_current' => $request->input('is_current', 0),
+        ]);
         Session()->flash('swal', [
             'icon' => 'success',
             'title' => '¡Creado con éxito!',
             'text' => 'El ciclo escolar ha sido creado correctamente.',
         ]);
 
-        return redirect()->route('admin.calendarios.cicloescolar.index');
-    }
-
-    public function edit(SchoolCycle $ciclo_escolar)
-    {
-        return view('admin.cicloescolar.edit', compact('ciclo_escolar'));
+        return redirect()->route('admin.ciclo-escolar.index');
     }
 
     public function update(Request $request, SchoolCycle $ciclo_escolar)
     {
+        //dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'is_current' => 'sometimes|boolean', // Validación del checkbox
         ]);
 
-        $ciclo_escolar->update($request->all());
+        // Verificar si el ciclo escolar es el actual
+        if ($request->input('is_current') == 1) {
+            SchoolCycle::where('is_current', 1)->update(['is_current' => 0]);
+        }
+        $ciclo_escolar->update([
+            'name' => $request->input('name'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'is_current' => $request->input('is_current', 0),
+        ]);
 
         Session()->flash('swal', [
             'icon' => 'success',
             'title' => '¡Actualizado con éxito!',
             'text' => 'El ciclo escolar se ha actualizado correctamente.',
         ]);
-        return redirect()->route('admin.cicloescolar.index')->with('success', 'Ciclo escolar actualizado con éxito.');
+
+        return redirect()->route('admin.ciclo-escolar.index');
     }
 
     public function destroy(SchoolCycle $ciclo_escolar)
     {
         $ciclo_escolar->delete();
 
-        Session()->flash('swal', [
-            'icon' => 'success',
-            'title' => '¡Ciclo Borrado!',
-            'text' => 'Se eliminó el ciclo escolar con éxito.',
-        ]);
-        return redirect()->route('admin.cicloescolar.index');
+        return redirect()->route('admin.ciclo-escolar.index');
     }
 }
