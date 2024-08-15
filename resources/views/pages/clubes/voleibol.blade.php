@@ -25,34 +25,29 @@
           <div class="products-details-image">
             <ul class="slickslide">
               <li> 
-                <a href="{{ asset('/build/img/clubes/voleibol/voleibol.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/voleibol/voleibol.webp') }}"  data-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/voleibol/voleibol.webp') }}" alt="Equipo de Voleibol">
                 </a>
               </li>
               <li> 
-                <a href="{{ asset('/build/img/clubes/voleibol/voleibol_2.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/voleibol/voleibol_2.webp') }}"  data-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/voleibol/voleibol_2.webp') }}" alt="Equipo de Voleibol">
                 </a>
               </li>
               <li>
-                <a href="{{ asset('/build/img/clubes/voleibol/voleibol_3.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/voleibol/voleibol_3.webp') }}"  data-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/voleibol/voleibol_3.webp') }}"
                     alt="Equipo de Voleibol">
                   </a>
                 </li>
               <li>
-                <a href="{{ asset('/build/img/clubes/voleibol/voleibol_4.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/voleibol/voleibol_4.webp') }}"  data-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/voleibol/voleibol_4.webp') }}"
                     alt="Tiros libres">
                   </a>
                 </li>
                 <li>
-                  <a href="{{ asset('/build/img/clubes/voleibol/voleibol_5.webp') }}" data-toggle="lightbox"
-                    data-gallery="galeria-basquetbol">
+                  <a href="{{ asset('/build/img/clubes/voleibol/voleibol_5.webp') }}"  data-fancybox="gallery">
                     <img src="{{ asset('/build/img/clubes/voleibol/voleibol_5.webp') }}"
                       alt="Tiros libres">
                     </a>

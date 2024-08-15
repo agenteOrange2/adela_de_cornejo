@@ -25,41 +25,35 @@
           <div class="products-details-image">
             <ul class="slickslide">
               <li> 
-                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo.webp') }}" data-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo.webp') }}" alt="Instalaciones">
                 </a>
               </li>
               <li> 
-                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_2.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_2.webp') }}" data-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_2.webp') }}" alt="Canchas de basquet">
                 </a>
               </li>
               <li>
-                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_3.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_3.webp') }}" data-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_3.webp') }}"
                     alt="Alumnos jugando">
                   </a>
                 </li>
               <li>
-                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_4.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_4.webp') }}" data-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_4.webp') }}"
                     alt="Tiros libres">
                   </a>
               </li>
               <li>
-                  <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_5.webp') }}" data-toggle="lightbox"
-                    data-gallery="galeria-basquetbol">
+                  <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_5.webp') }}" data-fancybox="gallery">
                     <img src="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_5.webp') }}"
                       alt="Tiros libres">
                   </a>
               </li>
               <li>
-                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_6.webp') }}" data-toggle="lightbox"
-                  data-gallery="galeria-basquetbol">
+                <a href="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_6.webp') }}" ddata-fancybox="gallery">
                   <img src="{{ asset('/build/img/clubes/jazz/Jazz_adeladecornejo_6.webp') }}"
                     alt="Tiros libres">
                   </a>

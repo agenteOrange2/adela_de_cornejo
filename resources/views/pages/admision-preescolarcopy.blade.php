@@ -121,28 +121,16 @@
                                         <div class="dot"></div> Ambientes de aprendizaje
                                     </a>
                                 </li>
-                                @auth
-                                    @if (Auth::user()->plantel_id == 1)
-                                        <li>
-                                            <a href="#" data-plantel-id="1" class="plantel-link">
-                                                <div class="dot"></div> Calendario Triunfo
-                                            </a>
-                                        </li>
-                                    @elseif(Auth::user()->plantel_id == 2)
-                                        <li>
-                                            <a href="#" data-plantel-id="2" class="plantel-link">
-                                                <div class="dot"></div> Calendario Iv Siglos
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endauth
-                                @guest
                                 <li>
-                                    <a href="#">
-                                        <div class="dot"></div> Calendarios
+                                    <a href="#" data-plantel-id="1" class="plantel-link">
+                                        <div class="dot"></div> Calendario Triunfo
                                     </a>
                                 </li>
-                            @endguest
+                                <li>
+                                    <a href="#" data-plantel-id="2" class="plantel-link">
+                                        <div class="dot"></div> Calendario Iv Siglos
+                                    </a>
+                                </li>
                             </ul>
                         </div>
 
@@ -271,21 +259,13 @@
                                     </div>
                                 </div>
 
-                                <div class="tabs-item">
-                                    <div class="col-lg-9 col-md-12">
-                                        @auth
-                                            <div class="tab-content" id="pdf-container">
-                                                <!-- Aquí se cargarán los PDFs -->
-                                            </div>
-                                            <div id="loader" class="d-none flex justify-center items-center my-4">
-                                                <span class="loader"></span>
-                                                <p>Cargando...</p>
-                                            </div>
-                                        @else
-                                            <!-- Mostrar mensaje si el usuario no está autenticado -->
-                                            <h2 class="text-center text-danger">Necesitas estar logueado para ver los
-                                                calendarios.</h2>
-                                        @endauth
+                                <div class="col-lg-9 col-md-12">
+                                    <div class="tab-content" id="pdf-container">
+                                        <!-- Aquí se cargarán los PDFs -->
+                                    </div>
+                                    <div id="loader" class="d-none flex justify-center items-center my-4">
+                                        <span class="loader"></span>
+                                        <p>Cargando...</p>
                                     </div>
                                 </div>
                             </div>
@@ -299,78 +279,75 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const plantelLinks = document.querySelectorAll('.plantel-link');
             const pdfContainer = document.getElementById('pdf-container');
+            const loader = document.getElementById('loader');
 
-            if (pdfContainer) { // Solo ejecuta el código si el contenedor de PDFs existe
-                const plantelLinks = document.querySelectorAll('.plantel-link');
-                const loader = document.getElementById('loader');
+            const levelId = @json($levelId);
 
-                const levelId = @json($levelId);
+            plantelLinks.forEach(link => {
+                link.addEventListener('click', async function(event) {
+                    event.preventDefault();
+                    const plantelId = this.getAttribute('data-plantel-id');
 
-                plantelLinks.forEach(link => {
-                    link.addEventListener('click', async function(event) {
-                        event.preventDefault();
-                        const plantelId = this.getAttribute('data-plantel-id');
+                    try {
+                        loader.classList.remove('d-none');
+                        pdfContainer.innerHTML = '';
 
-                        try {
-                            loader.classList.remove('d-none');
-                            pdfContainer.innerHTML = '';
-
-                            const response = await fetch(
-                                `/get-pdfs-by-plantel-and-level?plantel_id=${plantelId}&level_id=${levelId}`
+                        const response = await fetch(
+                            `/get-pdfs-by-plantel-and-level?plantel_id=${plantelId}&level_id=${levelId}`
                             );
-                            const data = await response.json();
+                        const data = await response.json();
 
-                            const carousel = document.createElement('div');
-                            carousel.classList.add('courses-categories-slides', 'owl-carousel',
-                                'owl-theme', 'm-0');
-                            pdfContainer.appendChild(carousel);
+                        const carousel = document.createElement('div');
+                        carousel.classList.add('courses-categories-slides', 'owl-carousel',
+                            'owl-theme', 'm-0');
+                        pdfContainer.appendChild(carousel);
 
-                            data.forEach(pdf => {
-                                const pdfElement = document.createElement('div');
-                                pdfElement.classList.add('pdf-single', 'text-center',
-                                    'py-3');
-                                pdfElement.innerHTML = `
-                            <a href="/storage/${pdf.file_path}" target="_blank">
-                                <div class="card_pdf">
-                                    <img src="/build/img/icon/pdf.png" alt="${pdf.name}" class="img-pdf" width="70">
-                                    <div class="pdf-description pt-2">
-                                        <h3 class="fs-6">${pdf.name}</h3>
-                                    </div>
+                        data.forEach(pdf => {
+                            const pdfElement = document.createElement('div');
+                            pdfElement.classList.add('pdf-single', 'text-center',
+                                'py-3');
+                            pdfElement.innerHTML = `
+                        <a href="/storage/${pdf.file_path}" target="_blank">
+                            <div class="card_pdf">
+                                <img src="/build/img/icon/pdf.png" alt="${pdf.name}" class="img-pdf" width="70">
+                                <div class="pdf-description pt-2">
+                                    <h3 class="fs-6">${pdf.name}</h3>
                                 </div>
-                            </a>`;
-                                carousel.appendChild(pdfElement);
-                            });
+                            </div>
+                        </a>`;
+                            carousel.appendChild(pdfElement);
+                        });
 
-                            $(document).ready(function() {
-                                $('.courses-categories-slides').owlCarousel({
-                                    loop: false,
-                                    margin: 10,
-                                    nav: true,
-                                    responsive: {
-                                        0: {
-                                            items: 1
-                                        },
-                                        600: {
-                                            items: 3
-                                        },
-                                        1000: {
-                                            items: 5
-                                        }
+                        $(document).ready(function() {
+                            $('.courses-categories-slides').owlCarousel({
+                                loop: false,
+                                margin: 10,
+                                nav: true,
+                                responsive: {
+                                    0: {
+                                        items: 1
+                                    },
+                                    600: {
+                                        items: 3
+                                    },
+                                    1000: {
+                                        items: 5
                                     }
-                                });
+                                }
                             });
+                        });
 
-                        } catch (error) {
-                            console.error('Error fetching PDFs:', error);
-                            pdfContainer.innerHTML =
-                                '<p>Error al cargar los PDFs. Inténtalo de nuevo más tarde.</p>';
-                        } finally {
-                            loader.classList.add('d-none');
-                        }
-                    });
+                    } catch (error) {
+                        console.error('Error fetching PDFs:', error);
+                        pdfContainer.innerHTML =
+                            '<p>Error al cargar los PDFs. Inténtalo de nuevo más tarde.</p>';
+                    } finally {
+                        loader.classList.add('d-none');
+                    }
                 });
-            }
+            });
         });
     </script>
 

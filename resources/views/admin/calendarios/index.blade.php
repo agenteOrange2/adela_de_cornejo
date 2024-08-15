@@ -107,8 +107,10 @@
                                         id: {{ $pdf->id }},
                                         name: '{{ $pdf->name }}',
                                         school_cycle_id: {{ $pdf->school_cycle_id ?? 'null' }},
-                                        month: {{ $pdf->month ?? 'null' }},
-                                        planteles: [{{ $pdf->plantelesForMenu->pluck('id')->implode(',') }}]
+                                        education_level_id: {{ $pdf->educationLevels->first()->id ?? 'null' }},
+                                        start_month: {{ $pdf->educationLevels->first()->pivot->start_month ?? 'null' }},
+                                        end_month: {{ $pdf->educationLevels->first()->pivot->end_month ?? 'null' }},
+                                        plantel_ids: [{{ $pdf->planteles->pluck('id')->implode(',') }}]
                                     })"
                                         class="text-blue-600 hover:text-blue-800">
                                         <i class="fa-regular fa-pen-to-square"></i>
@@ -159,65 +161,65 @@
                 });
             }
 
-function modalHandler() {
-    return {
-        openCreate: false,
-        openEdit: false,
-        pdfId: null,
-        fileName: '',
-        fileSize: '',
-        schoolCycle: '',
-        startMonth: '',
-        endMonth: '',
-        educationLevel: '',
-        planteles: [],
-        months: @json($months),
-        file: null,
+            function modalHandler() {
+                return {
+                    openCreate: false,
+                    openEdit: false,
+                    pdfId: null,
+                    fileName: '',
+                    fileSize: '',
+                    schoolCycle: '',
+                    startMonth: '',
+                    endMonth: '',
+                    educationLevel: '',
+                    planteles: [],
+                    months: @json($months),
+                    file: null,
 
-        handleFileInput(event) {
-            const file = event.target.files[0];
-            this.file = file;
-            this.fileName = file.name;
-            this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
-        },
-        handleFileDrop(event) {
-            const file = event.dataTransfer.files[0];
-            this.file = file;
-            this.fileName = file.name;
-            this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
-            this.$refs.fileInputEdit.files = event.dataTransfer.files;
-        },
-        removeFile() {
-            this.file = null;
-            this.fileName = '';
-            this.fileSize = '';
-            this.$refs.fileInput.value = null;
-        },
+                    handleFileInput(event) {
+                        const file = event.target.files[0];
+                        this.file = file;
+                        this.fileName = file.name;
+                        this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
+                    },
+                    handleFileDrop(event) {
+                        const file = event.dataTransfer.files[0];
+                        this.file = file;
+                        this.fileName = file.name;
+                        this.fileSize = (file.size / 1024).toFixed(2) + ' KB';
+                        this.$refs.fileInputEdit.files = event.dataTransfer.files;
+                    },
+                    removeFile() {
+                        this.file = null;
+                        this.fileName = '';
+                        this.fileSize = '';
+                        this.$refs.fileInput.value = null;
+                    },
 
-        openCreateModal() {
-            this.openCreate = true;
-        },
-        closeCreateModal() {
-            this.openCreate = false;
-        },
+                    openCreateModal() {
+                        this.openCreate = true;
+                    },
+                    closeCreateModal() {
+                        this.openCreate = false;
+                    },
 
-        openEditModal(pdfData) {
-            this.pdfId = pdfData.id;
-            this.fileName = pdfData.name;
-            this.schoolCycle = pdfData.school_cycle_id || '';
-            this.startMonth = pdfData.start_month || '';
-            this.endMonth = pdfData.end_month || '';
-            this.educationLevel = pdfData.education_level_id || '';
-            this.planteles = pdfData.planteles ? pdfData.planteles.map(p => p.id) : []; 
-            this.file = null;
-            this.openEdit = true;
-        },
-        closeEditModal() {
-            this.openEdit = false;
-        }
-    };
-}
+                    openEditModal(pdfData) {
+                        console.log('PDF Data:', pdfData); // Esto te mostrará los valores que estás pasando
+                        this.pdfId = pdfData.id;
+                        this.fileName = pdfData.name;
+                        this.schoolCycle = pdfData.school_cycle_id || '';
+                        this.educationLevel = pdfData.education_level_id || '';
+                        this.startMonth = pdfData.start_month || '';
+                        this.endMonth = pdfData.end_month || '';
+                        this.planteles = pdfData.plantel_ids || [];
 
+                        this.openEdit = true;
+                    },
+                    closeEditModal() {
+                        this.openEdit = false;
+                    }
+                };
+            }
         </script>
     @endpush
 

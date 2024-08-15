@@ -15537,6 +15537,29 @@ Coming Soon CSS
 /*================================================
 Error 404 CSS
 =================================================*/
+
+.login-alert{
+  height: 70vh;
+}
+.login-alert i{
+  font-size: 70px;
+  color: #2186ec;
+}
+
+.login-alert p{
+  font-weight: 600;
+  color: #44403c;
+}
+.login-alert h3{
+  color: #d42323;
+}
+.login-alert a{
+  background-color: #d42323 ;
+  border: none;
+}
+.login-alert a:hover{
+  background-color: #2186ec ;
+}
 .error-404-area {
   z-index: 1;
   background: #f8f8f8;

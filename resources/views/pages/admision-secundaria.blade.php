@@ -58,13 +58,13 @@
                         <img src="/build/img/galeria/Instalacion.webp" class="img-fluid">
                     </a>
                     <!-- <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=263"
-                    data-title="Hidden item 1"></div>
-                  <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=264"
-                    data-title="Hidden item 2"></div>
-                  <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=265"
-                    data-title="Hidden item 3"></div>
-                  <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=266"
-                    data-title="Hidden item 4"></div> -->
+                        data-title="Hidden item 1"></div>
+                      <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=264"
+                        data-title="Hidden item 2"></div>
+                      <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=265"
+                        data-title="Hidden item 3"></div>
+                      <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=266"
+                        data-title="Hidden item 4"></div> -->
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
     </section>
     <!-- End Experience Area -->
 
-    <section class="pt-10 header tabs-admision">
+    {{-- <section class="pt-10 header tabs-admision">
         <div class="container-fluid pt-4 p-column">
             <div class="col-lg-12 col-md-12">
                 <div class="tab products-details-tab">
@@ -101,7 +101,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     {{-- Sección nueva Admsión --}}
     <section class="ptb-15 header tabs-admision">
@@ -111,20 +111,38 @@
                     <div class="row tabs_admisiones">
                         <div class="col-lg-3 col-md-12">
                             <ul class="tabs">
-                                <li><a href="#">
+                                <li>
+                                    <a href="#">
                                         <div class="dot"></div> Metodologías del aprendizaje
-                                    </a></li>
+                                    </a>
+                                </li>
 
-                                <li><a href="#">
+                                <li>
+                                    <a href="#">
                                         <div class="dot"></div> Valores y Virtudes
-                                    </a></li>
+                                    </a>
+                                </li>
 
-                                <li><a href="#">
+                                <li>
+                                    <a href="#">
                                         <div class="dot"></div> Inglés como segundo idioma
-                                    </a></li>
-                                <li><a href="#">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
                                         <div class="dot"></div> Ambientes de aprendizaje
-                                    </a></li>                                
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" data-plantel-id="1" class="plantel-link">
+                                    <div class="dot"></div> Calendario Triunfo
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-plantel-id="2" class="plantel-link">
+                                    <div class="dot"></div> Calendario Iv Siglos
+                                </a>
+                            </li>
                             </ul>
                         </div>
 
@@ -249,6 +267,18 @@
                                             contenidos
                                             y soluciones
                                         </p>
+                                    </div>
+                                </div>
+
+                                <div class="tabs-item">
+                                    <div class="col-lg-9 col-md-12">
+                                        <div class="tab-content" id="pdf-container">
+                                            <!-- Aquí se cargarán los PDFs -->
+                                        </div>
+                                        <div id="loader" class="d-none flex justify-center items-center my-4">
+                                            <span class="loader"></span>
+                                            <p>Cargando...</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
