@@ -205,7 +205,7 @@
     @endauth
 
     @guest
-        <section class="login-alert py-3 py-md-5  d-flex justify-content-center align-items-center">
+        <section class="login-alert login-avisos py-3 py-md-5  d-flex justify-content-center align-items-center">
             <div class="container">
                 <div class="row">
                     <div class="col-12">

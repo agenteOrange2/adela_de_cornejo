@@ -58,13 +58,13 @@
                         <img src="/build/img/galeria/Instalacion.webp" class="img-fluid">
                     </a>
                     <!-- <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=263"
-                        data-title="Hidden item 1"></div>
-                      <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=264"
-                        data-title="Hidden item 2"></div>
-                      <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=265"
-                        data-title="Hidden item 3"></div>
-                      <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=266"
-                        data-title="Hidden item 4"></div> -->
+                            data-title="Hidden item 1"></div>
+                          <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=264"
+                            data-title="Hidden item 2"></div>
+                          <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=265"
+                            data-title="Hidden item 3"></div>
+                          <div data-toggle="lightbox" data-gallery="hidden-images" data-src="https://unsplash.it/1200/768.jpg?image=266"
+                            data-title="Hidden item 4"></div> -->
                 </div>
             </div>
         </div>
@@ -133,16 +133,28 @@
                                         <div class="dot"></div> Ambientes de aprendizaje
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" data-plantel-id="1" class="plantel-link">
-                                    <div class="dot"></div> Calendario Triunfo
-                                </a>
-                            </li>
+                                @auth
+                                @if (Auth::user()->plantel_id == 1)
+                                    <li>
+                                        <a href="#" data-plantel-id="1" class="plantel-link">
+                                            <div class="dot"></div> Calendario Triunfo
+                                        </a>
+                                    </li>
+                                @elseif(Auth::user()->plantel_id == 2)
+                                    <li>
+                                        <a href="#" data-plantel-id="2" class="plantel-link">
+                                            <div class="dot"></div> Calendario Iv Siglos
+                                        </a>
+                                    </li>
+                                @endif
+                            @endauth
+                            @guest
                             <li>
-                                <a href="#" data-plantel-id="2" class="plantel-link">
-                                    <div class="dot"></div> Calendario Iv Siglos
+                                <a href="#">
+                                    <div class="dot"></div> Calendarios
                                 </a>
                             </li>
+                        @endguest
                             </ul>
                         </div>
 
@@ -272,13 +284,34 @@
 
                                 <div class="tabs-item">
                                     <div class="col-lg-9 col-md-12">
-                                        <div class="tab-content" id="pdf-container">
-                                            <!-- Aquí se cargarán los PDFs -->
-                                        </div>
-                                        <div id="loader" class="d-none flex justify-center items-center my-4">
-                                            <span class="loader"></span>
-                                            <p>Cargando...</p>
-                                        </div>
+                                        @auth
+                                            <div class="tab-content" id="pdf-container">
+                                                <!-- Aquí se cargarán los PDFs -->
+                                            </div>
+                                            <div id="loader" class="d-none flex justify-center items-center my-4">
+                                                <span class="loader"></span>
+                                                <p>Cargando...</p>
+                                            </div>
+                                        @else
+                                            <!-- Mostrar mensaje si el usuario no está autenticado -->
+                                            <section class="login-alert py-3 py-md-5  d-flex justify-content-center align-items-center">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="text-center">
+                                                                <h2 class="d-flex justify-content-center align-items-center gap-2 mb-4">
+                                                                    <i class='bx bxs-user-circle'></i>
+                                                                </h2>
+                                                                <h3 class="h2 mb-2">¡Acceso Restringido!</h3>
+                                                                <p class="mb-5">Debes iniciar sesión para ver los Calendarios. Conéctate para acceder a la información.</p>
+                                                                <a class="btn bsb-btn-5xl btn-dark rounded-pill px-5 fs-6 m-0" href="{{ route('login') }}"
+                                                                    role="button">Iniciar Sesión</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        @endauth
                                     </div>
                                 </div>
                             </div>
