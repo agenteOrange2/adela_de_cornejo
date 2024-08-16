@@ -25,49 +25,56 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="products-details-image">
                         <ul class="slickslide">
-                            <li> 
-                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
-                                    <img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo.webp') }}" alt="Instalaciones">
-                                </a>
-                            </li>
-                            <li> 
-                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_2.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
-                                    <img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_2.webp') }}" alt="Canchas de basquet">
+                            <li>
+                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo.webp') }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo.webp') }}"
+                                        alt="Instalaciones">
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_3.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_2.webp') }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_2.webp') }}"
+                                        alt="Canchas de basquet">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_3.webp') }}"
+                                    data-fancybox="gallery">
                                     <img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_3.webp') }}"
                                         alt="Alumnos jugando">
-                                    </a>
-                                </li>
+                                </a>
+                            </li>
                             <li>
-                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_4.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_4.webp') }}"
+                                    data-fancybox="gallery">
                                     <img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_4.webp') }}"
                                         alt="Tiros libres">
-                                    </a>
-                            </li>                            
+                                </a>
+                            </li>
 
                             <li>
-                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_5.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
-                                    <img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_.webp') }}"
+                                <a href="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_5.webp') }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_5.webp') }}"
                                         alt="Tiros libres">
-                                    </a>
-                            </li>                            
+                                </a>
+                            </li>
                         </ul>
 
                         <div class="slick-thumbs">
                             <ul>
-                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo.webp') }}" alt="club de futbol adela de cornejo 1"></li>
-                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_2.webp') }}" alt="club de futbol adela de cornejo 2"></li>
-                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_3.webp') }}" alt="club de futbol adela de cornejo 3"></li>
-                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_4.webp') }}" alt="club de futbol adela de cornejo 4"></li>
-                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_5.webp') }}" alt="club de futbol adela de cornejo 5"></li>
+                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo.webp') }}"
+                                        alt="club de futbol adela de cornejo 1"></li>
+                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_2.webp') }}"
+                                        alt="club de futbol adela de cornejo 2"></li>
+                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_3.webp') }}"
+                                        alt="club de futbol adela de cornejo 3"></li>
+                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_4.webp') }}"
+                                        alt="club de futbol adela de cornejo 4"></li>
+                                <li><img src="{{ asset('/build/img/clubes/futbol/futbol_adeladecornejo_5.webp') }}"
+                                        alt="club de futbol adela de cornejo 5"></li>
                             </ul>
                         </div>
                     </div>

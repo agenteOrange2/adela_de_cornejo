@@ -54,10 +54,10 @@
                                         alt="Club de ajedrez adela de cornejo">
                                     </li>
                                 <li>
-                                    <img src="{{ asset('/build/img/clubes/ajedrez/Ajedrez_adeladecornejo_2.webp') }}" alt="image">
+                                    <img src="{{ asset('/build/img/clubes/ajedrez/Ajedrez_adeladecornejo_2.webp') }}" alt="imagen ajedrez adela de cornejo">
                                 </li>
                             <li>
-                                <img src="{{ asset('/build/img/clubes/ajedrez/Ajedrez_adeladecornejo_3.webp') }}" alt="image">
+                                <img src="{{ asset('/build/img/clubes/ajedrez/Ajedrez_adeladecornejo_3.webp') }}" alt="club de ajedrez adela de cornejo">
                             </li>
                             </ul>
                         </div>

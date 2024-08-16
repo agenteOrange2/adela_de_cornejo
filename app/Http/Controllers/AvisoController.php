@@ -14,7 +14,7 @@ class AvisoController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user(); // Obtener el usuario autenticado
+        $user = auth()->user(); // Obtener el usuario autenticado, o null si no está autenticado
         $filters = $request->input('filter', []);
         $sortDirection = $request->input('sort_direction', 'desc'); // Dirección por defecto (descendente)
     
@@ -27,21 +27,24 @@ class AvisoController extends Controller
             $endDate = null;
         }
     
-        // Modificar la consulta para filtrar por plantel del usuario autenticado
-        $avisos = QueryBuilder::for(Post::class)
+        // Modificar la consulta para filtrar por plantel del usuario autenticado, si está logueado
+        $avisosQuery = QueryBuilder::for(Post::class)
             ->allowedFilters([
                 AllowedFilter::exact('categories.id'),
                 AllowedFilter::exact('planteles.id'),
                 AllowedFilter::scope('date_between', 'whereDateBetween'),
                 'title',
             ])
-            ->where('is_published', true)
-            ->when($user->plantel_id, function($query) use ($user) {
-                // Filtrar los avisos que pertenecen al plantel del usuario
-                $query->whereHas('planteles', function ($query) use ($user) {
-                    $query->where('plantel_id', $user->plantel_id);
-                });
-            })
+            ->where('is_published', true);
+    
+        if ($user) {
+            // Si el usuario está autenticado, filtrar los avisos que pertenecen al plantel del usuario
+            $avisosQuery->whereHas('planteles', function ($query) use ($user) {
+                $query->where('plantel_id', $user->plantel_id);
+            });
+        }
+    
+        $avisos = $avisosQuery
             ->orderBy('id', $sortDirection == 'asc' ? 'asc' : 'desc')
             ->paginate(10);
     
@@ -50,6 +53,7 @@ class AvisoController extends Controller
     
         return view('pages.avisos', compact('avisos', 'categories', 'planteles', 'sortDirection'));
     }
+    
     
 
     public function show(Post $aviso)

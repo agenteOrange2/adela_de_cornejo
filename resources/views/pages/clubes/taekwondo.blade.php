@@ -25,50 +25,43 @@
                     <div class="products-details-image">
                         <ul class="slickslide">
                             <li> 
-                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo.webp') }}" data-fancybox="gallery">
                                     <img src="{{ asset('/build/img/clubes/taekwondo/taekwondo.webp') }}" alt="Instalaciones">
                                 </a>
                             </li>
                             <li> 
-                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_2.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_2.webp') }}" data-fancybox="gallery">
                                     <img src="{{ asset('/build/img/clubes/taekwondo/taekwondo_2.webp') }}" alt="Canchas de basquet">
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_3.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_3.webp') }}" data-fancybox="gallery">
                                     <img
                                         src="{{ asset('/build/img/clubes/taekwondo/taekwondo_3.webp') }}" alt="Alumnos jugando">
                                     </a>
                                 </li>
                             <li>
-                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_4.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_4.webp') }}" data-fancybox="gallery">
                                     <img
                                         src="{{ asset('/build/img/clubes/taekwondo/taekwondo_4.webp') }}" alt="Equipo de Taekwondo">
                                     </a>
                             </li>
                             <li>
-                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_5.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_5.webp') }}" data-fancybox="gallery">
                                     <img
                                         src="{{ asset('/build/img/clubes/taekwondo/taekwondo_5.webp') }}" alt="Equipo de Taekwondo">
                                     </a>
                             </li>
 
                             <li>
-                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_6.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_6.webp') }}" data-fancybox="gallery">
                                     <img
                                         src="{{ asset('/build/img/clubes/taekwondo/taekwondo_6.webp') }}" alt="Equipo de Taekwondo">
                                     </a>
                             </li>
 
                             <li>
-                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_7.webp') }}" data-toggle="lightbox"
-                                    data-gallery="galeria-basquetbol">
+                                <a href="{{ asset('/build/img/clubes/taekwondo/taekwondo_7.webp') }}" data-fancybox="gallery">
                                     <img
                                         src="{{ asset('/build/img/clubes/taekwondo/taekwondo_7.webp') }}" alt="Equipo de Taekwondo">
                                     </a>

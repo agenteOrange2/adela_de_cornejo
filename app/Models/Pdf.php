@@ -31,7 +31,7 @@ class Pdf extends Model
     public function educationLevels()
     {
         return $this->belongsToMany(EducationLevel::class, 'education_level_pdf')
-            ->withPivot('plantel_id', 'school_cycle_id', 'start_month', 'end_month');
+                    ->withPivot('start_month', 'end_month', 'plantel_id', 'school_cycle_id');
     }
 
     public function planteles()

@@ -44,10 +44,10 @@ Route::get('/oferta-academica', function () {
     return view('pages.oferta-academica');    
 })->name('oferta-academica');
 
-Route::middleware(['check.plantel.auth'])->group(function () {
+// Route::middleware(['check.plantel.auth'])->group(function () {
 Route::get('/avisos', [AvisoController::class,'index'])->name('avisos');
 Route::get('/avisos/{aviso}', [AvisoController::class, 'show'])->name('avisos.show');
-});
+//});
 
 Route::get('/eventos', [EventController::class, 'index'])->name('eventos');
 Route::get('/eventos/{evento}', [EventController::class, 'show'])->name('eventos.show');
@@ -55,10 +55,7 @@ Route::get('/eventos/category/{id}', [EventController::class, 'category'])->name
 Route::get('/eventos/plantel/{id}', [EventController::class, 'plantel'])->name('eventos.plantel');
 
 
-/*Route::get('/admision/{nivelEducativo}', [OfertaController::class, 'showAdmission'])
-     ->name('admision.show')
-     ->where('nivelEducativo', 'preescolar|primaria|secundaria');
-*/
+
 Route::get('/admision-preescolar', [OfertaController::class, 'showAdmissionPreescolar'])->name('admision.preescolar');
 Route::get('/admision-primaria', [OfertaController::class, 'showAdmissionPrimaria'])->name('admision.primaria');
 Route::get('/admision-secundaria', [OfertaController::class, 'showAdmissionSecundaria'])->name('admision.secundaria');

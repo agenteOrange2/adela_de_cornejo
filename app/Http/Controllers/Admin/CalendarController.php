@@ -81,7 +81,7 @@ class CalendarController extends Controller
         // Guardar el archivo PDF
         $file = $request->file('pdf');
         $filename = $file->getClientOriginalName();
-        $folderName = 'calendarios/' . Str::slug($request->input('school_cycle_id'));
+        $folderName = 'calendarios/' . Str::slug(Plantel::find($request->input('plantel_ids')[0])->name);        
         $path = $file->storeAs($folderName, $filename, 'public');
 
         // Crear el registro del PDF en la base de datos
@@ -118,8 +118,8 @@ class CalendarController extends Controller
      */
     public function update(Request $request, $calendario)
     {
-        //dd($request->all());
-
+        Log::info('Datos recibidos en el update:', $request->all());
+    
         $pdf = Pdf::findOrFail($calendario);
         $request->validate([
             'pdf' => 'nullable|file|mimes:pdf|max:10000',
@@ -130,12 +130,12 @@ class CalendarController extends Controller
             'end_month' => 'required|integer|min:1|max:12|gte:start_month',
             'school_cycle_id' => 'required|exists:school_cycles,id',
         ]);
-
+    
         if ($request->hasFile('pdf')) {
             if ($pdf->file_path && Storage::disk('public')->exists($pdf->file_path)) {
                 Storage::disk('public')->delete($pdf->file_path);
             }
-
+    
             $file = $request->file('pdf');
             $filename = $file->getClientOriginalName();
             $folderName = 'calendarios/' . Str::slug(Plantel::find($request->input('plantel_ids')[0])->name);
@@ -143,25 +143,28 @@ class CalendarController extends Controller
             $pdf->file_path = $path;
             $pdf->name = $filename;
         }
-
+    
         $pdf->pdfable_id = $request->input('education_level_id');
         $pdf->pdfable_type = EducationLevel::class;
         $pdf->save();
-
+    
         $syncData = [];
         foreach ($request->input('plantel_ids') as $plantelId) {
             $syncData[$plantelId] = [
+                'education_level_id' => $request->input('education_level_id'), // Incluye education_level_id aquí
                 'school_cycle_id' => $request->input('school_cycle_id'),
                 'start_month' => $request->input('start_month'),
                 'end_month' => $request->input('end_month'),
             ];
         }
-        dd($syncData);
+    
         Log::info('syncData:', $syncData);
         $pdf->planteles()->sync($syncData);
-
+    
         return redirect()->route('admin.calendarios.index')->with('success', 'PDF actualizado correctamente.');
     }
+    
+    
 
     /**
      * Remove the specified resource from storage.
