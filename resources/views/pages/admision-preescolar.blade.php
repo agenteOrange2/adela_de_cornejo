@@ -56,8 +56,7 @@
                     </a>
                 </div>
             </div>
-
-            <div class="health-coaching-shape3"><img src="/build/img/logo-adela-black.png" alt="image"></div>
+            
     </section>
     <!-- End Experience Area -->
 
@@ -283,8 +282,23 @@
                                             </div>
                                         @else
                                             <!-- Mostrar mensaje si el usuario no está autenticado -->
-                                            <h2 class="text-center text-danger">Necesitas estar logueado para ver los
-                                                calendarios.</h2>
+                                            <section class="login-alert py-3 py-md-5  d-flex justify-content-center align-items-center">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="text-center">
+                                                                <h2 class="d-flex justify-content-center align-items-center gap-2 mb-4">
+                                                                    <i class='bx bxs-user-circle'></i>
+                                                                </h2>
+                                                                <h3 class="h2 mb-2">¡Acceso Restringido!</h3>
+                                                                <p class="mb-5">Debes iniciar sesión para ver los Calendarios. Conéctate para acceder a la información más reciente y relevante.</p>
+                                                                <a class="btn bsb-btn-5xl btn-dark rounded-pill px-5 fs-6 m-0" href="{{ route('login') }}"
+                                                                    role="button">Iniciar Sesión</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
                                         @endauth
                                     </div>
                                 </div>

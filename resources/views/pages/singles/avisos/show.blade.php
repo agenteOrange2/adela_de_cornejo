@@ -108,7 +108,7 @@
                                 @foreach ($pdfs as $pdf)
                                 <li class="download">
                                     <i class="bx bxs-file-pdf"></i>
-                                    <a href="{{ asset($pdf->path) }}" download="{{ $pdf->name }}">{{ $pdf->display_name }}</a>
+                                    <a href="{{ Storage::url($pdf->file_path) }}" target="_blank">{{ $pdf->name }}</a>
                                 </li>
                                 @endforeach
                             </ul>

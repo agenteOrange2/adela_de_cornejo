@@ -60,32 +60,59 @@
                 </div>
 
                 <div class="col-lg-7 col-md-12 pt-sm-5">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        @foreach($planteles as $plantel)
-                            <li class="nav-item" role="presentation">
-                                <button class="default-btn nav-link {{ $loop->first ? 'active' : '' }}" id="{{ Str::slug($plantel->name) }}-tab" data-bs-toggle="tab" data-bs-target="#{{ Str::slug($plantel->name) }}" type="button" role="tab" aria-controls="{{ Str::slug($plantel->name) }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $plantel->name }}</button>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                        @foreach($planteles as $plantel)
-                            <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ Str::slug($plantel->name) }}" role="tabpanel" aria-labelledby="{{ Str::slug($plantel->name) }}-tab">
-                                @if($plantel->menuPdf)
-                                <iframe src="{{ Storage::url($plantel->menuPdf->file_path) }}#view=FitH" width="100%" height="500px"></iframe>
-                                    <div class="pt-3">
-                                        <a href="{{ Storage::url($plantel->menuPdf->file_path) }}" download class="default-btn">
-                                            <i class='bx bx bxs-file-pdf icon-arrow before'></i>
-                                            <span class="label">Descargar Menú {{ $plantel->name }}</span>
-                                            <i class="bx bx bxs-file-pdf icon-arrow after"></i>
-                                        </a>
-                                    </div>
-                                @else
-                                    <p>No hay menú disponible para {{ $plantel->name }}.</p>
+                    @auth
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            @foreach($planteles as $plantel)
+                                @if(Auth::user()->plantel_id == $plantel->id)
+                                    <li class="nav-item" role="presentation">
+                                        <button class="default-btn nav-link {{ $loop->first ? 'active' : '' }}" id="{{ Str::slug($plantel->name) }}-tab" data-bs-toggle="tab" data-bs-target="#{{ Str::slug($plantel->name) }}" type="button" role="tab" aria-controls="{{ Str::slug($plantel->name) }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $plantel->name }}</button>
+                                    </li>
                                 @endif
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            @foreach($planteles as $plantel)
+                                @if(Auth::user()->plantel_id == $plantel->id)
+                                    <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ Str::slug($plantel->name) }}" role="tabpanel" aria-labelledby="{{ Str::slug($plantel->name) }}-tab">
+                                        @if($plantel->menuPdf)
+                                            <iframe src="{{ Storage::url($plantel->menuPdf->file_path) }}#view=FitH" width="100%" height="500px"></iframe>
+                                            <div class="pt-3">
+                                                <a href="{{ Storage::url($plantel->menuPdf->file_path) }}" download class="default-btn">
+                                                    <i class='bx bx bxs-file-pdf icon-arrow before'></i>
+                                                    <span class="label">Descargar Menú {{ $plantel->name }}</span>
+                                                    <i class="bx bx bxs-file-pdf icon-arrow after"></i>
+                                                </a>
+                                            </div>
+                                        @else
+                                            <p>No hay menú disponible para {{ $plantel->name }}.</p>
+                                        @endif
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endauth
+                
+                    @guest
+                    <section class="login-alert py-3 py-md-5  d-flex justify-content-center align-items-center">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <h2 class="d-flex justify-content-center align-items-center gap-2 mb-4">
+                                            <i class='bx bxs-user-circle'></i>
+                                        </h2>
+                                        <h3 class="h2 mb-2">¡Acceso Restringido!</h3>
+                                        <p class="mb-5">Debes iniciar sesión para ver los Menus de la cafetería. Conéctate para acceder a la información.</p>
+                                        <a class="btn bsb-btn-5xl btn-dark rounded-pill px-5 fs-6 m-0" href="{{ route('login') }}"
+                                            role="button">Iniciar Sesión</a>
+                                    </div>
+                                </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    </section>
+                    @endguest
                 </div>
+                
             </div>
         </div>
         <div class="health-coaching-shape3"><img src="/build/img/logo-adela-black.png" alt="image"></div>
