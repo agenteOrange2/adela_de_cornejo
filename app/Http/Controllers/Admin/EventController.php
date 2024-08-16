@@ -146,6 +146,35 @@ class EventController extends Controller
         return redirect()->route('admin.eventos.index');
     }
 
+    public function uploadImage(Request $request, $eventId)
+{
+    $request->validate([
+        'upload' => 'required|image|max:10240' // Limita el tamaño de la imagen a 10MB
+    ]);
+
+    try {
+        // Obtén el evento
+        $evento = Event::findOrFail($eventId);
+
+        // Almacena la imagen en la carpeta correspondiente al evento
+        $image = $request->file('upload');
+        $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+        $extension = $image->getClientOriginalExtension();
+        $filename = $originalName . '.' . $extension;
+
+        // Guarda la imagen en la carpeta del evento
+        $path = $image->storeAs('events/' . $evento->id . '/editor', $filename, 'public');
+
+        // Respuesta para CKEditor
+        $url = Storage::url($path);
+        return response()->json(['url' => $url]);
+
+    } catch (\Exception $e) {
+        Log::error('Error al subir la imagen: ' . $e->getMessage());
+        return response()->json(['error' => 'Error al subir la imagen.'], 500);
+    }
+}
+
     public function edit(Event $evento)
     {
 

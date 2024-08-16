@@ -4,7 +4,7 @@
 @section('title', $evento->title)
 @section('title', $evento->title)
 @section('meta_description', $evento->excerpt)
-@section('meta_image', asset('storage/' . $evento->image_path))
+@section('meta_image', $metaImage)
 
 
 @section('content')

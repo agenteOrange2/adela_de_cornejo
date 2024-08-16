@@ -295,12 +295,16 @@
                     </div>
                     <div class="mb-4">
                         <x-label for="planteles" class="mb-2">Planteles</x-label>
-                        <ul class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @foreach($planteles as $plantel)
+                        <ul
+                            class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            @foreach ($planteles as $plantel)
                                 <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                                     <div class="flex items-center px-3">
-                                        <input id="plantel-{{ $plantel->id }}" type="checkbox" name="plantel_ids[]" value="{{ $plantel->id }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="plantel-{{ $plantel->id }}" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $plantel->name }}</label>
+                                        <input id="plantel-{{ $plantel->id }}" type="checkbox" name="plantel_ids[]"
+                                            value="{{ $plantel->id }}"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                        <label for="plantel-{{ $plantel->id }}"
+                                            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $plantel->name }}</label>
                                     </div>
                                 </li>
                             @endforeach
@@ -458,7 +462,7 @@
                 document.querySelectorAll('.editor').forEach((editorElement) => {
                     ClassicEditor.create(editorElement, {
                         simpleUpload: {
-                            uploadUrl: "{{ route('images.upload') }}",
+                            uploadUrl: "{{ route('images.upload', ['eventId' => $evento->id]) }}", // Asegúrate de pasar el ID del evento
                             withCredentials: true,
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')

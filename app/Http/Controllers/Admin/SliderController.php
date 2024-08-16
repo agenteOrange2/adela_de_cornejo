@@ -14,7 +14,7 @@ class SliderController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::with('images')->get();
+        $sliders = Slider::with('images')->get();        
         return view('admin.sliders.index', compact('sliders'));
     }
 
@@ -26,16 +26,16 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         // Validar y guardar el slider
+        //dd($request->all());
         $request->validate([
-            'title' => 'required|string|max:255',
-            'paragraph' => 'required|string',
+            'title' => 'required|string|max:255',            
             'link' => 'nullable|url',
             'image' => 'required|image',
             'image_tablet' => 'nullable|image',
             'image_mobile' => 'nullable|image',
         ]);
 
-        $slider = Slider::create($request->only(['title', 'paragraph', 'link']));
+        $slider = Slider::create($request->only(['title', 'link']));
         $slider->is_published = $request->boolean('is_published');
         if ($slider->is_published) {
             $slider->published_at = now();
@@ -126,25 +126,18 @@ class SliderController extends Controller
     }
 
 
-    public function edit($id)
-    {
-        $slider = Slider::with('images')->findOrFail($id);
-        // $slider = Slider::findOrFail($id);
-        return view('admin.sliders.edit', compact('slider'));
-    }
+
     public function update(Request $request, Slider $slider)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'paragraph' => 'required|string',
-            'link' => 'nullable|url',
-            'is_published' => 'required|boolean',
+            'title' => 'required|string|max:255',            
+            'link' => 'nullable|url',            
             'image' => 'nullable|image',
             'image_tablet' => 'nullable|image',
             'image_mobile' => 'nullable|image',
         ]);
 
-        $slider->update($request->only(['title', 'paragraph', 'link']));
+        $slider->update($request->only(['title', 'link']));
 
         // Manejo del campo is_published
         $slider->is_published = $request->boolean('is_published');

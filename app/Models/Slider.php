@@ -12,7 +12,7 @@ class Slider extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'paragraph', 'link'];
+    protected $fillable = ['title', 'link'];
 
     public function images()
     {
@@ -30,18 +30,19 @@ class Slider extends Model
 
     public function getDesktopImage()
     {
-        return $this->images()->where('path', 'like', '%-1920x1080.%')->first();
+        return $this->images()->where('path', 'like', '%-1920.%')->first();
     }
-
+    
     public function getTabletImage()
     {
-        return $this->images()->where('path', 'like', '%-1024x768.%')->first();
+        return $this->images()->where('path', 'like', '%-1024.%')->first();
     }
-
+    
     public function getMobileImage()
     {
-        return $this->images()->where('path', 'like', '%-375x667.%')->first();
+        return $this->images()->where('path', 'like', '%-375.%')->first();
     }
+    
 
     public function getImageUrl($size)
     {

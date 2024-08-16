@@ -68,9 +68,10 @@ Route::resource('eventos', EventController::class)->middleware('can:Eventos y Av
 Route::delete('eventos/{evento}/gallery/{image}', function ($eventoId, $imageId) {
     $evento = App\Models\Event::findOrFail($eventoId);
     $image = App\Models\Image::findOrFail($imageId);
-
     return app(App\Http\Controllers\Admin\EventController::class)->destroyImage($evento, $image);
 })->name('admin.eventos.destroyImage');
+Route::post('/images/upload/{eventId}', [EventController::class, 'uploadImage'])->name('images.upload');
+
 //Route::delete('eventos/{evento}/gallery/{image}', [EventController::class, 'destroyImage'])->name('admin.eventos.destroyImage');
 
 /* ****************************** */

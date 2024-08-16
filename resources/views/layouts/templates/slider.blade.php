@@ -2,19 +2,42 @@
     <div class="swiper-container">
         <div class="swiper-wrapper">
             @foreach ($sliders as $slider)
-            <div class="swiper-slide">
+            <div class="swiper-slide">                
+                <a href="{{ $slider->link }}" class="slide-link">
                 <picture>
-                    <source media="(min-width: 1024px)" srcset="{{ $slider->image_url }}">
-                    <source media="(min-width: 768px)" srcset="{{ $slider->image_url }}">
-                    <img src="{{ $slider->image_url }}" alt="{{ $slider->title }}">
-                </picture>
-                <div class="slide-content">
-                    <h2>{{ $slider->title }}</h2>
-                    <p>{{ $slider->paragraph }}</p>
+                    @php
+                        $desktopImage = $slider->getDesktopImage();
+                        $tabletImage = $slider->getTabletImage();
+                        $mobileImage = $slider->getMobileImage();
+                    @endphp
+                    
+                    @if($desktopImage)
+                        <source media="(min-width: 1024px)" srcset="{{ asset('storage/' . $desktopImage->path) }}">
+                    @endif
+                    
+                    @if($tabletImage)
+                        <source media="(min-width: 768px) and (max-width: 1023px)" srcset="{{ asset('storage/' . $tabletImage->path) }}">
+                    @endif
+                    
+                    @if($mobileImage)
+                        <source media="(max-width: 767px)" srcset="{{ asset('storage/' . $mobileImage->path) }}">
+                    @endif
+                    
+                    <!-- Fallback image in case none of the above match -->
+                    <img src="{{ $slider->getImageUrlAttribute() }}" alt="{{ $slider->title }}">
+                </picture>   
+            </a>             
+                
+                {{-- <div class="slide-content">
                     <div class="buttons">
-                        <a href="{{ $slider->link }}" class="default-btn"><i class='bx bx-move-horizontal icon-arrow before'></i><span class="label">Más Información</span><i class="bx bx-move-horizontal icon-arrow after"></i></a>
+                        <a href="{{ $slider->link }}" class="default-btn">
+                            <i class='bx bx-move-horizontal icon-arrow before'></i>
+                            <span class="label">Más Información</span>
+                            <i class="bx bx-move-horizontal icon-arrow after"></i>
+                        </a>
                     </div>
-                </div>
+                </div> --}}
+                
             </div>
             @endforeach
         </div>
@@ -24,6 +47,7 @@
         <div class="swiper-button-prev"></div>
     </div>
 </div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

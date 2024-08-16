@@ -58,7 +58,10 @@ class EventController extends Controller
         $videos = $evento->videos;
         $galleryImages = $evento->images;
 
-        return view('pages.singles.events.show', compact('evento', 'prevEvento', 'nextEvento', 'bannerImage', 'videos', 'galleryImages'));
+        // Pasar la imagen para los metadatos
+        $metaImage = $evento->image_path ? asset('storage/' . $evento->image_path) : asset('default-image-path.jpg');
+
+        return view('pages.singles.events.show', compact('evento', 'prevEvento', 'nextEvento', 'bannerImage', 'videos', 'galleryImages', 'metaImage'));
     }
 
     public function category($id)

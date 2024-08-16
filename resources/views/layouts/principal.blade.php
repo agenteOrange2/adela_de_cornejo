@@ -2,33 +2,28 @@
 <html lang="es-mx">
 
 <head>
+
+    <!-- Meta Tags for SEO and Social Media -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">    
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="@yield('meta_description', 'Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez')">
+    <meta name="keywords" content="@yield('meta_keywords', 'Formando alumnos de excelencia ')">
 
-    <!-- Meta Tags for Open Graph (Facebook, LinkedIn, etc.) -->
+
+    <!-- Open Graph Meta Tags for Facebook, LinkedIn, etc. -->
     <meta property="og:title" content="@yield('title') | Adela de Cornejo">
-    <meta property="og:description" content="Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez">
-    <meta property="og:image" content="@yield('og:image', asset('https://i.postimg.cc/prsHzgwn/adeladecornejo-predeterminado.webp'))">
+    <meta property="og:description" content="@yield('meta_description', 'Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez')">
+    <meta property="og:image" content="@yield('meta_image', asset('default-image-path.jpg'))">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Adela de Cornejo">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="@yield('meta_description', 'Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez')">
-    <meta name="keywords" content="@yield('meta_keywords', 'Formando alumnos de excelencia ')">
-    <meta property="og:title" content="@yield('title') - Adela de Cornejo">
-    <meta property="og:description" content="@yield('meta_description', 'Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez')">
-    <meta property="og:image" content="@yield('meta_image', asset('build/img/logo-adela-black.webp'))">
-    <meta property="og:url" content="{{ request()->url() }}">
-    <meta property="og:type" content="website">
+    <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('title') - Adela de Cornejo">
+    <meta name="twitter:title" content="@yield('title') | Adela de Cornejo">
     <meta name="twitter:description" content="@yield('meta_description', 'Instituto Adela de Cornejo Somos una institución que oferta un servicio educativo bilingüe en los niveles educativos de preescolar, primaria y secundaria. Ofrecemos un servicio de alta calidad académica accesible para nuestra comunidad Ciudad Juárez')">
-    <meta name="twitter:image" content="@yield('meta_image', asset('build/img/logo-adela-black.webp'))">
-
+    <meta name="twitter:image" content="@yield('meta_image', asset('default-image-path.jpg'))">
 
 
     <title>@yield('title') | Adela de Cornejo</title>

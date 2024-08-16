@@ -65,9 +65,9 @@
                     <div class="raque-responsive-menu">
                         <div class="logo">
                             <a href="/">
-                                <img src="/build/img/logo-adela-black.png" class="black-logo"
+                                <img src="{{asset('/build/img/logo-adela-black.png')}}" class="black-logo"
                                     alt="Adela de cornejo logo negro" width="35%">
-                                <img src="/build/img/logo-adela-white.png" class="white-logo"
+                                <img src="{{asset('/build/img/logo-adela-white.png')}}" class="white-logo"
                                     alt="Adela de cornejo logo blanco" width="35%">
                             </a>
                         </div>
@@ -79,9 +79,9 @@
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
                         <a class="navbar-brand" href="/">
-                            <img src="/build/img/logo-adela-black.png" class="black-logo"
+                            <img src="{{asset('/build/img/logo-adela-black.png')}}" class="black-logo"
                                 alt="Adela de cornejo logo negro" width="120px">
-                            <img src="/build/img/logo-adela-white.png" class="white-logo"
+                            <img src="{{asset('/build/img/logo-adela-white.png')}}" class="white-logo"
                                 alt="Adela de cornejo logo blanco" width="120px">
                         </a>
 
@@ -199,9 +199,9 @@
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
                         <a class="navbar-brand" href="/">
-                            <img src="/build/img/logo-adela-black.png" class="black-logo"
+                            <img src="{{asset('/build/img/logo-adela-black.png')}}" class="black-logo"
                                 alt="Adela de cornejo logo negro" width="120px">
-                            <img src="/build/img/logo-adela-white.png" class="white-logo"
+                            <img src="{{asset('/build/img/logo-adela-white.png')}}" class="white-logo"
                                 alt="Adela de cornejo logo blanco" width="120px">
                         </a>
 

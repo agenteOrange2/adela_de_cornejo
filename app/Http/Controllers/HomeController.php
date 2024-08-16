@@ -14,9 +14,7 @@ class HomeController extends Controller
     public function index()
     {
         // Obtener sliders que están publicados
-        $sliders = Slider::with('images')
-            ->where('is_published', true)
-            ->get();
+        $sliders = Slider::with('images')->where('is_published', true)->get();
 
         // Depuración: Verificar que se están recuperando las imágenes correctamente        
 
