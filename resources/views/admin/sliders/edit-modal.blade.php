@@ -1,7 +1,6 @@
 <!-- Modal de Edición de Slider -->
-<div x-show="openEdit" x-cloak
-    class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
-    <div @click.away="closeEditModal()" class="relative w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
+<div x-show="openEdit" x-cloak class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+    <div @click.away="closeEditModal()" class="relative w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
         <!-- Modal header -->
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold text-gray-900">Editar Slider</h3>
@@ -18,8 +17,9 @@
         <!-- Validación de Errores -->
         <x-validation-errors class="my-4" />
 
-        <!-- Formulario de Edición -->
-        <form :action="'{{ url('admin/sliders') }}/' + form.id" method="POST" enctype="multipart/form-data">
+        <!-- Formulario de Edición -->        
+        <form :action="'/admin/sliders/' + form.id" method="POST" enctype="multipart/form-data">
+      
             @csrf
             @method('PUT')
 

@@ -14,7 +14,7 @@ class SliderController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::with('images')->get();        
+        $sliders = Slider::with('images')->get();
         return view('admin.sliders.index', compact('sliders'));
     }
 
@@ -28,7 +28,7 @@ class SliderController extends Controller
         // Validar y guardar el slider
         //dd($request->all());
         $request->validate([
-            'title' => 'required|string|max:255',            
+            'title' => 'required|string|max:255',
             'link' => 'nullable|url',
             'image' => 'required|image',
             'image_tablet' => 'nullable|image',
@@ -125,48 +125,74 @@ class SliderController extends Controller
         return redirect()->route('admin.sliders.index');
     }
 
+    public function show(Slider $slider)
+{
+    $images = [
+        'desktop' => $slider->images()->where('path', 'like', '%-1920x1080.%')->first(),
+        'tablet' => $slider->images()->where('path', 'like', '%-1024x768.%')->first(),
+        'mobile' => $slider->images()->where('path', 'like', '%-375x667.%')->first(),
+    ];
+
+    // Construir la respuesta con las rutas completas
+    return response()->json([
+        'id' => $slider->id,
+        'title' => $slider->title,
+        'link' => $slider->link,
+        'is_published' => $slider->is_published,
+        'images' => [
+            'desktop' => $images['desktop'] ? asset('storage/' . $images['desktop']->path) : '',
+            'tablet' => $images['tablet'] ? asset('storage/' . $images['tablet']->path) : '',
+            'mobile' => $images['mobile'] ? asset('storage/' . $images['mobile']->path) : '',
+        ]
+    ]);
+}
+
 
 
     public function update(Request $request, Slider $slider)
     {
         $request->validate([
-            'title' => 'required|string|max:255',            
-            'link' => 'nullable|url',            
+            'title' => 'required|string|max:255',
+            'link' => 'nullable|url',
             'image' => 'nullable|image',
             'image_tablet' => 'nullable|image',
             'image_mobile' => 'nullable|image',
         ]);
-
+    
         $slider->update($request->only(['title', 'link']));
-
-        // Manejo del campo is_published
+    
         $slider->is_published = $request->boolean('is_published');
         if ($slider->is_published && !$slider->published_at) {
             $slider->published_at = now();
         } elseif (!$slider->is_published) {
-            $slider->published_at = null; // Opcionalmente, podemos anular published_at si se despublica
+            $slider->published_at = null;
         }
-
+    
         $slider->save();
-
+    
         $manager = new ImageManager(new Driver());
         $folderPath = 'public/sliders/' . $slider->id . '/';
-
+    
+        // Función para manejar la actualización de las imágenes
         function handleImageUpdate($request, $imageField, $size, $folderPath, $manager, $slider)
         {
             if ($request->hasFile($imageField)) {
-                $oldImage = $slider->images()->where('path', 'like', '%-' . $size . '.%')->first();
-                if ($oldImage && Storage::exists('public/' . $oldImage->path)) {
-                    Storage::delete('public/' . $oldImage->path);
+                // Buscar y eliminar todas las imágenes antiguas relacionadas con el tamaño
+                $oldImages = $slider->images()->where('path', 'like', '%-' . $size . '.%')->get();
+                foreach ($oldImages as $oldImage) {
+                    if (Storage::exists('public/' . $oldImage->path)) {
+                        Storage::delete('public/' . $oldImage->path);
+                    }
                     $oldImage->delete();
                 }
-
+    
+                // Subir y optimizar la nueva imagen
                 $file = $request->file($imageField);
                 $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $extension = $file->getClientOriginalExtension();
                 $filename = $slider->id . '-' . $originalName . '-' . $size . '.' . $extension;
                 $path = $file->storeAs($folderPath, $filename);
-
+    
                 $imagePath = storage_path('app/' . $folderPath . $filename);
                 $img = $manager->read($imagePath);
                 [$width, $height] = explode('x', $size);
@@ -174,32 +200,38 @@ class SliderController extends Controller
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 })->save($imagePath, 75);
-
+    
+                // Guardar la nueva imagen en la base de datos
                 $slider->images()->create([
                     'path' => 'sliders/' . $slider->id . '/' . $filename,
                 ]);
             }
         }
-
+    
+        // Actualizar cada una de las imágenes si fueron proporcionadas en la solicitud
         handleImageUpdate($request, 'image', '1920x1080', $folderPath, $manager, $slider);
         handleImageUpdate($request, 'image_tablet', '1024x768', $folderPath, $manager, $slider);
         handleImageUpdate($request, 'image_mobile', '375x667', $folderPath, $manager, $slider);
-
+    
+        // Recarga las imágenes del slider después de actualizarlas
+        $slider->load('images');
+    
         session()->flash('swal', [
             'icon' => 'success',
             'title' => '¡Slider Actualizado!',
             'text' => 'Slider actualizado exitosamente.',
         ]);
-
+    
         return redirect()->route('admin.sliders.index');
     }
-
+    
+    
 
 
     public function destroy($id)
     {
         $slider = Slider::with('images')->findOrFail($id);
-    
+
         // Eliminar todas las imágenes asociadas
         foreach ($slider->images as $image) {
             if (Storage::exists('public/' . $image->path)) {
@@ -207,16 +239,16 @@ class SliderController extends Controller
             }
             $image->delete();  // Elimina el registro de la imagen de la base de datos
         }
-    
+
         // Eliminar el directorio del slider
         $folderPath = 'public/sliders/' . $slider->id;
         if (Storage::exists($folderPath)) {
             Storage::deleteDirectory($folderPath);  // Elimina el directorio completo
         }
-    
+
         // Eliminar el slider
         $slider->delete();
-    
+
         return redirect()->route('admin.sliders.index')->with('success', 'Slider eliminado con éxito.');
     }
 }

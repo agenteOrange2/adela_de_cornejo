@@ -30,7 +30,9 @@
                             <td class="p-4 border-b border-blue-gray-50">
                                 <div class="flex gap-2">
                                     <button
-                                    @click="openEditModal({
+                                        @click="                                    
+                                    openEditModal({
+                                        id: {{ $slider->id }},
                                         title: '{{ $slider->title }}',
                                         link: '{{ $slider->link }}',
                                         is_published: {{ $slider->is_published }},
@@ -40,10 +42,18 @@
                                             mobile: '{{ $slider->getMobileImage() ? asset('storage/' . $slider->getMobileImage()->path) : '' }}',
                                         }
                                     })"
-                                    class="text-blue-600 hover:text-blue-800"
-                                >
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
+                                        class="text-blue-600 hover:text-blue-800">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
+                                    <!-- Botón de eliminación -->
+                                    <form action="{{ route('admin.sliders.destroy', $slider->id) }}" method="POST"
+                                        onsubmit="return confirm('¿Estás seguro de que quieres eliminar este slider?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-800">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </button>
+                                    </form>
 
 
                                     <!-- Aquí puedes añadir el botón de eliminar -->
@@ -63,7 +73,7 @@
         @include('admin.sliders.create-modal')
 
         <!-- Modal de Edición -->
-        {{-- @include('admin.sliders.edit-modal') --}}
+        @include('admin.sliders.edit-modal')
 
     </div>
 
@@ -75,6 +85,7 @@
                     openEdit: false,
                     activeTab: 'desktop',
                     form: {
+                        id: null,
                         title: '',
                         link: '',
                         is_published: false,
@@ -91,16 +102,24 @@
                     closeCreateModal() {
                         this.openCreate = false;
                     },
-                    openEditModal(slider) {
-                        this.resetForm();
-                        this.form.title = slider.title;
-                        this.form.link = slider.link;
-                        this.form.is_published = slider.is_published;
+                    openEditModal(sliderData) {
+                        console.log('Datos del slider recibidos:', sliderData);
 
-                        // Asignar las rutas de las imágenes solo si existen
-                        this.form.images.desktop = slider.images.desktop ? slider.images.desktop : '';
-                        this.form.images.tablet = slider.images.tablet ? slider.images.tablet : '';
-                        this.form.images.mobile = slider.images.mobile ? slider.images.mobile : '';
+                        this.form.id = sliderData.id;
+                        this.form.title = sliderData.title;
+                        this.form.link = sliderData.link;
+                        this.form.is_published = sliderData.is_published;
+
+                        // Solo asignar las imágenes si no están vacías para evitar sobrescribir las existentes
+                        if (sliderData.images.desktop) {
+                            this.form.images.desktop = sliderData.images.desktop;
+                        }
+                        if (sliderData.images.tablet) {
+                            this.form.images.tablet = sliderData.images.tablet;
+                        }
+                        if (sliderData.images.mobile) {
+                            this.form.images.mobile = sliderData.images.mobile;
+                        }
 
                         this.openEdit = true;
                     },
@@ -120,15 +139,15 @@
                         };
                     },
                     handleImageUpload(event, type) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            this.form.images[type] = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                this.form.images[type] = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
                     }
-                }
                 }));
             });
         </script>

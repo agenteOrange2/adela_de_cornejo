@@ -1,5 +1,4 @@
-<x-admin-layout title="Edición de Usuario {{$user->name}}" :breadcrumb="[
-    
+<x-admin-layout title="Edición de Usuario {{ $user->name }}" :breadcrumb="[
     [
         'name' => 'Inicio',
         'url' => route('admin.dashboard'),
@@ -13,16 +12,16 @@
     ],
 ]">
 
-<x-slot name="action">
-    <a href="{{ route('admin.users.index') }}"
-                class="mt-4 sm:mt-0 px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg">Volver</a>
-</x-slot>
+    <x-slot name="action">
+        <a href="{{ route('admin.users.index') }}"
+            class="mt-4 sm:mt-0 px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg">Volver</a>
+    </x-slot>
     <div class="max-w-full mx-auto bg-white shadow-md rounded-lg sm:p-8">
         <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
             <div class="text-center sm:text-left">
                 <h1 class="text-2xl sm:text-3xl font-semibold text-gray-800">Usuario</h1>
                 <p class="text-gray-600">Actualice los datos de {{ $user->name }}.</p>
-            </div>           
+            </div>
         </div>
         <form action="{{ route('admin.users.update', $user) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -95,16 +94,18 @@
                                     <select name="plantel_id"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="" disabled>Seleccione un plantel</option>
-                                        @foreach($plantels as $plantel)
-                                            <option value="{{ $plantel->id }}" {{ old('plantel_id', $user->plantel_id) == $plantel->id ? 'selected' : '' }}>
+                                        @foreach ($plantels as $plantel)
+                                            <option value="{{ $plantel->id }}"
+                                                {{ old('plantel_id', $user->plantel_id) == $plantel->id ? 'selected' : '' }}>
                                                 {{ $plantel->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                            
+
                                 <div class="w-full">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nivel Educativo</label>
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nivel
+                                        Educativo</label>
                                     <select name="education_level_id" id="education-level-select"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="" disabled selected>Seleccione un nivel educativo</option>
@@ -116,16 +117,34 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                
+
                                 <div class="w-full">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grado</label>
+                                    <label
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grado</label>
                                     <select name="grade_id" id="grade-select"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="" disabled selected>Seleccione un grado</option>
                                         @foreach ($grades as $grade)
-                                            <option value="{{ $grade->id }}" data-level="{{ $grade->education_level_id }}"
+                                            <option value="{{ $grade->id }}"
+                                                data-level="{{ $grade->education_level_id }}"
                                                 {{ $user->grade_id == $grade->id ? 'selected' : '' }}>
                                                 {{ $grade->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Grupo -->
+                                <div class="w-full" id="group-container" style="display: none;">
+                                    <label
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grupo</label>
+                                    <select name="group_id"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="" disabled selected>Seleccione un grupo</option>
+                                        @foreach ($groups as $group)
+                                            <option value="{{ $group->id }}"
+                                                {{ old('group_id', $user->group_id ?? '') == $group->id ? 'selected' : '' }}>
+                                                {{ $group->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -134,18 +153,21 @@
 
                             <div class="mb-4">
                                 <h3 class="mb-4 font-semibold text-gray-900">Permisos</h3>
-                                <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <ul
+                                    class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                     @foreach ($roles as $role)
                                         <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                                             <div class="flex items-center ps-3">
-                                                <input type="checkbox" name="roles[]" value="{{ $role->id }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                                    @if(in_array($role->id, old('roles', $user->roles->pluck('id')->toArray()))) checked @endif>
-                                                <label  class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $role->name }}</label>
+                                                <input type="checkbox" name="roles[]" value="{{ $role->id }}"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                                    @if (in_array($role->id, old('roles', $user->roles->pluck('id')->toArray()))) checked @endif>
+                                                <label
+                                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $role->name }}</label>
                                             </div>
                                         </li>
                                     @endforeach
                                 </ul>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
 
@@ -185,22 +207,23 @@
             /*Imagen Preview*/
 
 
-            document.addEventListener('DOMContentLoaded', function () {
-            const educationLevelSelect = document.getElementById('education-level-select');
-            const gradeSelect = document.getElementById('grade-select');
+            document.addEventListener('DOMContentLoaded', function() {
+                const educationLevelSelect = document.getElementById('education-level-select');
+                const gradeSelect = document.getElementById('grade-select');
 
-            educationLevelSelect.addEventListener('change', function () {
-                const selectedLevelId = this.value;
+                educationLevelSelect.addEventListener('change', function() {
+                    const selectedLevelId = this.value;
 
-                // Mostrar solo los grados que pertenecen al nivel seleccionado
-                Array.from(gradeSelect.options).forEach(option => {
-                    option.style.display = option.getAttribute('data-level') === selectedLevelId ? 'block' : 'none';
+                    // Mostrar solo los grados que pertenecen al nivel seleccionado
+                    Array.from(gradeSelect.options).forEach(option => {
+                        option.style.display = option.getAttribute('data-level') === selectedLevelId ?
+                            'block' : 'none';
+                    });
+
+                    // Reiniciar la selección del grado
+                    gradeSelect.value = '';
                 });
-
-                // Reiniciar la selección del grado
-                gradeSelect.value = '';
             });
-        });
         </script>
     @endpush
 

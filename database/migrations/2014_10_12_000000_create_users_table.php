@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('plantel_id')->nullable()->constrained('plantels')->onDelete('set null');
             $table->foreignId('education_level_id')->nullable()->constrained('education_levels')->onDelete('set null');
             $table->foreignId('grade_id')->nullable()->constrained('grades')->onDelete('set null');            
+            $table->foreignId('group_id')->nullable()->constrained('groups')->onDelete('set null'); // Agregar esta línea
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Grade;
+use App\Models\Group;
 use App\Models\Plantel;
 use Illuminate\Http\Request;
 use App\Models\EducationLevel;
@@ -32,7 +33,8 @@ class UserController extends Controller
         $plantels = Plantel::all();
         $educationLevels = EducationLevel::all();
         $grades = Grade::all();
-        return view('admin.users.create', compact('roles', 'plantels', 'educationLevels', 'grades'));
+        $groups = Group::all(); // Correcto uso de $groups
+        return view('admin.users.create', compact('roles', 'plantels', 'educationLevels', 'grades', 'groups'));
     }
 
     /**
@@ -50,7 +52,8 @@ class UserController extends Controller
             'roles.*' => 'exists:roles,id',
             'plantel_id' => 'nullable|exists:plantels,id',
             'education_level_id' => 'nullable|exists:education_levels,id',
-            'grade_id' => 'required|exists:grades,id',
+            'grade_id' => 'nullable|exists:grades,id',
+            'group_id' => 'nullable|exists:groups,id', // Agregar esta validación
         ]);
 
         if (!$request->has('grade_id')) {
@@ -58,7 +61,7 @@ class UserController extends Controller
         }
 
 
-        $data = $request->only('name', 'email', 'phone', 'plantel_id', 'education_level_id', 'grade_id');
+        $data = $request->only('name', 'email', 'phone', 'plantel_id', 'education_level_id', 'grade_id', 'group_id');
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -97,7 +100,8 @@ class UserController extends Controller
         $plantels = Plantel::all();
         $educationLevels = EducationLevel::all();
         $grades = Grade::all();
-        return view('admin.users.edit', compact('user', 'roles', 'plantels', 'educationLevels', 'grades'));
+        $groups = Group::all();
+        return view('admin.users.edit', compact('user', 'roles', 'plantels', 'educationLevels', 'grades' , 'groups'));
     }
 
     /**
@@ -115,7 +119,8 @@ class UserController extends Controller
             'roles.*' => 'exists:roles,id',
             'plantel_id' => 'nullable|exists:plantels,id',
             'education_level_id' => 'nullable|exists:education_levels,id',
-            'grade_id' => 'required|exists:grades,id',
+            'grade_id' => 'nullable|exists:grades,id',
+            'group_id' => 'nullable|exists:groups,id', // Agregar esta validación
         ]);
 
         $user->name = $request->name;
@@ -124,6 +129,7 @@ class UserController extends Controller
         $user->plantel_id = $request->plantel_id;
         $user->education_level_id = $request->education_level_id;
         $user->grade_id = $request->grade_id;
+        $user->group_id = $request->group_id;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

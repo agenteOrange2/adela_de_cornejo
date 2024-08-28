@@ -24,14 +24,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            PlantelSeeder::class, // Si tienes un seeder para 'Plantels'
-            EducationLevelSeeder::class,    
-            GradeSeeder::class,        
+            RolesTableSeeder::class,
+            EducationLevelSeeder::class, // Primero los niveles educativos
+            GradesTableSeeder::class,    // Después los grados
+            PlantelSeeder::class,
             PostCategorySeeder::class,
             PostSeeder::class,
             EventCategorySeeder::class,
             EventSeeder::class,
             PdfSeeder::class
         ]);
+
+        \App\Models\Group::factory()->count(3)->create();
     }
 }
