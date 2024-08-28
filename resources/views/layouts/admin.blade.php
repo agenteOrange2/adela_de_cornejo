@@ -40,7 +40,7 @@
     @include('layouts.includes.admin.aside')
 
     <!-- Main Content -->
-    <div class="transition-all duration-300 p-4 dark:bg-gray-900"
+    <div class="transition-all duration-300 p-4 "
         :class="{'ml-0': !sidebarOpen || window.innerWidth < 1024, 'lg:ml-64': sidebarOpen && window.innerWidth >= 1024}">
         <div class="mt-14 -mb-10 flex flex-col md:flex-row justify-between items-center">
             <div class="w-full md:w-auto mb-4 md:mb-0">
@@ -53,7 +53,7 @@
             @endisset
         </div>
 
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 dark:bg-gray-900">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 ">
             {{ $slot }}
         </div>
     </div>

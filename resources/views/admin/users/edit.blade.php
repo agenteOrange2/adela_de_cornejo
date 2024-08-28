@@ -52,11 +52,26 @@
                     <div class="w-full text-center sm:text-left">
                         <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">Información Personal</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
+                            <div class="w-full sm:col-span-2 mb-4">
+                                <label class="block text-gray-600 text-sm mb-2">Matricula</label>
+                                <input type="text" name="matricula"
+                                    class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value="{{ old('matricula', $user->matricula) }}" placeholder="Ingrese la matrícula del usuario">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
                             <div class="w-full">
-                                <label class="block text-gray-600 text-sm mb-2">Nombre Completo</label>
+                                <label class="block text-gray-600 text-sm mb-2">Nombre</label>
                                 <input type="text" name="name"
                                     class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     value="{{ old('name', $user->name) }}"
+                                    placeholder="Ingrese el nombre completo del usuario">
+                            </div>
+                            <div class="w-full">
+                                <label class="block text-gray-600 text-sm mb-2">Apellido</label>
+                                <input type="text" name="last_name"
+                                    class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value="{{ old('name', $user->last_name) }}"
                                     placeholder="Ingrese el nombre completo del usuario">
                             </div>
                             <div class="w-full">
@@ -88,67 +103,65 @@
                                     placeholder="Ingrese una contraseña temporal" />
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="w-full">
-                                    <label class="block mb-2 text-sm font-semibold text-gray-900 ">Plantel</label>
-                                    <select name="plantel_id"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="" disabled>Seleccione un plantel</option>
-                                        @foreach ($plantels as $plantel)
-                                            <option value="{{ $plantel->id }}"
-                                                {{ old('plantel_id', $user->plantel_id) == $plantel->id ? 'selected' : '' }}>
-                                                {{ $plantel->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="w-full">
+                                <label class="block mb-2 text-sm font-semibold text-gray-900 ">Plantel</label>
+                                <select name="plantel_id"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="" disabled>Seleccione un plantel</option>
+                                    @foreach ($plantels as $plantel)
+                                        <option value="{{ $plantel->id }}"
+                                            {{ old('plantel_id', $user->plantel_id) == $plantel->id ? 'selected' : '' }}>
+                                            {{ $plantel->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                <div class="w-full">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nivel
-                                        Educativo</label>
-                                    <select name="education_level_id" id="education-level-select"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="" disabled selected>Seleccione un nivel educativo</option>
-                                        @foreach ($educationLevels as $level)
-                                            <option value="{{ $level->id }}"
-                                                {{ $user->education_level_id == $level->id ? 'selected' : '' }}>
-                                                {{ $level->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="w-full">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 ">Nivel
+                                    Educativo</label>
+                                <select name="education_level_id" id="education-level-select"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="" disabled>Seleccione un nivel educativo</option>
+                                    @foreach ($educationLevels as $level)
+                                        <option value="{{ $level->id }}"
+                                            {{ $user->education_level_id == $level->id ? 'selected' : '' }}>
+                                            {{ $level->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                <div class="w-full">
-                                    <label
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grado</label>
-                                    <select name="grade_id" id="grade-select"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="" disabled selected>Seleccione un grado</option>
-                                        @foreach ($grades as $grade)
-                                            <option value="{{ $grade->id }}"
-                                                data-level="{{ $grade->education_level_id }}"
-                                                {{ $user->grade_id == $grade->id ? 'selected' : '' }}>
-                                                {{ $grade->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="w-full">
+                                <label
+                                    class="block mb-2 text-sm font-medium text-gray-900 ">Grado</label>
+                                <select name="grade_id" id="grade-select"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="" disabled>Seleccione un grado</option>
+                                    @foreach ($grades as $grade)
+                                        <option value="{{ $grade->id }}"
+                                            data-level="{{ $grade->education_level_id }}"
+                                            {{ $user->grade_id == $grade->id ? 'selected' : '' }}>
+                                            {{ $grade->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                <!-- Grupo -->
-                                <div class="w-full" id="group-container" style="display: none;">
-                                    <label
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grupo</label>
-                                    <select name="group_id"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="" disabled selected>Seleccione un grupo</option>
-                                        @foreach ($groups as $group)
-                                            <option value="{{ $group->id }}"
-                                                {{ old('group_id', $user->group_id ?? '') == $group->id ? 'selected' : '' }}>
-                                                {{ $group->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <!-- Grupo -->
+                            <div class="w-full" id="group-container">
+                                <label
+                                    class="block mb-2 text-sm font-medium text-gray-900 ">Grupo</label>
+                                <select name="group_id"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="" disabled>Seleccione un grupo</option>
+                                    @foreach ($groups as $group)
+                                        <option value="{{ $group->id }}"
+                                            {{ old('group_id', $user->group_id) == $group->id ? 'selected' : '' }}>
+                                            {{ $group->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="mb-4">
@@ -206,22 +219,44 @@
             }
             /*Imagen Preview*/
 
-
+            /* Mostrar y ocultar campos dependiendo de la selección */
             document.addEventListener('DOMContentLoaded', function() {
                 const educationLevelSelect = document.getElementById('education-level-select');
                 const gradeSelect = document.getElementById('grade-select');
+                const groupContainer = document.getElementById('group-container');
 
-                educationLevelSelect.addEventListener('change', function() {
-                    const selectedLevelId = this.value;
+                // Mostrar los grados correspondientes al nivel educativo seleccionado
+                function updateGradeOptions() {
+                    const selectedLevelId = educationLevelSelect.value;
 
-                    // Mostrar solo los grados que pertenecen al nivel seleccionado
                     Array.from(gradeSelect.options).forEach(option => {
-                        option.style.display = option.getAttribute('data-level') === selectedLevelId ?
-                            'block' : 'none';
+                        option.style.display = option.getAttribute('data-level') === selectedLevelId ? 'block' :
+                            'none';
                     });
+                }
 
-                    // Reiniciar la selección del grado
+                // Inicializar el formulario con los valores existentes
+                updateGradeOptions();
+                if (gradeSelect.value) {
+                    groupContainer.style.display = 'block';
+                } else {
+                    groupContainer.style.display = 'none';
+                }
+
+                // Evento para actualizar las opciones de grado al cambiar el nivel educativo
+                educationLevelSelect.addEventListener('change', function() {
+                    updateGradeOptions();
                     gradeSelect.value = '';
+                    groupContainer.style.display = 'none';
+                });
+
+                // Mostrar el contenedor de grupos si se selecciona un grado
+                gradeSelect.addEventListener('change', function() {
+                    if (this.value) {
+                        groupContainer.style.display = 'block';
+                    } else {
+                        groupContainer.style.display = 'none';
+                    }
                 });
             });
         </script>

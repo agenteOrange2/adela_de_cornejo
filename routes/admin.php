@@ -15,6 +15,9 @@ use App\Http\Controllers\Admin\SchoolCycleController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\CafeteriaMenuController;
 use App\Http\Controllers\Admin\EventCategoryController;
+use App\Http\Controllers\Admin\UserImportExportController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +31,8 @@ use App\Http\Controllers\Admin\EventCategoryController;
 */
 
 Route::get('/', [DashboardController::class, 'index'])
-->middleware('can:Dashboard')
-->name('dashboard');
+    ->middleware('can:Dashboard')
+    ->name('dashboard');
 
 // Asumiendo que usas un grupo con prefijo 'admin' y middleware de autenticación
 
@@ -55,7 +58,7 @@ Route::resource('calendarios', CalendarController::class)->middleware('can:Ofert
 /* ****************************** */
 /* **** CRUD SERVICIOS ***** */
 /* ****************************** */
-Route::resource('menu-cafeteria', CafeteriaMenuController::class)->except('create','edit')->middleware('can:Servicios')->parameters(['menu-cafeteria' => 'menu_cafeteria']);
+Route::resource('menu-cafeteria', CafeteriaMenuController::class)->except('create', 'edit')->middleware('can:Servicios')->parameters(['menu-cafeteria' => 'menu_cafeteria']);
 /* ****************************** */
 /* ** CRUD CATEGORÍAS EVENTOS  **/
 /* ****************************** */
@@ -96,5 +99,19 @@ Route::resource('roles', RoleController::class);
 
 Route::resource('permissions', PermissionController::class)->middleware('can:Permisos');
 
-Route::resource('users', UserController::class);
+Route::resource('users', UserController::class)->except(['show']);
 
+
+/* ****************************** */
+/* **** EXPORT AND IMPORT USERS ***** */
+/* ****************************** */
+
+Route::get('users/export', [UserImportExportController::class, 'exportUsers'])
+    ->middleware('can:Exportar Usuarios')
+    ->name('users.export');
+
+    Route::get('users/import', [UserImportExportController::class, 'importUsers'])
+    ->name('users.import');
+
+Route::post('users/import', [UserImportExportController::class, 'importUsersStore'])
+    ->name('users.import.store');

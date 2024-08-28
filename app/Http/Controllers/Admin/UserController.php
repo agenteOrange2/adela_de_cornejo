@@ -41,9 +41,11 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request, User $user)
-    {
+    {        
         $request->validate([
             'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:100',
+            'matricula' => 'required|string|max:100',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|max:255',
             'password' => 'nullable|string|min:8|confirmed',
@@ -53,15 +55,10 @@ class UserController extends Controller
             'plantel_id' => 'nullable|exists:plantels,id',
             'education_level_id' => 'nullable|exists:education_levels,id',
             'grade_id' => 'nullable|exists:grades,id',
-            'group_id' => 'nullable|exists:groups,id', // Agregar esta validación
+            'group_id' => 'nullable|exists:groups,id',
         ]);
 
-        if (!$request->has('grade_id')) {
-            return back()->withErrors(['grade_id' => 'El grado no fue seleccionado correctamente.']);
-        }
-
-
-        $data = $request->only('name', 'email', 'phone', 'plantel_id', 'education_level_id', 'grade_id', 'group_id');
+        $data = $request->only('name', 'last_name', 'matricula', 'email', 'phone', 'plantel_id', 'education_level_id', 'grade_id', 'group_id');
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -110,7 +107,9 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required',
+            'last_name' => 'required|string|max:100',
+            'matricula' => 'required|string|max:100',
             'email' => "required|string|email|max:255|unique:users,email,{$user->id}",
             'phone' => 'required|string|max:255',
             'password' => 'nullable|string|min:8|confirmed',
@@ -124,6 +123,8 @@ class UserController extends Controller
         ]);
 
         $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->matricula = $request->matricula;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->plantel_id = $request->plantel_id;
@@ -143,7 +144,6 @@ class UserController extends Controller
             $user->profile_photo_path = $imagePath;
         }
 
-        //dd($request->all());
         $user->save();
 
         $user->roles()->sync($request->input('roles', []));

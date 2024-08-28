@@ -73,7 +73,7 @@
         @include('admin.sliders.create-modal')
 
         <!-- Modal de Edición -->
-        @include('admin.sliders.edit-modal')
+        {{-- @include('admin.sliders.edit-modal') --}}
 
     </div>
 

@@ -57,11 +57,25 @@
                     <div class="w-full text-center sm:text-left">
                         <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">Información Personal</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
+                            <div class="w-full sm:col-span-2 mb-4">
+                                <label class="block text-gray-600 text-sm mb-2">Matricula</label>
+                                <input type="text" name="matricula"
+                                    class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value="{{ old('matricula') }}" placeholder="Ingrese la matrícula del usuario">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
                             <div class="w-full">
-                                <label class="block text-gray-600 text-sm mb-2">Nombre Completo</label>
+                                <label class="block text-gray-600 text-sm mb-2">Nombre</label>
                                 <input type="text" name="name"
                                     class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    value="{{ old('name') }}" placeholder="Ingrese el nombre completo del usuario">
+                                    value="{{ old('name') }}" placeholder="Ingrese el nombre del usuario">
+                            </div>
+                            <div class="w-full">
+                                <label class="block text-gray-600 text-sm mb-2">Apellido</label>
+                                <input type="text" name="last_name"
+                                    class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value="{{ old('last_name') }}" placeholder="Ingrese el apellido del usuario">
                             </div>
                             <div class="w-full">
                                 <label class="block text-gray-600 text-sm mb-2">Email</label>
@@ -141,10 +155,10 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="" disabled selected>Seleccione un grupo</option>
                                     @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">
-                                            {{ $group->name }}
-                                        </option>
-                                    @endforeach
+                                    <option value="{{ $group->id }}" {{ old('group_id') == $group->id ? 'selected' : '' }}>
+                                        {{ $group->name }}
+                                    </option>
+                                @endforeach
                                 </select>
                             </div>
                             <div class="mb-4">

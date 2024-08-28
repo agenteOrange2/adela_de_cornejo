@@ -29,12 +29,15 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'matricula',
         'email',
         'password',
         'phone',
         'plantel_id',
         'education_level_id',
         'grade_id',
+        'group_id'
     ];
 
     /**
@@ -99,7 +102,7 @@ class User extends Authenticatable
         return $this->belongsTo(Grade::class);
     }
     public function group()
-{
-    return $this->belongsTo(Group::class);
-}
+    {
+        return $this->belongsTo(Group::class);
+    }
 }
