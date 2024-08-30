@@ -114,4 +114,4 @@ Route::get('users/export', [UserImportExportController::class, 'exportUsers'])
     ->name('users.import');
 
 Route::post('users/import', [UserImportExportController::class, 'importUsersStore'])
-    ->name('users.import.store');
+     ->name('users.importUsersStore');

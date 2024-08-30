@@ -19,7 +19,8 @@ class PlantelSeeder extends Seeder
             'description' => 'Instalaciones de calidad para el aprendizaje de los alunmnos de manera mas eficiente y comoda',
             'address' => 'Calzada del Río 9950, Col. Partido Senecú',
             'phone' => '656-611-50-70',
-            'email' => 'direccion@adeladecornejo.com'
+            'email' => 'direccion@adeladecornejo.com',
+            'identifier' => 'a',
 
         ]);
 
@@ -30,6 +31,7 @@ class PlantelSeeder extends Seeder
             'address' => 'Plutarco Elias Calles 228, Col. 2da. Burócrata, CP 32340',
             'phone' => '656-611-50-20',
             'email' => 'direccion@adeladecornejo.com',
+            'identifier' => 'e',
         ]);
     }
 }

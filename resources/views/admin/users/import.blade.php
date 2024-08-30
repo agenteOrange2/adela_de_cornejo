@@ -1,4 +1,4 @@
-<div x-data="modalHandler()">
+{{-- <div x-data="modalHandler()">
     <!-- Botón para abrir el modal de importación -->
     <button @click="openImportModal()"
         class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
@@ -67,4 +67,52 @@
             </form>
         </div>
     </div>
+</div> --}}
+
+
+<x-admin-layout title="Importar Usuarios" :breadcrumb="[
+    [
+        'name' => 'Inicio',
+        'url' => route('admin.dashboard'),
+    ],
+    [
+        'name' => 'Usuarios',
+        'url' => route('admin.users.index'),
+    ],
+    [
+        'name' => 'Importar Usuarios',
+    ],
+]">
+
+<x-validation-errors class="my-4" />
+
+<div class="py-12">
+    <div class="max-w-7xl max-auto sm:px-6 lg:px-8">
+        <form action="{{route('admin.users.importUsersStore')}}" method="POST" enctype="multipart/form-data" class="bg-white rounded p-8 shadow">
+            @csrf
+            <div class="">
+                <h1 class="text-2xl font-semibold mb-4">Por favor seleccione el archivo que quiere importar</h1>
+                <input type="file" name="file" accept=".csv, .xlsx">                
+            </div>
+
+            <div class="flex justify-start space-x-4 mt-4">
+                <button class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg">Guardar</button>
+            </div>            
+        </form>
+    </div>
+
+    @if(session('duplicatedEmails'))
+    <div class="alert alert-warning">
+        <strong>Advertencia:</strong> Se encontraron correos duplicados. Estos usuarios no fueron actualizados ni creados:
+        <ul>
+            @foreach(session('duplicatedEmails') as $user)
+                <li>{{ $user['name'] }} {{ $user['last_name'] }} - {{ $user['email'] }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 </div>
+
+
+</x-admin-layout>

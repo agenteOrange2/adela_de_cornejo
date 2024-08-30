@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
+            $table->string('identifier')->unique();
             $table->unsignedBigInteger('menu_pdf_id')->nullable();
             $table->timestamps();
         });
