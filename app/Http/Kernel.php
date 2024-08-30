@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'is_admin' => \App\Http\Middleware\IsAdmin::class,
         'check.plantel.auth' => \App\Http\Middleware\CheckPlantelAndAuth::class,
         'check.plantel.oferta' => \App\Http\Middleware\CheckPlantelForOferta::class,
+        'redirect.by.role' => \App\Http\Middleware\RedirectIfAuthenticatedByRole::class,        
     ];
 }

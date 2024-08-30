@@ -17,7 +17,7 @@ class GroupFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(['A', 'B', 'C']),
+            // 'name' => $this->faker->randomElement(['A', 'B', 'C']),
         ];
     }
 }

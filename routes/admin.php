@@ -100,6 +100,13 @@ Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class)->middleware('can:Permisos');
 
 Route::resource('users', UserController::class)->except(['show']);
+Route::get('users/createstudent', [UserController::class, 'createStudent'])->name('users.createstudent');
+Route::get('users/createpersonal', [UserController::class, 'createPersonal'])->name('users.createpersonal');
+Route::get('users/create-student', [UserController::class, 'createStudent'])->name('users.createstudent');
+Route::post('users/store-student', [UserController::class, 'storeStudent'])->name('users.storestudent');
+Route::get('users/create-personal', [UserController::class, 'createPersonal'])->name('users.createpersonal');
+Route::post('users/store-personal', [UserController::class, 'storePersonal'])->name('users.storepersonal');
+
 
 
 /* ****************************** */

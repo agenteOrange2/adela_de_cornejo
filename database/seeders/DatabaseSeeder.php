@@ -29,14 +29,13 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             EducationLevelSeeder::class, // Primero los niveles educativos
             GradesTableSeeder::class,    // Después los grados
+            GroupSeeder::class,    // Después los grados
             PlantelSeeder::class,
             PostCategorySeeder::class,
             PostSeeder::class,
             EventCategorySeeder::class,
             EventSeeder::class,
             PdfSeeder::class
-        ]);
-
-        \App\Models\Group::factory()->count(3)->create();
+        ]);        
     }
 }

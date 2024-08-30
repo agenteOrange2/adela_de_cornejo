@@ -40,25 +40,32 @@ class UserTable extends DataTableComponent
                 ->unclickable(),
             Column::make("Nombre", "name")
                 ->sortable()
-                ->searchable(fn($query, $searhTerm) => $query->orWhere('name', 'like', '%' . $searhTerm . '%')),
+                ->searchable(fn($query, $searchTerm) => $query->orWhere('users.name', 'like', '%' . $searchTerm . '%')),
+            Column::make("Apellido", "last_name")
+                ->sortable()
+                ->searchable(fn($query, $searchTerm) => $query->orWhere('users.last_name', 'like', '%' . $searchTerm . '%')),
             Column::make("Email", "email")
                 ->sortable()
                 ->collapseOnTablet()
-                ->searchable(fn($query, $searhTerm) => $query->orWhere('email', 'like', '%' . $searhTerm . '%'))
+                ->searchable(fn($query, $searchTerm) => $query->orWhere('users.email', 'like', '%' . $searchTerm . '%'))
                 ->unclickable(),
             Column::make("Telefono", "phone")
                 ->sortable()
                 ->collapseOnTablet()
                 ->unclickable(),
-            Column::make("Plantel", "plantel_id")
+            Column::make("Plantel", "plantel.name")
                 ->sortable()
                 ->collapseOnTablet()
                 ->unclickable(),
-            Column::make("Nivel educativo", "education_level_id")
+            Column::make("Nivel educativo", "educationLevel.name")
                 ->sortable()
                 ->collapseOnTablet()
                 ->unclickable(),
-            Column::make("Grado", "grade_id")
+            Column::make("Grado", "grade.name")
+                ->sortable()
+                ->collapseOnTablet()
+                ->unclickable(),
+            Column::make("Grupo", "group.name")
                 ->sortable()
                 ->collapseOnTablet()
                 ->unclickable(),
@@ -72,9 +79,9 @@ class UserTable extends DataTableComponent
                 ->collapseOnTablet()
                 ->sortable()
                 ->unclickable(),
-                Column::make('Acciones')
+            Column::make('Acciones')
                 ->label(
-                    fn ($row, Column $column) => view('components.actionsdatatables.action-tables-users')->with([
+                    fn($row, Column $column) => view('components.actionsdatatables.action-tables-users')->with([
                         'user' => $row,
                     ])
                 )
@@ -83,11 +90,9 @@ class UserTable extends DataTableComponent
         ];
     }
 
-
-
     public function deleteSelected()
-    {        
-        if ($this->getSelected()) {            
+    {
+        if ($this->getSelected()) {
             User::whereIn('id', $this->getSelected())->delete();
             $this->clearSelected();
         } else {

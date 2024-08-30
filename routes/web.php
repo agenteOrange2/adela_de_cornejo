@@ -9,8 +9,11 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\CafeteriaController;
 use App\Http\Controllers\Admin\CalendarController;
+use App\Http\Controllers\StudentAccountController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +25,39 @@ use App\Http\Controllers\Admin\CalendarController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Grupo para redirigir según el rol
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'redirect.by.role'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
+// Ruta para estudiantes
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/mi-cuenta', function () {
+        return view('students.dashboard'); // Corrige aquí la vista correcta
+    })->name('student.account');
+});
+
+// Ruta para administradores
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'is_admin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});
+
+
+Route::get('/redirect-by-role', function () {
+    // Este código no se ejecutará, ya que el middleware se encargará de redirigir.
+})->middleware('auth', 'redirect.by.role');
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/mi-cuenta', [StudentAccountController::class, 'index'])->name('student.account');
+    Route::get('/mi-cuenta/editar', [StudentAccountController::class, 'edit'])->name('student.edit');
+    Route::post('/mi-cuenta/actualizar', [StudentAccountController::class, 'update'])->name('student.update');
+});
+
 Route::post('images/upload', [ImageController::class, 'upload'])->name('images.upload');
 
 // Route::get('/', function () {
@@ -99,17 +135,6 @@ Route::get('/regularizacion', function () {
 Route::get('contacto', [ContactController::class, 'index'])->name('contacto.index');
 Route::post('contacto', [ContactController::class, 'store'])->name('contacto.store');
 
-
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
 
 
 Route::fallback(function () {

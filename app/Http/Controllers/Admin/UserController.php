@@ -27,19 +27,116 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createStudent()
     {
-        $roles = Role::all();
+        $roles = Role::where('name', 'student')->get();
         $plantels = Plantel::all();
         $educationLevels = EducationLevel::all();
         $grades = Grade::all();
-        $groups = Group::all(); // Correcto uso de $groups
-        return view('admin.users.create', compact('roles', 'plantels', 'educationLevels', 'grades', 'groups'));
+        $groups = Group::all();
+
+        return view('admin.users.createstudent', compact('roles', 'plantels', 'educationLevels', 'grades', 'groups'));
+    }
+
+    public function createPersonal()
+    {
+        $roles = Role::where('name', '!=', 'student')->get();
+        $plantels = Plantel::all();
+
+        return view('admin.users.createpersonal', compact('roles', 'plantels'));
+    }
+
+    // Almacenar un nuevo estudiante
+    public function storeStudent(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:100',
+            'matricula' => 'required|string|max:100',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+            'image' => 'nullable|image',
+            'plantel_id' => 'nullable|exists:plantels,id',
+            'education_level_id' => 'nullable|exists:education_levels,id',
+            'grade_id' => 'nullable|exists:grades,id',
+            'group_id' => 'nullable|exists:groups,id',
+        ]);
+
+        $data = $request->only('name', 'last_name', 'matricula', 'email', 'phone', 'plantel_id', 'education_level_id', 'grade_id', 'group_id');
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('profile-photos', 'public');
+            $data['profile_photo_path'] = $imagePath;
+        }
+
+        // Crear el usuario
+        $user = User::create($data);
+
+        // Asignar el rol de estudiante automáticamente si no se ha proporcionado ningún rol
+        $studentRoleId = 4; // Suponiendo que el rol de estudiante tiene ID 4
+        $user->roles()->sync([$studentRoleId]);
+
+        // Flash message
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => '¡Usuario Creado!',
+            'text' => 'Se ha creado el usuario estudiante con éxito.',
+        ]);
+
+        return redirect()->route('admin.users.index');
+    }
+
+    // Almacenar un nuevo personal administrativo
+    public function storePersonal(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:100',            
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+            'image' => 'nullable|image',
+            'roles' => 'required|array',
+            'roles.*' => 'exists:roles,id',
+            'plantel_id' => 'required|exists:plantels,id',
+        ]);
+
+        $data = $request->only('name', 'last_name', 'email', 'phone', 'plantel_id');
+    
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+    
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('profile-photos', 'public');
+            $data['profile_photo_path'] = $imagePath;
+        }
+    
+        $user = User::create($data);
+    
+        // Asignar los roles seleccionados
+        if ($request->filled('roles')) {
+            $user->roles()->sync($request->roles);
+        }
+
+        Session()->flash('swal', [
+            'icon' => 'success',
+            'title' => '¡Personal Creado!',
+            'text' => 'Se ha creado el personal administrativo con éxito.',
+        ]);
+
+        return redirect()->route('admin.users.index');
     }
 
     /**
      * Store a newly created resource in storage.
      */
+    /*
     public function store(Request $request, User $user)
     {        
         $request->validate([
@@ -82,7 +179,7 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index');
     }
-
+    */
     /**
      * Display the specified resource.
      */
@@ -98,7 +195,7 @@ class UserController extends Controller
         $educationLevels = EducationLevel::all();
         $grades = Grade::all();
         $groups = Group::all();
-        return view('admin.users.edit', compact('user', 'roles', 'plantels', 'educationLevels', 'grades' , 'groups'));
+        return view('admin.users.edit', compact('user', 'roles', 'plantels', 'educationLevels', 'grades', 'groups'));
     }
 
     /**
