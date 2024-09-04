@@ -1,16 +1,116 @@
-Nombre,Apellido,Email,Nivel Educativo,Grado,Grupo,
-Tyrell,Wellick,e205070@adeladecornejo.com,Secundaria,Primero,A,
-Ward Jenkins,Willms,a205071@adeladecornejo.com,Primaria,Segundo,A,
-Caleigh Mraz,Johnson,e205072@adeladecornejo.com,N/A,N/A,N/A,
-Jerrod Tremblay,McDermott,a205073@adeladecornejo.com,Preescolar,Primero,A,
-Mr. Irwin Kshlerin,Spencer,e205074@adeladecornejo.com,N/A,N/A,N/A,
-Malvina Volkman,Little,a205075@adeladecornejo.com,N/A,N/A,N/A,
-Dr. Anabel Fadel DVM,Bernier,e205076@adeladecornejo.com,N/A,N/A,N/A,
-Jeramie Altenwerth,Leffler,a205077@adeladecornejo.com,Secundaria,Segundo,A,
-Bernadette Bernier III,McCullough,e205078@adeladecornejo.com,Preescolar,Primero,A,
-Lance Dickinson MD,Hartmann,a205079@adeladecornejo.com,Preescolar,Primero,B,
-Gideon,Goddart,a205080@adeladecornejo.com,Primaria,Segundo,B,
-Jonh,Doe,e205081@adeladecornejo.com,Secundaria,Tercero,C,
-Miranda,Martinez,e222011@adeladecornejo.com,Primaria,Tercero,A,
-Guillermo,Sousa,e222011@adeladecornejo.com,Secundaria,Primero,C,
-Jose,Espinoza,e222011@adeladecornejo.com,Preescolar,Primero,B,
+Nombre,Apellido,Email,Nivel Educativo,Grado,Grupo
+Tyrell,Wellick,e205070@adeladecornejo.com,Secundaria,Primero,A
+Ward Jenkins,Willms,a205071@adeladecornejo.com,Primaria,Segundo,A
+Caleigh Mraz,Johnson,e205072@adeladecornejo.com,N/A,N/A,N/A
+Jerrod Tremblay,McDermott,a205073@adeladecornejo.com,Preescolar,Primero,A
+Mr. Irwin Kshlerin,Spencer,e205074@adeladecornejo.com,N/A,N/A,N/A
+Malvina Volkman,Little,a205075@adeladecornejo.com,N/A,N/A,N/A
+Dr. Anabel Fadel DVM,Bernier,e205076@adeladecornejo.com,N/A,N/A,N/A
+Jeramie Altenwerth,Leffler,a205077@adeladecornejo.com,Secundaria,Segundo,A
+Bernadette Bernier III,McCullough,e205078@adeladecornejo.com,Preescolar,Primero,A
+Lance Dickinson MD,Hartmann,a205079@adeladecornejo.com,Preescolar,Primero,B
+Gideon,Goddart,a205080@adeladecornejo.com,Primaria,Segundo,B
+Jonh,Doe,e205081@adeladecornejo.com,Secundaria,Tercero,C
+Miranda,Martinez,e222011@adeladecornejo.com,Primaria,Tercero,A
+Guillermo,Sousa,e222011@adeladecornejo.com,Secundaria,Primero,C
+Jose,Espinoza,e222011@adeladecornejo.com,Preescolar,Primero,B
+Xenos Rodriquez,Xenos Rodriquez,e222012@adeladecornejo.com,Secundaria,Segundo,A
+Angelica Hines,Angelica Hines,e222013@adeladecornejo.com,Primaria,N/A,N/A
+Lane Parsons,Lane Parsons,e222014@adeladecornejo.com,N/A,Primero,A
+Zelda Perez,Zelda Perez,e222015@adeladecornejo.com,Preescolar,N/A,N/A
+Wilma Stevens,Wilma Stevens,a222016@adeladecornejo.com,N/A,N/A,N/A
+Alvin Reed,Alvin Reed,a222017@adeladecornejo.com,N/A,N/A,N/A
+Zelda Arnold,Zelda Arnold,e222013@adeladecornejo.com,N/A,Segundo,A
+Kylee Schmidt,Kylee Schmidt,e222018@adeladecornejo.com,Secundaria,Primero,A
+Colin Holden,Colin Holden,e222020@adeladecornejo.com,Preescolar,Primero,B
+Clarke Warren,Clarke Warren,e222022@adeladecornejo.com,Preescolar,Segundo,B
+Kiona Velez,Kiona Velez,e222012@adeladecornejo.com,Primaria,Tercero,C
+Audrey Mays,Audrey Mays,e222013@adeladecornejo.com,Secundaria,Tercero,A
+Shafira Mendez,Shafira Mendez,e222014@adeladecornejo.com,Primaria,Primero,C
+Abel Rios,Abel Rios,e222015@adeladecornejo.com,Secundaria,Primero,B
+Wendy Griffith,Wendy Griffith,e222011@adeladecornejo.com,Preescolar,Primero,A
+Lamar Hopper,Lamar Hopper,e222012@adeladecornejo.com,Secundaria,Segundo,A
+Olympia Williams,Olympia Williams,e222013@adeladecornejo.com,Primaria,N/A,N/A
+Hollee Clay,Hollee Clay,e222014@adeladecornejo.com,N/A,Primero,A
+Berk Massey,Berk Massey,e222015@adeladecornejo.com,Preescolar,N/A,N/A
+Jared Villarreal,Jared Villarreal,e222011@adeladecornejo.com,N/A,N/A,N/A
+Shana Fischer,Shana Fischer,e222012@adeladecornejo.com,N/A,N/A,N/A
+Celeste Morin,Celeste Morin,e222013@adeladecornejo.com,N/A,Segundo,A
+Noble Dillon,Noble Dillon,e222014@adeladecornejo.com,Secundaria,Primero,A
+Benjamin Cruz,Benjamin Cruz,e222015@adeladecornejo.com,Preescolar,Primero,B
+Brynne Gamble,Brynne Gamble,e222011@adeladecornejo.com,Preescolar,Segundo,B
+Gavin Melton,Gavin Melton,e222012@adeladecornejo.com,Primaria,Tercero,C
+Gay Rice,Gay Rice,e222013@adeladecornejo.com,Secundaria,Tercero,A
+Kyle Walsh,Kyle Walsh,e222014@adeladecornejo.com,Primaria,Primero,C
+Yoshi Johnson,Yoshi Johnson,e222015@adeladecornejo.com,Secundaria,Primero,B
+Jason Dotson,Jason Dotson,e222011@adeladecornejo.com,Preescolar,Primero,A
+Igor Parks,Igor Parks,e222012@adeladecornejo.com,Secundaria,Segundo,A
+Ivana Chase,Ivana Chase,e222013@adeladecornejo.com,Primaria,N/A,N/A
+Zane Delacruz,Zane Delacruz,e222014@adeladecornejo.com,N/A,Primero,A
+Ann Salas,Ann Salas,e222015@adeladecornejo.com,Preescolar,N/A,N/A
+Isabella Mcleod,Isabella Mcleod,e222011@adeladecornejo.com,N/A,N/A,N/A
+Daquan Wynn,Daquan Wynn,e222012@adeladecornejo.com,N/A,N/A,N/A
+Seth Fernandez,Seth Fernandez,e222013@adeladecornejo.com,N/A,Segundo,A
+Randall Sargent,Randall Sargent,e222014@adeladecornejo.com,Secundaria,Primero,A
+Dacey Alford,Dacey Alford,e222015@adeladecornejo.com,Preescolar,Primero,B
+Reese Saunders,Reese Saunders,e222011@adeladecornejo.com,Preescolar,Segundo,B
+Daria Cleveland,Daria Cleveland,e222012@adeladecornejo.com,Primaria,Tercero,C
+Grant Moreno,Grant Moreno,e222013@adeladecornejo.com,Secundaria,Tercero,A
+Isaac Jimenez,Isaac Jimenez,e222014@adeladecornejo.com,Primaria,Primero,C
+Devin French,Devin French,e222015@adeladecornejo.com,Secundaria,Primero,B
+Shad Giles,Shad Giles,e222011@adeladecornejo.com,Preescolar,Primero,A
+Roary Kim,Roary Kim,e222012@adeladecornejo.com,Secundaria,Segundo,A
+Kennan Hodge,Kennan Hodge,e222013@adeladecornejo.com,Primaria,N/A,N/A
+Yen Riley,Yen Riley,e222014@adeladecornejo.com,N/A,Primero,A
+Hayley Shepard,Hayley Shepard,e222015@adeladecornejo.com,Preescolar,N/A,N/A
+Knox Wong,Knox Wong,e222011@adeladecornejo.com,N/A,N/A,N/A
+Michelle White,Michelle White,e222012@adeladecornejo.com,N/A,N/A,N/A
+Arthur Roberts,Arthur Roberts,e222013@adeladecornejo.com,N/A,Segundo,A
+Theodore Weber,Theodore Weber,e222014@adeladecornejo.com,Secundaria,Primero,A
+Kylie Kinney,Kylie Kinney,e222015@adeladecornejo.com,Preescolar,Primero,B
+TaShya Cummings,TaShya Cummings,e222011@adeladecornejo.com,Preescolar,Segundo,B
+Lyle Clark,Lyle Clark,e222012@adeladecornejo.com,Primaria,Tercero,C
+Zorita Harper,Zorita Harper,e222013@adeladecornejo.com,Secundaria,Tercero,A
+Kenyon Schultz,Kenyon Schultz,e222014@adeladecornejo.com,Primaria,Primero,C
+Elliott Charles,Elliott Charles,e222015@adeladecornejo.com,Secundaria,Primero,B
+Phelan Walton,Phelan Walton,e222011@adeladecornejo.com,Preescolar,Primero,A
+Anika Solis,Anika Solis,e222012@adeladecornejo.com,Secundaria,Segundo,A
+Kirestin Howe,Kirestin Howe,e222013@adeladecornejo.com,Primaria,N/A,N/A
+Paul Huffman,Paul Huffman,e222014@adeladecornejo.com,N/A,Primero,A
+Leah Kent,Leah Kent,e222015@adeladecornejo.com,Preescolar,N/A,N/A
+Hunter Combs,Hunter Combs,e222011@adeladecornejo.com,N/A,N/A,N/A
+Vielka Woodward,Vielka Woodward,e222012@adeladecornejo.com,N/A,N/A,N/A
+Nerea Christensen,Nerea Christensen,e222013@adeladecornejo.com,N/A,Segundo,A
+Kenyon Wright,Kenyon Wright,e222014@adeladecornejo.com,Secundaria,Primero,A
+Asher Lawson,Asher Lawson,e222015@adeladecornejo.com,Preescolar,Primero,B
+Evan Schultz,Evan Schultz,e222011@adeladecornejo.com,Preescolar,Segundo,B
+Carolyn Gates,Carolyn Gates,e222012@adeladecornejo.com,Primaria,Tercero,C
+Shay Guerra,Shay Guerra,e222013@adeladecornejo.com,Secundaria,Tercero,A
+August Singleton,August Singleton,e222014@adeladecornejo.com,Primaria,Primero,C
+Fitzgerald Hyde,Fitzgerald Hyde,e222015@adeladecornejo.com,Secundaria,Primero,B
+Yen Dillard,Yen Dillard,e222011@adeladecornejo.com,Preescolar,Primero,A
+Darius Orr,Darius Orr,e222012@adeladecornejo.com,Secundaria,Segundo,A
+Kaitlin Donovan,Kaitlin Donovan,e222013@adeladecornejo.com,Primaria,N/A,N/A
+Ariana Logan,Ariana Logan,e222014@adeladecornejo.com,N/A,Primero,A
+Herman Reeves,Herman Reeves,e222015@adeladecornejo.com,Preescolar,N/A,N/A
+Kirby Valenzuela,Kirby Valenzuela,e222011@adeladecornejo.com,N/A,N/A,N/A
+Dustin Potter,Dustin Potter,e222012@adeladecornejo.com,N/A,N/A,N/A
+Amir Higgins,Amir Higgins,e222013@adeladecornejo.com,N/A,Segundo,A
+Ila Burns,Ila Burns,e222014@adeladecornejo.com,Secundaria,Primero,A
+Riley Howell,Riley Howell,e222015@adeladecornejo.com,Preescolar,Primero,B
+Tyrone Reyes,Tyrone Reyes,e222011@adeladecornejo.com,Preescolar,Segundo,B
+Wade Hodges,Wade Hodges,e222012@adeladecornejo.com,Primaria,Tercero,C
+Sacha Keith,Sacha Keith,e222013@adeladecornejo.com,Secundaria,Tercero,A
+Stacy Mcpherson,Stacy Mcpherson,e222014@adeladecornejo.com,Primaria,Primero,C
+Leandra Flynn,Leandra Flynn,e222015@adeladecornejo.com,Secundaria,Primero,B
+Jennifer Harvey,Jennifer Harvey,e222011@adeladecornejo.com,Preescolar,Primero,A
+Gary Pittman,Gary Pittman,e222012@adeladecornejo.com,Secundaria,Segundo,A
+Bevis Baker,Bevis Baker,e222013@adeladecornejo.com,Primaria,N/A,N/A
+Iliana Murphy,Iliana Murphy,e222014@adeladecornejo.com,N/A,Primero,A
+Thomas Aguilar,Thomas Aguilar,e222015@adeladecornejo.com,Preescolar,N/A,N/A
+Fletcher Cantu,Fletcher Cantu,e222011@adeladecornejo.com,N/A,N/A,N/A
+Kylee Newman,Kylee Newman,e222012@adeladecornejo.com,N/A,N/A,N/A
+Cedric Jimenez,Cedric Jimenez,e222013@adeladecornejo.com,N/A,Segundo,A
+Sharon Blake,Sharon Blake,e222014@adeladecornejo.com,Secundaria,Primero,A
+Chantale Delacruz,Chantale Delacruz,e222015@adeladecornejo.com,Preescolar,Primero,B
+Sara Valencia,Sara Valencia,e222011@adeladecornejo.com,Preescolar,Segundo,B

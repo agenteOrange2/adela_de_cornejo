@@ -56,6 +56,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/mi-cuenta', [StudentAccountController::class, 'index'])->name('student.account');
     Route::get('/mi-cuenta/editar', [StudentAccountController::class, 'edit'])->name('student.edit');
     Route::post('/mi-cuenta/actualizar', [StudentAccountController::class, 'update'])->name('student.update');
+
+    Route::get('/mi-cuenta/calendarios', [StudentAccountController::class, 'showCalendarios'])->name('student.calendarios');
+    Route::get('/mi-cuenta/menu-cafeteria', [StudentAccountController::class, 'showMenuCafeteria'])->name('student.menu');
+    Route::get('/mi-cuenta/avisos', [StudentAccountController::class, 'showAvisos'])->name('student.avisos');
+    
 });
 
 Route::post('images/upload', [ImageController::class, 'upload'])->name('images.upload');
