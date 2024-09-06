@@ -4,17 +4,8 @@
 
 @section('content')
 
-<div class="page-title-area item-bg1 jarallax" data-jarallax="{&quot;speed&quot;: 0.3}">
-    <div class="container">
-        <div class="page-title-content">
-            <ul>
-                <li><a href="{{ route('index') }}">Inicio</a></li>
-                <li>Mi Cuenta</li>
-            </ul>
-            <h2>Mi Cuenta</h2>
-        </div>
-    </div>
-</div>
+
+@include('students.partials.information-user-header')
 
 <section class="my-account-area ptb-100">
     <div class="container">
@@ -26,10 +17,10 @@
         <div class="myAccount-navigation">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('mi-cuenta/calendarios') ? 'active' : '' }}" href="{{ route('student.calendarios') }}">Calendarios</a>
+                    <a class="nav-link {{ request()->is('mi-cuenta/calendarios') ? 'active' : '' }}" href="{{ route('student.calendarios') }}"><i class='bx bxs-calendar'></i>Calendarios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('mi-cuenta/menu-cafeteria') ? 'active' : '' }}" href="{{ route('student.menu') }}">Menú de Cafetería</a>
+                    <a class="nav-link {{ request()->is('mi-cuenta/menu-cafeteria') ? 'active' : '' }}" href="{{ route('student.menu') }}"><i class='bx bx-food-menu' ></i>Menú de Cafetería</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('mi-cuenta/avisos') ? 'active' : '' }}" href="{{ route('student.avisos') }}">Avisos</a>

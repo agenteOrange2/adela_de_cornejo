@@ -4,14 +4,15 @@
 
 @section('content')
 
-<div class="page-title-area item-bg1 jarallax" data-jarallax="{&quot;speed&quot;: 0.3}">
+<div class="page-title-area  jarallax" data-background="{{asset('/build/img/banner/banner_white_adela.jpg')}}"
+    data-jarallax='{"speed": 0.3}'>
     <div class="container">
         <div class="page-title-content">
             <ul>
-                <li><a href="{{ route('index') }}">Home</a></li>
-                <li>Editar Mi Cuenta</li>
+                <li><a class="text-primary" href="{{ route('index') }}">Home</a></li>
+                <li class="text-danger">Editar Mi Cuenta</li>
             </ul>
-            <h2>Editar Mi Cuenta</h2>
+            <h2 class="text-danger">Editar Mi Cuenta</h2>
         </div>
     </div>
 </div>
@@ -39,10 +40,6 @@
                         <div class="form-group">
                             <label for="last_name">Apellido</label>
                             <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" value="{{ $user->email }}" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="phone">Teléfono</label>

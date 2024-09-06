@@ -28,22 +28,28 @@ class OfertaController extends Controller
         return view('pages.admision-secundaria', compact('levelId'));
     }
 
-    public function getPdfsByPlantelAndLevel(Request $request)
-    {
-        $plantelId = $request->query('plantel_id');
-        $levelId = $request->query('level_id');
+public function getPdfsByPlantelAndLevel(Request $request)
+{
+    $plantelId = $request->query('plantel_id');
+    $levelId = $request->query('level_id');
 
-        $pdfs = QueryBuilder::for(Pdf::class)
-            ->where('pdfable_type', 'App\Models\EducationLevel')
-            ->where('pdfable_id', $levelId)
-            ->whereHas('planteles', function ($query) use ($plantelId) {
-                $query->where('plantel_id', $plantelId);
-            })
-            ->allowedSorts(['created_at']) // Permite ordenar por la fecha de creación
-            ->defaultSort('-created_at') // Ordena por defecto desde el más reciente al más antiguo
-            ->get();
-
-        return response()->json($pdfs);
+    // Revisar que ambos parámetros existen
+    if (!$plantelId || !$levelId) {
+        return response()->json(['error' => 'Faltan parámetros necesarios.'], 400);
     }
+
+    // Obtener los PDFs filtrados por nivel educativo y plantel
+    $pdfs = Pdf::whereHas('educationLevels', function ($query) use ($levelId) {
+        $query->where('education_level_id', $levelId);
+    })
+    ->whereHas('planteles', function ($query) use ($plantelId) {
+        $query->where('plantel_id', $plantelId);
+    })
+    ->orderBy('created_at', 'desc') // Ordenar por fecha de creación más reciente
+    ->get();
+
+    // Retornar los PDFs en formato JSON
+    return response()->json($pdfs);
+}
 }
 

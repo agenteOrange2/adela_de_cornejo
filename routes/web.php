@@ -60,6 +60,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/mi-cuenta/calendarios', [StudentAccountController::class, 'showCalendarios'])->name('student.calendarios');
     Route::get('/mi-cuenta/menu-cafeteria', [StudentAccountController::class, 'showMenuCafeteria'])->name('student.menu');
     Route::get('/mi-cuenta/avisos', [StudentAccountController::class, 'showAvisos'])->name('student.avisos');
+    Route::get('/mi-cuenta/calificaciones', [StudentAccountController::class, 'showCalificaciones'])->name('student.calificaciones');
+    Route::get('/mi-cuenta/datos-medicos', [StudentAccountController::class, 'showdatosMedicos'])->name('student.datos-medicos');
     
 });
 
